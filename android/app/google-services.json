@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "47325176648",
+    "project_id": "lmscollage",
+    "storage_bucket": "lmscollage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47325176648:android:66c88d696882c0e9e3497d",
+        "android_client_info": {
+          "package_name": "com.example.lms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "47325176648-rpo84ik3jfmaiqbj5uu9mf1573nlg4fb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lms",
+            "certificate_hash": "053b56c90b9dfd5d71fe98e13a5450a90e4e39bc"
+          }
+        },
+        {
+          "client_id": "47325176648-1kas0ntkgo5scrclevno8ppd5b1nbh6p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA37LPA7O_ro1Xirdq0QhkufzahN1xOXIs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "47325176648-1kas0ntkgo5scrclevno8ppd5b1nbh6p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
