@@ -25,7 +25,7 @@ void hDMNavigatorPush(BuildContext context, Function play) {
   );
 }
 
-void navigatorpop(BuildContext context, Function play) {
+void hDMNavigatorpop(BuildContext context, Function play) {
   Navigator.pushAndRemoveUntil(
       context,
       PageRouteBuilder(

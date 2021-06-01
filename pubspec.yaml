@@ -30,6 +30,7 @@ dependencies:
   google_sign_in: ^5.0.4
   cached_network_image: ^3.0.0
 
+
   x_bloc2:
     git:
       url: https://github.com/HosamKsbaa/X_bloc.git
