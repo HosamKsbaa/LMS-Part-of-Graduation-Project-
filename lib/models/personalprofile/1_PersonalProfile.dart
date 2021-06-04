@@ -1,3 +1,5 @@
+import 'package:lms/models/userOrganizationAccountPackage/UserOrganizationAccount.dart';
+
 import '3_Appsettings.dart';
 import 'UserProfile+/2_UserPrivateData.dart';
 import 'UserProfile+/2_UserpublicData.dart';
@@ -6,6 +8,7 @@ abstract class PersonalProfile {
   UserPublicData userPublicData;
   UserPrivateData userprivatedata;
   AppSettings appSettings;
+  List<UserOrganizationAccount> userOrganizationAccount;
 
   //Constructor
   PersonalProfile({UserPublicData userPublicData, UserPrivateData userprivatedata, AppSettings appSettings}) {

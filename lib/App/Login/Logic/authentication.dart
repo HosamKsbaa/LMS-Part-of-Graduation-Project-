@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -15,6 +16,40 @@ class Authentication {
         style: TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
       ),
     );
+  }
+
+  static Future<void> addUser() async {
+    DocumentReference userPublicDoc = FirebaseFirestore.instance.collection('User Public Data').doc(Authentication.user.uid);
+    DocumentReference userPrivatDoc = FirebaseFirestore.instance.collection('User Private Data').doc(Authentication.user.uid);
+
+    bool exists;
+
+    var doc = await userPublicDoc.get();
+    doc.exists ? exists = true : exists = false;
+
+    if (!exists) {
+      userPublicDoc
+          .set({
+            'displayName': user.displayName,
+            'FCmToken': "",
+            "UserProfilePicURL": user.photoURL,
+          })
+          .then((value) => print("User Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+      userPrivatDoc
+          .set({
+            'FirstName': user.displayName,
+            'LastName': "",
+            'Gender': "",
+            'PhoneNumber': "",
+            'Email': "",
+            'BirthDate': "",
+            "UserPersonalPic": "",
+            'OrgAccount': [], // John Doe
+          })
+          .then((value) => print("User Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
   }
 
   static Future<FirebaseApp> initializeFirebase({@required BuildContext context}) async {
@@ -45,6 +80,7 @@ class Authentication {
         final UserCredential userCredential = await auth.signInWithPopup(authProvider);
 
         theUser = userCredential.user;
+        addUser();
       } catch (e) {
         print(e);
       }
@@ -89,6 +125,9 @@ class Authentication {
       }
     }
     user = theUser;
+    if (theUser != null) {
+      addUser();
+    }
     return theUser;
   }
 
