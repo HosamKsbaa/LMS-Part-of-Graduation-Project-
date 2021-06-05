@@ -4,7 +4,7 @@ import 'package:lms/newModels/Qize/QizeQuestionFile/Qestion.dart';
 
 part 'QestionsFile.g.dart';
 
-@JsonSerializable(disallowUnrecognizedKeys: true)
+@JsonSerializable(explicitToJson: true)
 
 //flutter packages pub run build_runner build
 //endregion

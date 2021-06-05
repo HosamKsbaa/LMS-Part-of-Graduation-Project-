@@ -7,7 +7,6 @@ part of 'QestionsFile.dart';
 // **************************************************************************
 
 QestionsFile _$QestionsFileFromJson(Map<String, dynamic> json) {
-  $checkKeys(json, allowedKeys: const ['quizMainPage', 'qestionMap']);
   return QestionsFile(
     json['quizMainPage'] as String,
     (json['qestionMap'] as Map<String, dynamic>)?.map(
@@ -20,5 +19,6 @@ QestionsFile _$QestionsFileFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$QestionsFileToJson(QestionsFile instance) =>
     <String, dynamic>{
       'quizMainPage': instance.quizMainPage,
-      'qestionMap': instance.qestionMap,
+      'qestionMap':
+          instance.qestionMap?.map((k, e) => MapEntry(k, e?.toJson())),
     };
