@@ -9,7 +9,6 @@ part of 'CourseMaterial.dart';
 CourseMaterial _$CourseMaterialFromJson(Map<String, dynamic> json) {
   return CourseMaterial(
     coursematerialblock: json['coursematerialblock'] as List,
-    hidden_docs: json['hidden_docs'] as List,
     tagid: json['tagid'] as String,
     userTag: (json['userTag'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
@@ -30,7 +29,6 @@ Map<String, dynamic> _$CourseMaterialToJson(CourseMaterial instance) =>
           MapEntry(k, e?.map((e) => _$AccessLevelEnumMap[e])?.toList())),
       'loglist': instance.loglist?.map((e) => e?.toJson())?.toList(),
       'coursematerialblock': instance.coursematerialblock,
-      'hidden_docs': instance.hidden_docs,
     };
 
 T _$enumDecode<T>(

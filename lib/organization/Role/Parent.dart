@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lms/mydirectory/organization/Role/OrgAccount.dart';
+
+import 'OrgAccount.dart';
 
 part 'Parent.g.dart';
 

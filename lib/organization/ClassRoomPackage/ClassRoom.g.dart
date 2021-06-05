@@ -9,8 +9,14 @@ part of 'ClassRoom.dart';
 ClassRoom _$ClassRoomFromJson(Map<String, dynamic> json) {
   return ClassRoom(
     courcedata: json['courcedata'] as String,
-    student: json['student'] as List,
-    teacher: json['teacher'] as List,
+    student: (json['student'] as List)
+        ?.map((e) =>
+            e == null ? null : Teacher.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    teacher: (json['teacher'] as List)
+        ?.map((e) =>
+            e == null ? null : Teacher.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     tagid: json['tagid'] as String,
     userTag: (json['userTag'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
@@ -30,8 +36,8 @@ Map<String, dynamic> _$ClassRoomToJson(ClassRoom instance) => <String, dynamic>{
           MapEntry(k, e?.map((e) => _$AccessLevelEnumMap[e])?.toList())),
       'loglist': instance.loglist?.map((e) => e?.toJson())?.toList(),
       'courcedata': instance.courcedata,
-      'teacher': instance.teacher,
-      'student': instance.student,
+      'teacher': instance.teacher?.map((e) => e?.toJson())?.toList(),
+      'student': instance.student?.map((e) => e?.toJson())?.toList(),
     };
 
 T _$enumDecode<T>(

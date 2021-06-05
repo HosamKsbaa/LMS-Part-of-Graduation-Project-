@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'App/Login/LogIn.dart';
+//flutter packages pub run build_runner build --delete-conflicting-outputs
 
 void main() {
   runApp(MyApp());

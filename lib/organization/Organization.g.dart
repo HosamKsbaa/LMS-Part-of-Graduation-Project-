@@ -8,12 +8,18 @@ part of 'Organization.dart';
 
 Organization _$OrganizationFromJson(Map<String, dynamic> json) {
   return Organization(
-    classroom: json['classroom'] as List,
+    classroom: (json['classroom'] as List)
+        ?.map((e) =>
+            e == null ? null : ClassRoom.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     org: json['org'] == null
         ? null
         : Organization.fromJson(json['org'] as Map<String, dynamic>),
     Orgid: json['Orgid'] as String,
-    Personal: json['Personal'] as List,
+    Personal: (json['Personal'] as List)
+        ?.map((e) =>
+            e == null ? null : OrgAccount.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     tagid: json['tagid'] as String,
     userTag: (json['userTag'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
@@ -35,8 +41,8 @@ Map<String, dynamic> _$OrganizationToJson(Organization instance) =>
       'loglist': instance.loglist?.map((e) => e?.toJson())?.toList(),
       'org': instance.org?.toJson(),
       'Orgid': instance.Orgid,
-      'Personal': instance.Personal,
-      'classroom': instance.classroom,
+      'Personal': instance.Personal?.map((e) => e?.toJson())?.toList(),
+      'classroom': instance.classroom?.map((e) => e?.toJson())?.toList(),
     };
 
 T _$enumDecode<T>(
