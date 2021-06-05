@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
@@ -15,6 +16,21 @@ class AddAnOrgController {
   }
   void nextStepOrg() {}
   void nextStepclass() {}
+  Future<void> CreatAnOrg(String orgName) async {
+    CollectionReference userPublicDoc = FirebaseFirestore.instance.collection('organization');
+
+    userPublicDoc.add({
+      "OrgName": orgName,
+    });
+    print(userPublicDoc.id);
+  }
+
+  void AddAClass(String orgId, String classRoom) {
+    DocumentReference userPublicDoc = FirebaseFirestore.instance.collection('organization').doc(orgId);
+    userPublicDoc.update({"ClassRoom": classRoom});
+  }
+
+  void CreatOwnerAccount() {}
 }
 
 class _WidgetAddAnOrg extends HDMStatelessWidget<AddAnOrgController> {
