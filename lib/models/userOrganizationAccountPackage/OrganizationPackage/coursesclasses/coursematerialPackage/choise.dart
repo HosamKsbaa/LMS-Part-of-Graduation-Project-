@@ -1,3 +1,0 @@
-class Cohise{
-  String content;
-}

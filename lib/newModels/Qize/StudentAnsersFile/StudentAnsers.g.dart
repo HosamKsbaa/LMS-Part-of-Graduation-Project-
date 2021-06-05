@@ -12,7 +12,8 @@ StudentAnsers _$StudentAnsersFromJson(Map<String, dynamic> json) {
     ..answer = json['answer'] as String;
 }
 
-Map<String, dynamic> _$StudentAnsersToJson(StudentAnsers instance) => <String, dynamic>{
+Map<String, dynamic> _$StudentAnsersToJson(StudentAnsers instance) =>
+    <String, dynamic>{
       'questionFileID': instance.questionFileID,
       'answer': instance.answer,
     };

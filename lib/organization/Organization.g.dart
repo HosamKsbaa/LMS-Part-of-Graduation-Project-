@@ -1,33 +1,42 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'CourseMaterial.dart';
+part of 'Organization.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-CourseMaterial _$CourseMaterialFromJson(Map<String, dynamic> json) {
-  return CourseMaterial(
-    json['entityId'] as String,
-    (json['userUserAccess'] as Map<String, dynamic>)?.map(
+Organization _$OrganizationFromJson(Map<String, dynamic> json) {
+  return Organization(
+    classroom: json['classroom'] as List,
+    org: json['org'] == null
+        ? null
+        : Organization.fromJson(json['org'] as Map<String, dynamic>),
+    Orgid: json['Orgid'] as String,
+    Personal: json['Personal'] as List,
+    tagid: json['tagid'] as String,
+    userTag: (json['userTag'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
           k,
           (e as List)
               ?.map((e) => _$enumDecodeNullable(_$AccessLevelEnumMap, e))
               ?.toList()),
     ),
-    (json['logList'] as List)
-        ?.map((e) => e == null ? null : Log.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-  );
+  )..loglist = (json['loglist'] as List)
+      ?.map((e) => e == null ? null : Log.fromJson(e as Map<String, dynamic>))
+      ?.toList();
 }
 
-Map<String, dynamic> _$CourseMaterialToJson(CourseMaterial instance) =>
+Map<String, dynamic> _$OrganizationToJson(Organization instance) =>
     <String, dynamic>{
-      'entityId': instance.entityId,
-      'userUserAccess': instance.userUserAccess?.map((k, e) =>
+      'tagid': instance.tagid,
+      'userTag': instance.userTag?.map((k, e) =>
           MapEntry(k, e?.map((e) => _$AccessLevelEnumMap[e])?.toList())),
-      'logList': instance.logList,
+      'loglist': instance.loglist?.map((e) => e?.toJson())?.toList(),
+      'org': instance.org?.toJson(),
+      'Orgid': instance.Orgid,
+      'Personal': instance.Personal,
+      'classroom': instance.classroom,
     };
 
 T _$enumDecode<T>(
@@ -63,9 +72,9 @@ T _$enumDecodeNullable<T>(
 }
 
 const _$AccessLevelEnumMap = {
-  AccessLevel.Read: 'Read',
-  AccessLevel.right: 'right',
-  AccessLevel.delete: 'delete',
-  AccessLevel.suggestRight: 'suggestRight',
-  AccessLevel.suggestDelete: 'suggestDelete',
+  AccessLevel.can_read: 'can_read',
+  AccessLevel.can_write: 'can_write',
+  AccessLevel.can_delete: 'can_delete',
+  AccessLevel.can_suggest_read: 'can_suggest_read',
+  AccessLevel.can_suggest_write: 'can_suggest_write',
 };
