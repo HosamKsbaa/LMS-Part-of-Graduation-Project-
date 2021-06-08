@@ -1,8 +1,8 @@
-import 'Administrator.dart';
-import 'Owner.dart';
-import 'Parent.dart';
-import 'Student.dart';
-import 'Teacher.dart';
+import '../orgAccount/Role/Administrator.dart';
+import '../orgAccount/Role/Owner.dart';
+import '../orgAccount/Role/Parent.dart';
+import '../orgAccount/Role/Student.dart';
+import '../orgAccount/Role/Teacher.dart';
 
 abstract class OrgAccount {
   final String orgid;

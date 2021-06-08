@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'OrgAccount.dart';
+import '../OrgAccount.dart';
 
 part 'Administrator.g.dart';
 

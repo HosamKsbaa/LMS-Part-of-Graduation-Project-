@@ -11,7 +11,7 @@ ClassRoom _$ClassRoomFromJson(Map<String, dynamic> json) {
     courcedata: json['courcedata'] as String,
     student: (json['student'] as List)
         ?.map((e) =>
-            e == null ? null : Teacher.fromJson(e as Map<String, dynamic>))
+            e == null ? null : Student.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     teacher: (json['teacher'] as List)
         ?.map((e) =>

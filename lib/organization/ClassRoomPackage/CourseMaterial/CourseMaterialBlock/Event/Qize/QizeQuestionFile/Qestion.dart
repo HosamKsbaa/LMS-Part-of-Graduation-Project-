@@ -1,5 +1,5 @@
-import 'package:lms/newModels/Qize/QizeQuestionFile/QestionsTypes/MCQ.dart';
-import 'package:lms/newModels/Qize/QizeQuestionFile/QestionsTypes/TrueFalse.dart';
+import 'QestionsTypes/MCQ.dart';
+import 'QestionsTypes/TrueFalse.dart';
 
 abstract class Qestion {
   Qestion(this.qestionHead, this.qestionid, this.qestionSection, this.marks, this.seen, {this.type});

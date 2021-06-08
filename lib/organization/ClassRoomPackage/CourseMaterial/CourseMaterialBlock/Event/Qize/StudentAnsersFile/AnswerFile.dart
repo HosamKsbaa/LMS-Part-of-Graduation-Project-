@@ -1,5 +1,6 @@
 //region header
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lms/organization/GeneralModels/HiddenFile/Hidden.dart';
 
 import 'StudentAnsers.dart';
 
@@ -9,7 +10,7 @@ part 'AnswerFile.g.dart';
 
 //flutter packages pub run build_runner build
 //endregion
-class AnswerFile {
+class AnswerFile extends Hidden {
   AnswerFile();
   String answerFileID;
   String questionFileID;

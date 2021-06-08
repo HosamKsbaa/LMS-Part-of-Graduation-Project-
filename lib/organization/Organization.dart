@@ -3,7 +3,7 @@ import 'package:lms/models/Entity.dart';
 import 'package:lms/models/Log.dart';
 
 import 'ClassRoomPackage/ClassRoom.dart';
-import 'Role/OrgAccount.dart';
+import 'orgAccount/OrgAccount.dart';
 
 part 'Organization.g.dart';
 

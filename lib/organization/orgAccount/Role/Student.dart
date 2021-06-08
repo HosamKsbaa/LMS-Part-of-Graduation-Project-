@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
 
-import 'OrgAccount.dart';
+import '../OrgAccount.dart';
 
 part 'Student.g.dart';
 

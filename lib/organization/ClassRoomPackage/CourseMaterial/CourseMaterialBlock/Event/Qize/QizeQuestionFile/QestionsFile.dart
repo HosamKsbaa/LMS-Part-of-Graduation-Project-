@@ -1,6 +1,8 @@
 //region header
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lms/newModels/Qize/QizeQuestionFile/Qestion.dart';
+import 'package:lms/organization/GeneralModels/HiddenFile/Hidden.dart';
+
+import 'Qestion.dart';
 
 part 'QestionsFile.g.dart';
 
@@ -8,7 +10,7 @@ part 'QestionsFile.g.dart';
 
 //flutter packages pub run build_runner build
 //endregion
-class QestionsFile {
+class QestionsFile extends Hidden {
   QestionsFile(this.quizMainPage, this.qestionMap);
 
   final String quizMainPage;
