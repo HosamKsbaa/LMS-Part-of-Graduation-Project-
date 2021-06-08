@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lms/models/Entity.dart';
-import 'package:lms/models/Log.dart';
+import 'package:lms/organization/GeneralModels/Entity/Log.dart';
+import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 import 'package:lms/organization/GeneralModels/HiddenFile/Hidden.dart';
 
 import 'CourseMaterialBlock/CourseMaterialBlock.dart';
@@ -16,9 +16,9 @@ class CourseMaterial extends Entity {
     this.courSematerialblock,
     this.hiddenDocs,
     List<Log> log,
-    String tagid,
-    Map<String, List<AccessLevel>> userTag,
-  }) : super(loglist: log, tagid: tagid, userTag: userTag);
+    String entityId,
+    Map<String, List<AccessLevel>> userUserAccess,
+  }) : super(logList: log, entityId: entityId, userUserAccess: userUserAccess);
 
   void post_Anew_Block(CourseMaterialBlock course) {
     this.courSematerialblock.add(course);

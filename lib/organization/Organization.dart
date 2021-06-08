@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lms/models/Entity.dart';
-import 'package:lms/models/Log.dart';
 
 import 'ClassRoomPackage/ClassRoom.dart';
+import 'GeneralModels/Entity/Log.dart';
+import 'GeneralModels/Entity/entity.dart';
 import 'orgAccount/OrgAccount.dart';
 
 part 'Organization.g.dart';
@@ -14,7 +14,7 @@ class Organization extends Entity {
   List<OrgAccount> Personal;
   List<ClassRoom> classroom;
 
-  Organization({this.classroom, this.org, this.Orgid, this.Personal, List<Log> log, String tagid, Map<String, List<AccessLevel>> userTag}) : super(loglist: log, tagid: tagid, userTag: userTag);
+  Organization({this.classroom, this.org, this.Orgid, this.Personal, List<Log> log, String entityId, Map<String, List<AccessLevel>> userUserAccess}) : super(logList: log, entityId: entityId, userUserAccess: userUserAccess);
 
   void addCourse(ClassRoom clas) {
     classroom.add(clas);

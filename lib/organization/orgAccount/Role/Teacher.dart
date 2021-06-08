@@ -11,10 +11,10 @@ class Teacher extends OrgAccount {
 
   Teacher({
     this.coursesList,
-    type = "student",
+    type = "teacher",
     String orgid,
     List<String> eventpointer,
-  }) : super(type: type, eventpointer: eventpointer, orgid: orgid);
+  }) : super(orgAccountType: type, eventpointer: eventpointer, orgid: orgid);
 
   factory Teacher.fromJson(Map<String, dynamic> json) => _$TeacherFromJson(json);
 

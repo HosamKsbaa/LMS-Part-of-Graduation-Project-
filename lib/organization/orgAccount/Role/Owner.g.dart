@@ -8,7 +8,6 @@ part of 'Owner.dart';
 
 Owner _$OwnerFromJson(Map<String, dynamic> json) {
   return Owner(
-    type: json['type'] as String,
     orgid: json['orgid'] as String,
     eventpointer:
         (json['eventpointer'] as List)?.map((e) => e as String)?.toList(),
@@ -18,5 +17,4 @@ Owner _$OwnerFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$OwnerToJson(Owner instance) => <String, dynamic>{
       'orgid': instance.orgid,
       'eventpointer': instance.eventpointer,
-      'type': instance.type,
     };

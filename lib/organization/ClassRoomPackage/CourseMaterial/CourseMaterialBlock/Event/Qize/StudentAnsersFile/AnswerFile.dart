@@ -11,7 +11,7 @@ part 'AnswerFile.g.dart';
 //flutter packages pub run build_runner build
 //endregion
 class AnswerFile extends Hidden {
-  AnswerFile();
+  AnswerFile({String hiddenType = "AnswerFile"}) : super(hiddenType);
   String answerFileID;
   String questionFileID;
   Duration duration;

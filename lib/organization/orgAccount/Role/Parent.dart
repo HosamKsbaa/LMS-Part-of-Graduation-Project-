@@ -7,10 +7,10 @@ part 'Parent.g.dart';
 @JsonSerializable()
 class Parent extends OrgAccount {
   Parent({
-    String type = "student",
+    String type = "parent",
     String orgid,
     List<String> eventpointer,
-  }) : super(type: type, eventpointer: eventpointer, orgid: orgid);
+  }) : super(orgAccountType: type, eventpointer: eventpointer, orgid: orgid);
 
   factory Parent.fromJson(Map<String, dynamic> json) => _$ParentFromJson(json);
 

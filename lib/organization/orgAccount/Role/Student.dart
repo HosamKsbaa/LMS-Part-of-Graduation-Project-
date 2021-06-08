@@ -14,7 +14,7 @@ class Student extends OrgAccount {
     String type = "student",
     String orgid,
     List<String> eventpointer,
-  }) : super(type: type, eventpointer: eventpointer, orgid: orgid);
+  }) : super(orgAccountType: type, eventpointer: eventpointer, orgid: orgid);
 
   factory Student.fromJson(Map<String, dynamic> json) => _$StudentFromJson(json);
 

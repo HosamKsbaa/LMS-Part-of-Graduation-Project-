@@ -1,20 +1,32 @@
 //region header
+
 import 'package:json_annotation/json_annotation.dart';
+
+import '../../CourseMaterialBlock.dart';
+import '../Event.dart';
 
 part 'Quiz.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 
 //flutter packages pub run build_runner build
 //endregion
-class Quiz {
-  Quiz();
+class Quiz extends LMSEvent {
+  Quiz(String title, String userOrgnizationAccountId, DateTime postedAt, String eventType, this.quizQuestionFile, this.studentAnswer, List<Importance> importance, {String courseMaterialType = "Event"})
+      : super(
+          title,
+          userOrgnizationAccountId,
+          postedAt,
+          eventType,
+          importance,
+          courseMaterialType: courseMaterialType,
+        );
 
   ///qestionsFilepointer
-  String quizQuestionFile;
+  final String quizQuestionFile;
 
   ///Map<StudentUId,StudentAnsersFile>
-  Map<String, String> studentAnswer;
+  final Map<String, String> studentAnswer;
 
   //region jsonApi
   factory Quiz.fromJson(Map<String, dynamic> json) => _$QuizFromJson(json);

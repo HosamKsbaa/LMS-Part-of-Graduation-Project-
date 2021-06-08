@@ -10,7 +10,7 @@ part 'MCQ.g.dart';
 //flutter packages pub run build_runner build
 //endregion
 class MCQ extends Qestion {
-  MCQ(String qestionHead, String qestionid, String qestionSection, double marks, {bool seen, String type = "MCQ"}) : super(qestionHead, qestionid, qestionSection, marks, seen, type: type);
+  MCQ(String qestionHead, String qestionid, String qestionSection, double marks, {bool seen, String type = "MCQ"}) : super(qestionHead, qestionid, qestionSection, marks, seen, qestionType: type);
 
   Map<String, String> ansers;
 

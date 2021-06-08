@@ -7,7 +7,9 @@ part of 'AnswerFile.dart';
 // **************************************************************************
 
 AnswerFile _$AnswerFileFromJson(Map<String, dynamic> json) {
-  return AnswerFile()
+  return AnswerFile(
+    hiddenType: json['hiddenType'] as String,
+  )
     ..answerFileID = json['answerFileID'] as String
     ..questionFileID = json['questionFileID'] as String
     ..duration = json['duration'] == null
@@ -25,6 +27,7 @@ AnswerFile _$AnswerFileFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$AnswerFileToJson(AnswerFile instance) =>
     <String, dynamic>{
+      'hiddenType': instance.hiddenType,
       'answerFileID': instance.answerFileID,
       'questionFileID': instance.questionFileID,
       'duration': instance.duration?.inMicroseconds,

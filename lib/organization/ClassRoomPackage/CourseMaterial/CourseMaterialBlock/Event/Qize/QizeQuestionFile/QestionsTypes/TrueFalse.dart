@@ -10,7 +10,7 @@ part 'TrueFalse.g.dart';
 //flutter packages pub run build_runner build
 //endregion
 class TrueFalse extends Qestion {
-  TrueFalse(String qestionHead, String qestionid, String qestionSection, double marks, {bool seen, String type: "TrueFalse"}) : super(qestionHead, qestionid, qestionSection, marks, seen, type: type);
+  TrueFalse(String qestionHead, String qestionid, String qestionSection, double marks, {bool seen, String type: "TrueFalse"}) : super(qestionHead, qestionid, qestionSection, marks, seen, qestionType: type);
 
   ///true = true , false = false
   bool anser;

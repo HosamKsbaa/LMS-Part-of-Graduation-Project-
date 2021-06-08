@@ -1,7 +1,7 @@
 import 'Log.dart';
 
 abstract class Entity {
-  Entity(this.entityId, this.userUserAccess, this.logList);
+  Entity({this.entityId, this.userUserAccess, this.logList});
   final String entityId;
 
   ///Map<UserID,List<AccesLevel>>

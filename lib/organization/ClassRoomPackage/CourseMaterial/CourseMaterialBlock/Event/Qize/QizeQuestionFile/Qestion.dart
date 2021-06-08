@@ -2,10 +2,10 @@ import 'QestionsTypes/MCQ.dart';
 import 'QestionsTypes/TrueFalse.dart';
 
 abstract class Qestion {
-  Qestion(this.qestionHead, this.qestionid, this.qestionSection, this.marks, this.seen, {this.type});
+  Qestion(this.qestionHead, this.qestionid, this.qestionSection, this.marks, this.seen, {this.qestionType});
 
   ///MCQ
-  final String type;
+  final String qestionType;
   final String qestionHead;
   final String qestionid;
   final String qestionSection;
@@ -16,9 +16,9 @@ abstract class Qestion {
     // if(Map[]){
     //
     // }
-    if (json["type"] == "MCQ")
+    if (json["qestionType"] == "MCQ")
       return MCQ.fromJson(json);
-    else if (json["type"] == "String")
+    else if (json["qestionType"] == "String")
       return TrueFalse.fromJson(json);
     else
       throw {"bad"};

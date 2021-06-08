@@ -7,10 +7,10 @@ part 'Administrator.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Administrator extends OrgAccount {
   Administrator({
-    String type = "student",
+    String type = "administrator",
     String orgid,
     List<String> eventpointer,
-  }) : super(type: type, eventpointer: eventpointer, orgid: orgid);
+  }) : super(orgAccountType: type, eventpointer: eventpointer, orgid: orgid);
   //
   // void addAstudent(CollageStudent student) {
   //   this.personalHandler.students.add(student);

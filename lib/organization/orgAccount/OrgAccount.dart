@@ -7,23 +7,23 @@ import '../orgAccount/Role/Teacher.dart';
 abstract class OrgAccount {
   final String orgid;
   final List<String> eventpointer;
-  final String type;
+  final String orgAccountType;
 
-  OrgAccount({this.eventpointer, this.orgid, this.type});
+  OrgAccount({this.eventpointer, this.orgid, this.orgAccountType});
 
   factory OrgAccount.fromJson(Map<String, dynamic> json) {
-    if (json["type"] == "student")
+    if (json["orgAccountType"] == "student")
       return Student.fromJson(json);
-    else if (json["type"] == "parent")
+    else if (json["orgAccountType"] == "parent")
       return Parent.fromJson(json);
-    else if (json["type"] == "administrator")
+    else if (json["orgAccountType"] == "administrator")
       return Administrator.fromJson(json);
-    else if (json["type"] == "teacher")
+    else if (json["orgAccountType"] == "teacher")
       return Teacher.fromJson(json);
-    else if (json["type"] == "owner")
+    else if (json["orgAccountType"] == "owner")
       return Owner.fromJson(json);
     else
-      throw {"Error undefined OrgAccount type"};
+      throw {"Error undefined OrgAccount orgAccountType"};
   }
   Map<String, dynamic> toJson();
 }

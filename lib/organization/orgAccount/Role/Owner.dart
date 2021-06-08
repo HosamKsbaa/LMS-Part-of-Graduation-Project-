@@ -7,10 +7,10 @@ part 'Owner.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Owner extends OrgAccount {
   Owner({
-    String type = "student",
+    String type = "owner",
     String orgid,
     List<String> eventpointer,
-  }) : super(type: type, eventpointer: eventpointer, orgid: orgid);
+  }) : super(orgAccountType: type, eventpointer: eventpointer, orgid: orgid);
 
   factory Owner.fromJson(Map<String, dynamic> json) => _$OwnerFromJson(json);
 
