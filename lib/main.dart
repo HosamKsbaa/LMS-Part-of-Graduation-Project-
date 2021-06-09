@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'App/Login/LogIn.dart';
 //flutter packages pub run build_runner build --delete-conflicting-outputs
 
-void main() {
+Future<void> main() async {
+  await Hive.initFlutter();
   runApp(MyApp());
 }
 
