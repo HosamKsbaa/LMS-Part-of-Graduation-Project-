@@ -7,10 +7,9 @@ part of 'Appcntroler.dart';
 // **************************************************************************
 
 Appcntroler _$AppcntrolerFromJson(Map<String, dynamic> json) {
-  return Appcntroler()..path = json['path'] as String;
+  return Appcntroler()..collectionPath = json['path'] as String;
 }
 
-Map<String, dynamic> _$AppcntrolerToJson(Appcntroler instance) =>
-    <String, dynamic>{
-      'path': instance.path,
+Map<String, dynamic> _$AppcntrolerToJson(Appcntroler instance) => <String, dynamic>{
+      'path': instance.collectionPath,
     };

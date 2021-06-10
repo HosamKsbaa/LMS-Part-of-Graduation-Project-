@@ -15,23 +15,23 @@ abstract class Entity {
     if (this is Organization) {
       print(this.runtimeType);
 
-      path = '/Organization';
+      collectionPath = '/Organization';
     } else if (this is Appcntroler) {
       print(this.runtimeType);
 
-      path = "/";
+      collectionPath = "/";
     } else if (_parent == null) {
       throw {"Has No paretn ${this.runtimeType}"};
     } else {
-      path = _parent.path + "/" + _parent.entityId + "/" + collection;
+      collectionPath = _parent.collectionPath + "/" + _parent.entityId + "/" + collection;
     }
-    print("Path of $Entity is $path <<<<<<<<<<<");
+    print("Path of $Entity is $collectionPath <<<<<<<<<<<");
 
     //print(path);
   }
   bool _waitForDone = false;
   final Entity _parent;
-  String path;
+  String collectionPath;
   final String entityId;
 
   DocumentReference _entityDocRef;
@@ -43,11 +43,11 @@ abstract class Entity {
       //firestobj
 
       try {
-        _entityDocRef = FirebaseFirestore.instance.doc(path + '/' + entityId);
+        _entityDocRef = FirebaseFirestore.instance.doc(collectionPath + '/' + entityId);
       } catch (e) {
-        toast("erro ${path + entityId} path dosn't work $e ");
+        toast("erro ${collectionPath + entityId} path dosn't work $e ");
 
-        throw {"erro ${path + entityId} path dosn't work $e "};
+        throw {"erro ${collectionPath + entityId} path dosn't work $e "};
       }
     }
 
@@ -106,6 +106,7 @@ class HDMCollection<CollectionItem extends Entity> {
   HDMCollection(this._parent, this.collectionName) {
     this._parent._waitForList.add(_waitFor);
     this._parent._reFreshForList.add(refresh);
+
     if (this is HDMCollection<Organization>) {
       print(this.runtimeType);
 
@@ -113,7 +114,7 @@ class HDMCollection<CollectionItem extends Entity> {
     } else {
       print(this.runtimeType);
 
-      _collectionPath = _parent.path + '/' + _parent.entityId + '/' + collectionName;
+      _collectionPath = _parent.collectionPath + '/' + _parent.entityId + '/' + collectionName;
     }
     print("Path of $CollectionItem is $_collectionPath");
   }
@@ -159,10 +160,11 @@ class HDMCollection<CollectionItem extends Entity> {
     box.watch().listen((event) {
       controller.add(box.values.map((e) => jsonDecode(e as String)).toList());
     });
+
     controller.onCancel = () {
       controller.close();
     };
 
-    return controller.stream;
+    return controller.stream.asBroadcastStream();
   }
 }

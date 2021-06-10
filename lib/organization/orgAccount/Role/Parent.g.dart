@@ -9,10 +9,10 @@ part of 'Parent.dart';
 Parent _$ParentFromJson(Map<String, dynamic> json) {
   return Parent(
     orgid: json['orgid'] as String,
-  )..path = json['path'] as String;
+  )..collectionPath = json['path'] as String;
 }
 
 Map<String, dynamic> _$ParentToJson(Parent instance) => <String, dynamic>{
-      'path': instance.path,
+      'path': instance.collectionPath,
       'orgid': instance.orgid,
     };

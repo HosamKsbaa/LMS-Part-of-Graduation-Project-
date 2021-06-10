@@ -9,10 +9,10 @@ part of 'Owner.dart';
 Owner _$OwnerFromJson(Map<String, dynamic> json) {
   return Owner(
     orgid: json['orgid'] as String,
-  )..path = json['path'] as String;
+  )..collectionPath = json['path'] as String;
 }
 
 Map<String, dynamic> _$OwnerToJson(Owner instance) => <String, dynamic>{
-      'path': instance.path,
+      'path': instance.collectionPath,
       'orgid': instance.orgid,
     };

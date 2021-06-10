@@ -8,16 +8,13 @@ part of 'Teacher.dart';
 
 Teacher _$TeacherFromJson(Map<String, dynamic> json) {
   return Teacher(
-    coursesList: (json['coursesList'] as List)
-        ?.map((e) =>
-            e == null ? null : ClassRoom.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    coursesList: (json['coursesList'] as List)?.map((e) => e == null ? null : ClassRoom.fromJson(e as Map<String, dynamic>))?.toList(),
     orgid: json['orgid'] as String,
-  )..path = json['path'] as String;
+  )..collectionPath = json['path'] as String;
 }
 
 Map<String, dynamic> _$TeacherToJson(Teacher instance) => <String, dynamic>{
-      'path': instance.path,
+      'path': instance.collectionPath,
       'orgid': instance.orgid,
       'coursesList': instance.coursesList,
     };

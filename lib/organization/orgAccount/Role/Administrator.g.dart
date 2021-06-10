@@ -9,11 +9,10 @@ part of 'Administrator.dart';
 Administrator _$AdministratorFromJson(Map<String, dynamic> json) {
   return Administrator(
     orgid: json['orgid'] as String,
-  )..path = json['path'] as String;
+  )..collectionPath = json['path'] as String;
 }
 
-Map<String, dynamic> _$AdministratorToJson(Administrator instance) =>
-    <String, dynamic>{
-      'path': instance.path,
+Map<String, dynamic> _$AdministratorToJson(Administrator instance) => <String, dynamic>{
+      'path': instance.collectionPath,
       'orgid': instance.orgid,
     };

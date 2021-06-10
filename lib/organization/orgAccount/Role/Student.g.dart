@@ -8,16 +8,13 @@ part of 'Student.dart';
 
 Student _$StudentFromJson(Map<String, dynamic> json) {
   return Student(
-    (json['classRoomList'] as List)
-        ?.map((e) =>
-            e == null ? null : ClassRoom.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    (json['classRoomList'] as List)?.map((e) => e == null ? null : ClassRoom.fromJson(e as Map<String, dynamic>))?.toList(),
     orgid: json['orgid'] as String,
-  )..path = json['path'] as String;
+  )..collectionPath = json['path'] as String;
 }
 
 Map<String, dynamic> _$StudentToJson(Student instance) => <String, dynamic>{
-      'path': instance.path,
+      'path': instance.collectionPath,
       'orgid': instance.orgid,
       'classRoomList': instance.classRoomList,
     };

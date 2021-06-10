@@ -9,11 +9,10 @@ part of 'Organization.dart';
 Organization _$OrganizationFromJson(Map<String, dynamic> json) {
   return Organization(
     name: json['name'] as String,
-  )..path = json['path'] as String;
+  )..collectionPath = json['path'] as String;
 }
 
-Map<String, dynamic> _$OrganizationToJson(Organization instance) =>
-    <String, dynamic>{
-      'path': instance.path,
+Map<String, dynamic> _$OrganizationToJson(Organization instance) => <String, dynamic>{
+      'path': instance.collectionPath,
       'name': instance.name,
     };
