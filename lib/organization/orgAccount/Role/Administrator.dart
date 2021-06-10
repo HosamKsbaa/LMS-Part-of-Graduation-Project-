@@ -14,7 +14,7 @@ class Administrator extends OrgAccount {
     List<String> eventpointer,
     DateTime lastTimeEdited,
     Entity parent,
-  }) : super(orgAccountId, lastTimeEdited: lastTimeEdited, parent: parent, orgAccountType: type, orgid: orgid);
+  }) : super(orgAccountId, lastTimeEdited: lastTimeEdited, orgAccountType: type, orgid: orgid);
   //
   // void addAstudent(CollageStudent student) {
   //   this.personalHandler.students.add(student);

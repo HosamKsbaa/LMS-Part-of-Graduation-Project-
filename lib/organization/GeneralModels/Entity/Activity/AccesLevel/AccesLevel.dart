@@ -11,7 +11,7 @@ part 'AccesLevel.g.dart';
 class AccesLevel extends Entity {
   AccesLevel(String entityId, this.OrgAccountUid, this.accesLevel, DateTime lastTimeEdited) : super(entityId, lastTimeEdited: lastTimeEdited);
   final String OrgAccountUid;
-  final List<AccesLevel> accesLevel;
+  List<AccesLevel> accesLevel;
 
   //region jsonApi
   factory AccesLevel.fromJson(Map<String, dynamic> json) => _$AccesLevelFromJson(json);

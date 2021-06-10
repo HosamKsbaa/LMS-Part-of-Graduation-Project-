@@ -1,4 +1,3 @@
-import 'package:dart_json_mapper/dart_json_mapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -6,7 +5,9 @@ import 'ClassRoomPackage/ClassRoom.dart';
 import 'GeneralModels/Entity/entity.dart';
 import 'orgAccount/OrgAccount.dart';
 
-@jsonSerializable
+part 'Organization.g.dart';
+
+@JsonSerializable()
 class Organization extends Entity {
   final String name;
 
@@ -16,7 +17,12 @@ class Organization extends Entity {
   @JsonKey(ignore: true)
   HDMCollection<ClassRoom> classroom;
 
-  Organization(String organizationId, {@required this.name, @required DateTime lastTimeEdited, @required Entity parent}) : super(organizationId, collection: "Organization", lastTimeEdited: lastTimeEdited, parent: parent) {
+  Organization(
+    String organizationId, {
+    @required this.name,
+    @required DateTime lastTimeEdited,
+    @required Entity parent,
+  }) : super(organizationId, lastTimeEdited: lastTimeEdited) {
     personal = HDMCollection<OrgAccount>(this, "personal");
     classroom = HDMCollection<ClassRoom>(this, "classroom");
   }
