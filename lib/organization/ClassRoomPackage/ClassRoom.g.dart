@@ -8,71 +8,13 @@ part of 'ClassRoom.dart';
 
 ClassRoom _$ClassRoomFromJson(Map<String, dynamic> json) {
   return ClassRoom(
-    courcedata: json['courcedata'] as String,
-    student: (json['student'] as List)
-        ?.map((e) =>
-            e == null ? null : Student.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    teacher: (json['teacher'] as List)
-        ?.map((e) =>
-            e == null ? null : Teacher.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
-    entityId: json['entityId'] as String,
-    userUserAccess: (json['userUserAccess'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(
-          k,
-          (e as List)
-              ?.map((e) => _$enumDecodeNullable(_$AccessLevelEnumMap, e))
-              ?.toList()),
-    ),
-  );
+    classRoomName: json['classRoomName'] as String,
+    classRoomId: json['entityId'] as String,
+  )..path = json['path'] as String;
 }
 
 Map<String, dynamic> _$ClassRoomToJson(ClassRoom instance) => <String, dynamic>{
+      'path': instance.path,
       'entityId': instance.entityId,
-      'userUserAccess': instance.userUserAccess?.map((k, e) =>
-          MapEntry(k, e?.map((e) => _$AccessLevelEnumMap[e])?.toList())),
-      'courcedata': instance.courcedata,
-      'teacher': instance.teacher?.map((e) => e?.toJson())?.toList(),
-      'student': instance.student?.map((e) => e?.toJson())?.toList(),
+      'classRoomName': instance.classRoomName,
     };
-
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
-}
-
-const _$AccessLevelEnumMap = {
-  AccessLevel.Read: 'Read',
-  AccessLevel.right: 'right',
-  AccessLevel.delete: 'delete',
-  AccessLevel.suggestRight: 'suggestRight',
-  AccessLevel.suggestDelete: 'suggestDelete',
-};

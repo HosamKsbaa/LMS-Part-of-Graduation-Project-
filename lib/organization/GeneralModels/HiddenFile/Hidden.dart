@@ -1,6 +1,8 @@
-abstract class Hidden {
+import 'package:lms/organization/GeneralModels/Entity/entity.dart';
+
+abstract class Hidden extends Entity {
   final String hiddenType;
-  Hidden(this.hiddenType);
+  Hidden(this.hiddenType) : super('', '', null);
 
   //region jsonApi
   factory Hidden.fromJson(Map<String, dynamic> json) {

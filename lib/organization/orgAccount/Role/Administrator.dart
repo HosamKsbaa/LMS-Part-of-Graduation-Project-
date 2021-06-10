@@ -10,7 +10,7 @@ class Administrator extends OrgAccount {
     String type = "administrator",
     String orgid,
     List<String> eventpointer,
-  }) : super(orgAccountType: type, eventpointer: eventpointer, orgid: orgid);
+  });
   //
   // void addAstudent(CollageStudent student) {
   //   this.personalHandler.students.add(student);
@@ -31,4 +31,14 @@ class Administrator extends OrgAccount {
   factory Administrator.fromJson(Map<String, dynamic> json) => _$AdministratorFromJson(json);
 
   Map<String, dynamic> toJson() => _$AdministratorToJson(this);
+
+  @override
+  void firstTimeInit() {
+    // TODO: implement firstTimeInit
+  }
+
+  @override
+  void subWaitFor() {
+    // TODO: implement subWaitFor
+  }
 }

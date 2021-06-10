@@ -14,11 +14,12 @@ QestionsFile _$QestionsFileFromJson(Map<String, dynamic> json) {
           k, e == null ? null : Qestion.fromJson(e as Map<String, dynamic>)),
     ),
     hiddenType: json['hiddenType'] as String,
-  );
+  )..path = json['path'] as String;
 }
 
 Map<String, dynamic> _$QestionsFileToJson(QestionsFile instance) =>
     <String, dynamic>{
+      'path': instance.path,
       'hiddenType': instance.hiddenType,
       'quizMainPage': instance.quizMainPage,
       'qestionMap':

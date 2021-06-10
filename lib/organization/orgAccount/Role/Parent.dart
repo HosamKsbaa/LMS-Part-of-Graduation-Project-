@@ -10,9 +10,19 @@ class Parent extends OrgAccount {
     String type = "parent",
     String orgid,
     List<String> eventpointer,
-  }) : super(orgAccountType: type, eventpointer: eventpointer, orgid: orgid);
+  });
 
   factory Parent.fromJson(Map<String, dynamic> json) => _$ParentFromJson(json);
 
   Map<String, dynamic> toJson() => _$ParentToJson(this);
+
+  @override
+  void firstTimeInit() {
+    // TODO: implement firstTimeInit
+  }
+
+  @override
+  void subWaitFor() {
+    // TODO: implement subWaitFor
+  }
 }

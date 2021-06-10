@@ -13,13 +13,11 @@ Student _$StudentFromJson(Map<String, dynamic> json) {
             e == null ? null : ClassRoom.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     orgid: json['orgid'] as String,
-    eventpointer:
-        (json['eventpointer'] as List)?.map((e) => e as String)?.toList(),
-  );
+  )..path = json['path'] as String;
 }
 
 Map<String, dynamic> _$StudentToJson(Student instance) => <String, dynamic>{
+      'path': instance.path,
       'orgid': instance.orgid,
-      'eventpointer': instance.eventpointer,
       'classRoomList': instance.classRoomList,
     };

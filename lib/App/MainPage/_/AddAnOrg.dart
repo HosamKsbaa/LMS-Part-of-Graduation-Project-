@@ -1,5 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:lms/organization/Appcntroler.dart';
+import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
+import 'package:lms/organization/Organization.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 class AddAnOrgController {
@@ -7,7 +9,7 @@ class AddAnOrgController {
   static const List<HDMKey<AddAnOrgController>> _keyList = [key1];
   HDMMain<AddAnOrgController> data;
 
-  void _start() => data = HDMMain<AddAnOrgController>(this, (HDMBox box) => _WidgetAddAnOrg(this, box), _keyList);
+  void _start() => data = HDMMain<AddAnOrgController>(this, (HDMBox box) => _WidgetAddAnOrg(this, box), _keyList, appcntroler.waitFor);
   static const HDMKey<AddAnOrgController> key1 = HDMKey<AddAnOrgController>();
 
 //endregion
@@ -16,21 +18,18 @@ class AddAnOrgController {
   }
   void nextStepOrg() {}
   void nextStepclass() {}
-  Future<void> CreatAnOrg(String orgName) async {
-    CollectionReference userPublicDoc = FirebaseFirestore.instance.collection('organization');
+  Appcntroler appcntroler = Appcntroler();
 
-    userPublicDoc.add({
-      "OrgName": orgName,
-    });
-    print(userPublicDoc.id);
+  Future<void> CreatAnOrg(String orgName) async {}
+
+  void AddAClass(String classRoom) {}
+
+  void addAmOrgnization() {
+    var x = Organization(name: "Myorg", organizationId: "1");
+    appcntroler.orgAccount.add(x);
+    var classroom = ClassRoom(classRoomName: "data science", parent: x, classRoomId: "2");
+    classroom.waitFor().then((value) => x.classroom.add(classroom));
   }
-
-  void AddAClass(String orgId, String classRoom) {
-    DocumentReference userPublicDoc = FirebaseFirestore.instance.collection('organization').doc(orgId);
-    userPublicDoc.update({"ClassRoom": classRoom});
-  }
-
-  void CreatOwnerAccount() {}
 }
 
 class _WidgetAddAnOrg extends HDMStatelessWidget<AddAnOrgController> {
@@ -44,7 +43,8 @@ class _WidgetAddAnOrg extends HDMStatelessWidget<AddAnOrgController> {
         children: [
           Card(
             child: ListTile(
-              enabled: false,
+              onTap: app.addAmOrgnization,
+              //enabled: false,
               trailing: Icon(Icons.business_outlined),
               title: Text("Create A new organization"),
               leading: Icon(Icons.add),

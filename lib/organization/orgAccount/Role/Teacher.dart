@@ -14,9 +14,19 @@ class Teacher extends OrgAccount {
     type = "teacher",
     String orgid,
     List<String> eventpointer,
-  }) : super(orgAccountType: type, eventpointer: eventpointer, orgid: orgid);
+  });
 
   factory Teacher.fromJson(Map<String, dynamic> json) => _$TeacherFromJson(json);
 
   Map<String, dynamic> toJson() => _$TeacherToJson(this);
+
+  @override
+  void firstTimeInit() {
+    // TODO: implement firstTimeInit
+  }
+
+  @override
+  void subWaitFor() {
+    // TODO: implement subWaitFor
+  }
 }

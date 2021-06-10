@@ -18,5 +18,15 @@ class QestionsFile extends Hidden {
   //region jsonApi
   factory QestionsFile.fromJson(Map<String, dynamic> json) => _$QestionsFileFromJson(json);
   Map<String, dynamic> toJson() => _$QestionsFileToJson(this);
+
+  @override
+  void firstTimeInit() {
+    // TODO: implement firstTimeInit
+  }
+
+  @override
+  void subWaitFor() {
+    // TODO: implement subWaitFor
+  }
   //endregion
 }

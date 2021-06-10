@@ -24,5 +24,15 @@ class AnswerFile extends Hidden {
   //region jsonApi
   factory AnswerFile.fromJson(Map<String, dynamic> json) => _$AnswerFileFromJson(json);
   Map<String, dynamic> toJson() => _$AnswerFileToJson(this);
+
+  @override
+  void firstTimeInit() {
+    // TODO: implement firstTimeInit
+  }
+
+  @override
+  void subWaitFor() {
+    // TODO: implement subWaitFor
+  }
   //endregion
 }

@@ -1,7 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import 'ClassRoomPackage/ClassRoom.dart';
-import 'GeneralModels/Entity/Log.dart';
 import 'GeneralModels/Entity/entity.dart';
 import 'orgAccount/OrgAccount.dart';
 
@@ -9,18 +8,29 @@ part 'Organization.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Organization extends Entity {
-  Organization org;
-  String Orgid;
-  List<OrgAccount> Personal;
-  List<ClassRoom> classroom;
+  final String name;
 
-  Organization({this.classroom, this.org, this.Orgid, this.Personal, List<Log> log, String entityId, Map<String, List<AccessLevel>> userUserAccess}) : super(logList: log, entityId: entityId, userUserAccess: userUserAccess);
+  //region  complex Hosam stuff
+  @JsonKey(ignore: true)
+  HDMCollection<OrgAccount> personal;
+  @JsonKey(ignore: true)
+  HDMCollection<ClassRoom> classroom;
 
-  void addCourse(ClassRoom clas) {
-    classroom.add(clas);
+  Organization({this.name, String organizationId}) : super(organizationId, "organization", null) {
+    personal = HDMCollection<OrgAccount>(this, "personal");
+    classroom = HDMCollection<ClassRoom>(this, "classroom");
   }
 
   factory Organization.fromJson(Map<String, dynamic> json) => _$OrganizationFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrganizationToJson(this);
+  @override
+  void firstTimeInit() {}
+
+  @override
+  void subWaitFor() {
+    // TODO: implement subWaitFor
+  }
+
+//endregion
 }

@@ -14,9 +14,19 @@ class Student extends OrgAccount {
     String type = "student",
     String orgid,
     List<String> eventpointer,
-  }) : super(orgAccountType: type, eventpointer: eventpointer, orgid: orgid);
+  });
 
   factory Student.fromJson(Map<String, dynamic> json) => _$StudentFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudentToJson(this);
+
+  @override
+  void firstTimeInit() {
+    // TODO: implement firstTimeInit
+  }
+
+  @override
+  void subWaitFor() {
+    // TODO: implement subWaitFor
+  }
 }

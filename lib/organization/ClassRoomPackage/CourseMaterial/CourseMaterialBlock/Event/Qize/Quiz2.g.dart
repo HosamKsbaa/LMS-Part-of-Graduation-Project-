@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'Quiz.dart';
+part of 'Quiz2.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -8,26 +8,21 @@ part of 'Quiz.dart';
 
 Quiz _$QuizFromJson(Map<String, dynamic> json) {
   return Quiz(
-    json['title'] as String,
-    json['userOrgnizationAccountId'] as String,
-    json['postedAt'] == null
-        ? null
-        : DateTime.parse(json['postedAt'] as String),
-    json['eventType'] as String,
-    json['quizQuestionFile'] as String,
-    (json['studentAnswer'] as Map<String, dynamic>)?.map(
+    title: json['title'] as String,
+    eventType: json['eventType'] as String,
+    quizQuestionFile: json['quizQuestionFile'] as String,
+    studentAnswer: (json['studentAnswer'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    (json['importance'] as List)
+    importance: (json['importance'] as List)
         ?.map((e) => _$enumDecodeNullable(_$ImportanceEnumMap, e))
         ?.toList(),
     courseMaterialType: json['courseMaterialType'] as String,
-  );
+  )..path = json['path'] as String;
 }
 
 Map<String, dynamic> _$QuizToJson(Quiz instance) => <String, dynamic>{
-      'userOrgnizationAccountId': instance.userOrgnizationAccountId,
-      'postedAt': instance.postedAt?.toIso8601String(),
+      'path': instance.path,
       'courseMaterialType': instance.courseMaterialType,
       'title': instance.title,
       'importance':

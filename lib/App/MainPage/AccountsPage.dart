@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lms/App/Drawer/Drawer.dart';
-import 'package:lms/App/_GeneralMethouds/Navigation.dart';
+import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 import '../../organization/orgAccount/OrgAccount.dart';

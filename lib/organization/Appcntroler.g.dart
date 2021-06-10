@@ -1,19 +1,16 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'Organization.dart';
+part of 'Appcntroler.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Organization _$OrganizationFromJson(Map<String, dynamic> json) {
-  return Organization(
-    name: json['name'] as String,
-  )..path = json['path'] as String;
+Appcntroler _$AppcntrolerFromJson(Map<String, dynamic> json) {
+  return Appcntroler()..path = json['path'] as String;
 }
 
-Map<String, dynamic> _$OrganizationToJson(Organization instance) =>
+Map<String, dynamic> _$AppcntrolerToJson(Appcntroler instance) =>
     <String, dynamic>{
       'path': instance.path,
-      'name': instance.name,
     };
