@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:lms/organization/Organization.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -11,27 +12,18 @@ import '../../Appcntroler.dart';
 typedef _AsyncCallback = Future<void> Function();
 
 abstract class Entity {
-  Entity(this.entityId, String collection, this._parent) {
-    if (this is Organization) {
-      print(this.runtimeType);
+  @mustCallSuper
+  Entity(
+    this.entityId, {
+    @required this.lastTimeEdited,
+  });
 
-      collectionPath = '/Organization';
-    } else if (this is Appcntroler) {
-      print(this.runtimeType);
-
-      collectionPath = "/";
-    } else if (_parent == null) {
-      throw {"Has No paretn ${this.runtimeType}"};
-    } else {
-      collectionPath = _parent.collectionPath + "/" + _parent.entityId + "/" + collection;
-    }
-    print("Path of $Entity is $collectionPath <<<<<<<<<<<");
-
-    //print(path);
-  }
   bool _waitForDone = false;
-  final Entity _parent;
+
+  final DateTime lastTimeEdited;
+  Entity _parent;
   String collectionPath;
+  @required
   final String entityId;
 
   DocumentReference _entityDocRef;
@@ -70,29 +62,31 @@ abstract class Entity {
   }
 
   //endregion
-  // void storeThisObjForTheFirstTime() {
-  //   _entityDocRef.set(this.toJson());
-  //
-  //
-  // }
 
-  ///Map<UserID,List<AccesLevel>>
-  //todo final Map<String, List<AccessLevel>> userUserAccess;
+  void _setPath(Entity parent, collection) {
+    _parent = parent;
+    if (this is Organization) {
+      print(this.runtimeType);
 
-  //todo final List<Log> logList;
+      collectionPath = '/Organization';
+    } else if (this is Appcntroler) {
+      print(this.runtimeType);
+
+      collectionPath = "/";
+    } else if (_parent == null) {
+      throw {"Has No paretn ${this.runtimeType}"};
+    } else {
+      collectionPath = _parent.collectionPath + "/" + _parent.entityId + "/" + collection;
+    }
+    print("Path of $Entity is $collectionPath <<<<<<<<<<<");
+    //print(path);
+  }
+
   void subWaitFor();
 
   void firstTimeInit();
 
   Map<String, dynamic> toJson();
-}
-
-enum AccessLevel {
-  Read, // R
-  right, //w
-  delete, //D
-  suggestRight, //sr
-  suggestDelete,
 }
 
 class HDMCollection<CollectionItem extends Entity> {
@@ -134,6 +128,9 @@ class HDMCollection<CollectionItem extends Entity> {
       obj.entityId,
       jsonEncode(obj.toJson()),
     );
+    void _injectParent(CollectionItem collectionItem) {
+      return collectionItem._setPath(_parent, collectionName);
+    }
     // try {
     //   await _collectionDocRef.doc(obj.entityId).set(obj.toJson());
     //   await objBox.put(

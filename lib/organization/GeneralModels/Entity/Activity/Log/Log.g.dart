@@ -7,13 +7,19 @@ part of 'Log.dart';
 // **************************************************************************
 
 Log _$LogFromJson(Map<String, dynamic> json) {
-  return Log()
-    ..orgAccountId = json['orgAccountId'] as String
-    ..entityId = json['entityId'] as String
-    ..event = json['event'] as Map<String, dynamic>;
+  return Log(
+    json['entityId'] as String,
+    lastTimeEdited: json['lastTimeEdited'] == null
+        ? null
+        : DateTime.parse(json['lastTimeEdited'] as String),
+    orgAccountId: json['orgAccountId'] as String,
+    event: json['event'] as Map<String, dynamic>,
+  )..collectionPath = json['collectionPath'] as String;
 }
 
 Map<String, dynamic> _$LogToJson(Log instance) => <String, dynamic>{
+      'lastTimeEdited': instance.lastTimeEdited?.toIso8601String(),
+      'collectionPath': instance.collectionPath,
       'orgAccountId': instance.orgAccountId,
       'entityId': instance.entityId,
       'event': instance.event,

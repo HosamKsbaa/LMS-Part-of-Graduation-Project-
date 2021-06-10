@@ -9,12 +9,10 @@ part of 'ClassRoom.dart';
 ClassRoom _$ClassRoomFromJson(Map<String, dynamic> json) {
   return ClassRoom(
     classRoomName: json['classRoomName'] as String,
-    classRoomId: json['entityId'] as String,
-  )..collectionPath = json['path'] as String;
+  )..collectionPath = json['collectionPath'] as String;
 }
 
 Map<String, dynamic> _$ClassRoomToJson(ClassRoom instance) => <String, dynamic>{
-      'path': instance.collectionPath,
-      'entityId': instance.entityId,
+      'collectionPath': instance.collectionPath,
       'classRoomName': instance.classRoomName,
     };

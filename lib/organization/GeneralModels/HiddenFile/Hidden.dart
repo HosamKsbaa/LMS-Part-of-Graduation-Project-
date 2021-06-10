@@ -2,7 +2,7 @@ import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 
 abstract class Hidden extends Entity {
   final String hiddenType;
-  Hidden(this.hiddenType) : super('', '', null);
+  Hidden(String entityId, {this.hiddenType, String collection, Entity parent, DateTime lastTimeEdited}) : super(entityId, parent: parent, lastTimeEdited: lastTimeEdited, collection: "hiddenType");
 
   //region jsonApi
   factory Hidden.fromJson(Map<String, dynamic> json) {

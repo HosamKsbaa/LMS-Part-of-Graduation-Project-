@@ -14,16 +14,19 @@ Quiz _$QuizFromJson(Map<String, dynamic> json) {
     studentAnswer: (json['studentAnswer'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    importance: (json['importance'] as List)?.map((e) => _$enumDecodeNullable(_$ImportanceEnumMap, e))?.toList(),
+    importance: (json['importance'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$ImportanceEnumMap, e))
+        ?.toList(),
     courseMaterialType: json['courseMaterialType'] as String,
-  )..collectionPath = json['path'] as String;
+  )..collectionPath = json['collectionPath'] as String;
 }
 
 Map<String, dynamic> _$QuizToJson(Quiz instance) => <String, dynamic>{
-      'path': instance.collectionPath,
+      'collectionPath': instance.collectionPath,
       'courseMaterialType': instance.courseMaterialType,
       'title': instance.title,
-      'importance': instance.importance?.map((e) => _$ImportanceEnumMap[e])?.toList(),
+      'importance':
+          instance.importance?.map((e) => _$ImportanceEnumMap[e])?.toList(),
       'eventType': instance.eventType,
       'quizQuestionFile': instance.quizQuestionFile,
       'studentAnswer': instance.studentAnswer,
@@ -39,7 +42,9 @@ T _$enumDecode<T>(
         '${enumValues.values.join(', ')}');
   }
 
-  final value = enumValues.entries.singleWhere((e) => e.value == source, orElse: () => null)?.key;
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
 
   if (value == null && unknownValue == null) {
     throw ArgumentError('`$source` is not one of the supported values: '

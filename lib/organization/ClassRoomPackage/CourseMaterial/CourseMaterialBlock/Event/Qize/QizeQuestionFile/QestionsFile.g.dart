@@ -10,15 +10,18 @@ QestionsFile _$QestionsFileFromJson(Map<String, dynamic> json) {
   return QestionsFile(
     json['quizMainPage'] as String,
     (json['qestionMap'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e == null ? null : Qestion.fromJson(e as Map<String, dynamic>)),
+      (k, e) => MapEntry(
+          k, e == null ? null : Qestion.fromJson(e as Map<String, dynamic>)),
     ),
     hiddenType: json['hiddenType'] as String,
-  )..collectionPath = json['path'] as String;
+  )..collectionPath = json['collectionPath'] as String;
 }
 
-Map<String, dynamic> _$QestionsFileToJson(QestionsFile instance) => <String, dynamic>{
-      'path': instance.collectionPath,
+Map<String, dynamic> _$QestionsFileToJson(QestionsFile instance) =>
+    <String, dynamic>{
+      'collectionPath': instance.collectionPath,
       'hiddenType': instance.hiddenType,
       'quizMainPage': instance.quizMainPage,
-      'qestionMap': instance.qestionMap?.map((k, e) => MapEntry(k, e?.toJson())),
+      'qestionMap':
+          instance.qestionMap?.map((k, e) => MapEntry(k, e?.toJson())),
     };

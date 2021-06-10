@@ -1,12 +1,12 @@
+import 'package:dart_json_mapper/dart_json_mapper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'ClassRoomPackage/ClassRoom.dart';
 import 'GeneralModels/Entity/entity.dart';
 import 'orgAccount/OrgAccount.dart';
 
-part 'Organization.g.dart';
-
-@JsonSerializable(explicitToJson: true)
+@jsonSerializable
 class Organization extends Entity {
   final String name;
 
@@ -16,20 +16,23 @@ class Organization extends Entity {
   @JsonKey(ignore: true)
   HDMCollection<ClassRoom> classroom;
 
-  Organization({this.name, String organizationId}) : super(organizationId, "organization", null) {
+  Organization(String organizationId, {@required this.name, @required DateTime lastTimeEdited, @required Entity parent}) : super(organizationId, collection: "Organization", lastTimeEdited: lastTimeEdited, parent: parent) {
     personal = HDMCollection<OrgAccount>(this, "personal");
     classroom = HDMCollection<ClassRoom>(this, "classroom");
   }
 
-  factory Organization.fromJson(Map<String, dynamic> json) => _$OrganizationFromJson(json);
-
-  Map<String, dynamic> toJson() => _$OrganizationToJson(this);
   @override
   void firstTimeInit() {}
 
   @override
   void subWaitFor() {
     // TODO: implement subWaitFor
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    // TODO: implement toJson
+    throw UnimplementedError();
   }
 
 //endregion

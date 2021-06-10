@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 
 import '../orgAccount/Role/Administrator.dart';
@@ -6,20 +8,29 @@ import '../orgAccount/Role/Parent.dart';
 import '../orgAccount/Role/Student.dart';
 import '../orgAccount/Role/Teacher.dart';
 
+@JsonSerializable()
+enum OrgAccountType {
+  Administrator,
+  Owner,
+  Parent,
+  Student,
+  Teacher,
+}
+
+@JsonSerializable()
+@Json(discriminatorProperty: 'type')
 abstract class OrgAccount extends Entity {
   final String orgid;
 
   // final List<String> eventpointer;
-  final String orgAccountType;
+  final OrgAccountType orgAccountType;
 
-  OrgAccount({
-    //this.eventpointer,
-    this.orgid,
-    this.orgAccountType,
-    String orgAccountId,
-    String collection,
-    Entity parent,
-  }) : super(orgAccountId, "OrgAccount", parent);
+  OrgAccount(
+    String orgAccountId, {
+    @required this.orgid,
+    @required this.orgAccountType,
+    @required DateTime lastTimeEdited,
+  }) : super(orgAccountId, lastTimeEdited: lastTimeEdited);
 
   factory OrgAccount.fromJson(Map<String, dynamic> json) {
     if (json["orgAccountType"] == "student")
