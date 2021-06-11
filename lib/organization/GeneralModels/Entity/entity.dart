@@ -31,7 +31,7 @@ abstract class Entity {
   bool _waitForDone = false;
   final entityTyps;
   final DateTime lastTimeEdited;
-  late Entity _parent;
+  Entity? _parent;
   late String collectionPath;
   @required
   final String entityId;
@@ -86,7 +86,7 @@ abstract class Entity {
     } else if (_parent == null) {
       throw {"Has No paretn ${this.runtimeType}"};
     } else {
-      collectionPath = _parent.collectionPath + "/" + _parent.entityId + "/" + collection;
+      collectionPath = _parent!.collectionPath + "/" + _parent!.entityId + "/" + collection;
     }
     print("Path of $Entity is $collectionPath <<<<<<<<<<<");
     //print(path);
