@@ -24,10 +24,6 @@ abstract class Entity {
   @mustCallSuper
   Entity(this.entityId, {required EntityTyps entityTyps, required this.lastTimeEdited}) {
     this._entityTyps = entityTyps;
-    if (this is Appcntroler) {
-      print(this.runtimeType);
-      collectionPath = "/";
-    }
   }
 
   late final EntityTyps _entityTyps;
@@ -40,9 +36,13 @@ abstract class Entity {
 
   late DocumentReference _entityDocRef;
 
-  void _setPath(Entity parent, collection) {
+  void setPath(Entity? parent, collection) {
     _parent = parent;
-    if (this is Organization) {
+
+    if (this is Appcntroler) {
+      print(this.runtimeType);
+      collectionPath = "/";
+    } else if (this is Organization) {
       print(this.runtimeType);
 
       collectionPath = '/Organization';
@@ -61,7 +61,7 @@ abstract class Entity {
     //print(path);
   }
 
-  Future<void> waitFor() async {
+  Future<void> _waitFor() async {
     if (_parent != null) {
       //firestobj
       try {
@@ -74,7 +74,7 @@ abstract class Entity {
     }
 
     try {
-      _childCollections.forEach((e) => e._waitFor());
+      await Future.forEach<HDMCollection>(_childCollections, (e) async => await e._waitFor());
     } catch (e) {
       //todo delete all data if opration fail
       toast("there is an error on collection $Entity $e");
@@ -83,7 +83,7 @@ abstract class Entity {
 
   Future<void> reFresh() async {
     try {
-      _childCollections.forEach((e) => e._refresh());
+      await Future.forEach<HDMCollection>(_childCollections, (e) async => await e._refresh());
     } catch (e) {
       //todo delete all data if opration fail
       toast("there is an error on collection $Entity $e");
@@ -124,13 +124,19 @@ class HDMCollection<CollectionItem extends Entity> {
   late String _collectionPath;
 
   late CollectionReference _collectionDocRef;
-  late Box<String> objBox;
+  late Box<String> _objBox;
 
   HDMCollection(this._parent, this.collectionName) {
     _parent._childCollections.add(this);
   }
 
+  Future<void> _trigerSetChild(CollectionItem obj) async {
+    obj.setPath(_parent, collectionName);
+    await obj._waitFor();
+  }
+
   void _setIt() {
+    print("$this is set ");
     if (this is HDMCollection<Organization>) {
       print(this.runtimeType);
 
@@ -144,7 +150,7 @@ class HDMCollection<CollectionItem extends Entity> {
   }
 
   Future<void> _waitFor() async {
-    objBox = await Hive.openBox(_collectionPath.replaceAll('/', "%%"));
+    _objBox = await Hive.openBox(_collectionPath.replaceAll('/', "%%"));
   }
 
   Future<void> _refresh() async {
@@ -154,18 +160,19 @@ class HDMCollection<CollectionItem extends Entity> {
   Future<void> add(CollectionItem obj) async {
     //if (_parent._waitForDone == false) throw {"not initilized ${this.runtimeType}"};
     // bool succes = false;
-    obj._setPath(_parent, collectionName);
+    print(">>>>>>>>>$this is set ");
 
+    await _trigerSetChild(obj);
     _collectionDocRef = FirebaseFirestore.instance.collection(_collectionPath);
     obj.lastTimeEdited = DateTime.now();
     await _collectionDocRef.doc(obj.entityId).set(obj.toJson());
-    objBox = await Hive.openBox(_collectionPath.replaceAll('/', "%%"));
-    await objBox.put(
+    _objBox = await Hive.openBox(_collectionPath.replaceAll('/', "%%"));
+    await _objBox.put(
       obj.entityId,
       jsonEncode(obj.toJson()),
     );
     void _injectParent(CollectionItem collectionItem) {
-      return collectionItem._setPath(_parent, collectionName);
+      return collectionItem.setPath(_parent, collectionName);
     }
     // try {
     //   await _collectionDocRef.doc(obj.entityId).set(obj.toJson());
@@ -182,18 +189,25 @@ class HDMCollection<CollectionItem extends Entity> {
   }
 
   Stream<List<CollectionItem>> get() {
-    CollectionItem tra(String e) {
-      var x = Entity.fromJson(jsonDecode(e));
-      x._setPath(_parent, collectionName);
-      return x as CollectionItem;
-    }
-
     StreamController<List<CollectionItem>> controller = StreamController<List<CollectionItem>>();
 
-    controller.add(objBox.values.map<CollectionItem>(tra).toList());
+    Future<List<CollectionItem>> geter() async {
+      CollectionItem tra(String e) {
+        return Entity.fromJson(jsonDecode(e)) as CollectionItem;
+      }
 
-    objBox.watch().listen((event) {
-      controller.add(objBox.values.map<CollectionItem>(tra).toList());
+      var x = _objBox.values.map<CollectionItem>(tra).toList();
+      await Future.forEach<CollectionItem>(x, _trigerSetChild);
+      controller.add(x);
+      return x;
+    }
+
+    controller.onListen = () async {
+      geter().then((value) => controller.add(value));
+    };
+
+    _objBox.watch().listen((event) async {
+      geter().then((value) => controller.add(value));
     });
 
     controller.onCancel = () {

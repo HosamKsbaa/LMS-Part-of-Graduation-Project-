@@ -13,23 +13,19 @@ part 'Appcntroler.g.dart';
 class Appcntroler extends Entity {
   Appcntroler() : super("", lastTimeEdited: DateTime.now(), entityTyps: EntityTyps.Appcntroler) {
     orgAccount = HDMCollection<Organization>(this, "Organization");
+    setPath(null, "/");
   }
   @JsonKey(ignore: true)
   late HDMCollection<Organization> orgAccount;
 
+  Future<Organization> addOrgnization(String entityId, {required String name}) async {
+    var x = Organization(entityId, lastTimeEdited: DateTime.now(), name: name);
+    await orgAccount.add(x);
+    return x;
+  }
+
   //region jsonApi
   factory Appcntroler.fromJson(Map<String, dynamic> json) => _$AppcntrolerFromJson(json);
   Map<String, dynamic> toJson() => _$AppcntrolerToJson(this);
-
-  @override
-  void firstTimeInit() {
-    // TODO: implement firstTimeInit
-  }
-
-  @override
-  void subWaitFor() {
-    // TODO: implement subWaitFor
-  }
-  //endregion
 }
 //

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lms/organization/Appcntroler.dart';
-import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
-import 'package:lms/organization/Organization.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 class AddAnOrgController {
@@ -9,7 +7,7 @@ class AddAnOrgController {
   static const List<HDMKey<AddAnOrgController>> _keyList = [key1];
   late HDMMain<AddAnOrgController> data;
 
-  void _start() => data = HDMMain<AddAnOrgController>(this, (HDMBox box) => _WidgetAddAnOrg(this, box), _keyList, appcntroler.waitFor);
+  void _start() => data = HDMMain<AddAnOrgController>(this, (HDMBox box) => _WidgetAddAnOrg(this, box), _keyList);
   static const HDMKey<AddAnOrgController> key1 = HDMKey<AddAnOrgController>();
 
 //endregion
@@ -24,11 +22,9 @@ class AddAnOrgController {
 
   void AddAClass(String classRoom) {}
 
-  void addAmOrgnization() {
-    var x = Organization("test", name: "org1", lastTimeEdited: DateTime.now());
-    appcntroler.orgAccount.add(x);
-    var classroom = ClassRoom("TestclassRoom1", classRoomName: "data science", lastTimeEdited: DateTime.now());
-    classroom.waitFor().then((value) => x.classroom.add(classroom));
+  Future<void> addAmOrgnization() async {
+    var x = await appcntroler.addOrgnization("test", name: "org1");
+    var classroom = x.addClassroom("TestclassRoom1", classRoomName: "data science");
   }
 }
 
