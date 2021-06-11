@@ -22,58 +22,23 @@ enum EntityTyps {
 
 abstract class Entity {
   @mustCallSuper
-  Entity(this.entityId, {required this.entityTyps, required this.lastTimeEdited}) {
+  Entity(this.entityId, {required EntityTyps entityTyps, required this.lastTimeEdited}) {
+    this._entityTyps = entityTyps;
     if (this is Appcntroler) {
       print(this.runtimeType);
-
       collectionPath = "/";
     }
   }
 
-  bool _waitForDone = false;
-  final entityTyps;
+  late final EntityTyps _entityTyps;
   DateTime lastTimeEdited;
   Entity? _parent;
   late String collectionPath;
   @required
   final String entityId;
+  final List<HDMCollection> _childCollections = [];
 
   late DocumentReference _entityDocRef;
-
-  //region watingFor
-  List<_AsyncCallback> _waitForList = [];
-  Future<void> waitFor() async {
-    if (_parent != null) {
-      //firestobj
-
-      try {
-        _entityDocRef = FirebaseFirestore.instance.doc(collectionPath + '/' + entityId);
-      } catch (e) {
-        toast("erro ${collectionPath + entityId} path dosn't work $e ");
-
-        throw {"erro ${collectionPath + entityId} path dosn't work $e "};
-      }
-    }
-
-    _waitForList.forEach((e) async => await e());
-    await subWaitFor();
-    _waitForDone = true;
-  }
-
-  //endregion
-  //region   reFresj
-  List<_AsyncCallback> _reFreshForList = [];
-
-  Future<void> reFresh() async {
-    try {
-      _reFreshForList.forEach((e) async => await e());
-    } catch (e) {
-      //todo delete all data if opration fail
-      toast("there is an error on collection $Entity $e");
-    }
-  }
-
-  //endregion
 
   void _setPath(Entity parent, collection) {
     _parent = parent;
@@ -86,13 +51,44 @@ abstract class Entity {
     } else {
       collectionPath = _parent!.collectionPath + "/" + _parent!.entityId + "/" + collection;
     }
+    try {
+      _childCollections.forEach((e) => e._setIt());
+    } catch (e) {
+      //todo delete all data if opration fail
+      toast("there is an error on collection $Entity $e");
+    }
     print("Path of $Entity is $collectionPath <<<<<<<<<<<");
     //print(path);
   }
 
-  FutureOr<void> subWaitFor();
+  Future<void> waitFor() async {
+    if (_parent != null) {
+      //firestobj
+      try {
+        _entityDocRef = FirebaseFirestore.instance.doc(collectionPath + '/' + entityId);
+      } catch (e) {
+        toast("erro ${collectionPath + entityId} path dosn't work $e ");
 
-  void firstTimeInit();
+        throw {"erro ${collectionPath + entityId} path dosn't work $e "};
+      }
+    }
+
+    try {
+      _childCollections.forEach((e) => e._waitFor());
+    } catch (e) {
+      //todo delete all data if opration fail
+      toast("there is an error on collection $Entity $e");
+    }
+  }
+
+  Future<void> reFresh() async {
+    try {
+      _childCollections.forEach((e) => e._refresh());
+    } catch (e) {
+      //todo delete all data if opration fail
+      toast("there is an error on collection $Entity $e");
+    }
+  }
 
   factory Entity.fromJson(Map<String, dynamic> json) {
     switch (json["orgAccountType"] as EntityTyps) {
@@ -131,9 +127,10 @@ class HDMCollection<CollectionItem extends Entity> {
   late Box<String> objBox;
 
   HDMCollection(this._parent, this.collectionName) {
-    this._parent._waitForList.add(_waitFor);
-    this._parent._reFreshForList.add(refresh);
+    _parent._childCollections.add(this);
+  }
 
+  void _setIt() {
     if (this is HDMCollection<Organization>) {
       print(this.runtimeType);
 
@@ -148,6 +145,10 @@ class HDMCollection<CollectionItem extends Entity> {
 
   Future<void> _waitFor() async {
     objBox = await Hive.openBox(_collectionPath.replaceAll('/', "%%"));
+  }
+
+  Future<void> _refresh() async {
+    //todo check the last log and get all things from it to now
   }
 
   Future<void> add(CollectionItem obj) async {
@@ -178,10 +179,6 @@ class HDMCollection<CollectionItem extends Entity> {
     // }
 
     //   return succes;
-  }
-
-  Future<void> refresh() async {
-    //todo check the last log and get all things from it to now
   }
 
   Stream<List<CollectionItem>> get() {
