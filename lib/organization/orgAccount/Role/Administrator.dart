@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 
 import '../OrgAccount.dart';
 
@@ -8,13 +7,11 @@ part 'Administrator.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Administrator extends OrgAccount {
   Administrator(
-    String orgAccountId, {
-    String type = "administrator",
-    String orgid,
-    List<String> eventpointer,
-    DateTime lastTimeEdited,
-    Entity parent,
-  }) : super(orgAccountId, lastTimeEdited: lastTimeEdited, orgAccountType: type, orgid: orgid);
+    String entityId, {
+    required OrgAccountType orgAccountType,
+    required DateTime lastTimeEdited,
+    required String orgid,
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Administrator, orgid: orgid);
   //
   // void addAstudent(CollageStudent student) {
   //   this.personalHandler.students.add(student);

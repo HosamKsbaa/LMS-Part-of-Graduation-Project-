@@ -11,11 +11,11 @@ part 'Appcntroler.g.dart';
 //flutter packages pub run build_runner build
 //endregion
 class Appcntroler extends Entity {
-  Appcntroler() : super("", collection: "Appcntroler", lastTimeEdited: DateTime.now(), parent: null) {
+  Appcntroler() : super("", lastTimeEdited: DateTime.now(), entityTyps: EntityTyps.Appcntroler) {
     orgAccount = HDMCollection<Organization>(this, "Organization");
   }
   @JsonKey(ignore: true)
-  HDMCollection<Organization> orgAccount;
+  late HDMCollection<Organization> orgAccount;
 
   //region jsonApi
   factory Appcntroler.fromJson(Map<String, dynamic> json) => _$AppcntrolerFromJson(json);

@@ -1,16 +1,21 @@
 import 'QestionsTypes/MCQ.dart';
 import 'QestionsTypes/TrueFalse.dart';
 
+enum QestionType {
+  MCQ,
+  TrueFalse,
+}
+
 abstract class Qestion {
-  Qestion(this.qestionHead, this.qestionid, this.qestionSection, this.marks, this.seen, {this.qestionType});
+  Qestion({required this.qestionHead, required this.qestionid, required this.qestionSection, required this.marks, required this.seen, required this.qestionType});
 
   ///MCQ
-  final String qestionType;
+  final QestionType qestionType;
   final String qestionHead;
   final String qestionid;
   final String qestionSection;
-  double marks;
-  bool seen;
+  final double marks;
+  final bool seen;
   //region jsonApi
   factory Qestion.fromJson(Map<String, dynamic> json) {
     // if(Map[]){

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'ClassRoomPackage/ClassRoom.dart';
@@ -13,16 +12,15 @@ class Organization extends Entity {
 
   //region  complex Hosam stuff
   @JsonKey(ignore: true)
-  HDMCollection<OrgAccount> personal;
+  late HDMCollection<OrgAccount> personal;
   @JsonKey(ignore: true)
-  HDMCollection<ClassRoom> classroom;
+  late HDMCollection<ClassRoom> classroom;
 
   Organization(
-    String organizationId, {
-    @required this.name,
-    @required DateTime lastTimeEdited,
-    @required Entity parent,
-  }) : super(organizationId, lastTimeEdited: lastTimeEdited) {
+    String entityId, {
+    required this.name,
+    required DateTime lastTimeEdited,
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: EntityTyps.Organization) {
     personal = HDMCollection<OrgAccount>(this, "personal");
     classroom = HDMCollection<ClassRoom>(this, "classroom");
   }

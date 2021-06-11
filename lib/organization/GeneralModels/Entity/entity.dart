@@ -5,28 +5,38 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:lms/organization/Organization.dart';
+import 'package:lms/organization/orgAccount/OrgAccount.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import '../../Appcntroler.dart';
 
 typedef _AsyncCallback = Future<void> Function();
+enum EntityTyps {
+  Organization,
+  Appcntroler,
+  ActivitySignetre,
+  AccesLevel,
+  Log,
+  Hidden,
+}
 
 abstract class Entity {
   @mustCallSuper
   Entity(
     this.entityId, {
-    @required this.lastTimeEdited,
+    required this.entityTyps,
+    required this.lastTimeEdited,
   });
 
   bool _waitForDone = false;
-
+  final entityTyps;
   final DateTime lastTimeEdited;
-  Entity _parent;
-  String collectionPath;
+  late Entity _parent;
+  late String collectionPath;
   @required
   final String entityId;
 
-  DocumentReference _entityDocRef;
+  late DocumentReference _entityDocRef;
 
   //region watingFor
   List<_AsyncCallback> _waitForList = [];
@@ -52,7 +62,7 @@ abstract class Entity {
   //region   reFresj
   List<_AsyncCallback> _reFreshForList = [];
 
-  Future<void> reFresh() {
+  Future<void> reFresh() async {
     try {
       _reFreshForList.forEach((e) async => await e());
     } catch (e) {
@@ -82,9 +92,34 @@ abstract class Entity {
     //print(path);
   }
 
-  void subWaitFor();
+  FutureOr<void> subWaitFor();
 
   void firstTimeInit();
+
+  factory Entity.fromJson(Map<String, dynamic> json) {
+    switch (json["orgAccountType"] as EntityTyps) {
+      case EntityTyps.Organization:
+        return OrgAccount.fromJson(json);
+        break;
+      case EntityTyps.Appcntroler:
+        return OrgAccount.fromJson(json);
+        break;
+      case EntityTyps.ActivitySignetre:
+        return OrgAccount.fromJson(json);
+        break;
+      case EntityTyps.AccesLevel:
+        return OrgAccount.fromJson(json);
+        break;
+      case EntityTyps.Log:
+        return OrgAccount.fromJson(json);
+        break;
+      case EntityTyps.Hidden:
+        return OrgAccount.fromJson(json);
+        break;
+      default:
+        return throw {"Error undefined ${json["orgAccountType"]}}"};
+    }
+  }
 
   Map<String, dynamic> toJson();
 }
@@ -92,10 +127,10 @@ abstract class Entity {
 class HDMCollection<CollectionItem extends Entity> {
   final Entity _parent;
   final String collectionName;
-  String _collectionPath;
+  late String _collectionPath;
 
-  CollectionReference _collectionDocRef;
-  Box objBox;
+  late CollectionReference _collectionDocRef;
+  late Box objBox;
 
   HDMCollection(this._parent, this.collectionName) {
     this._parent._waitForList.add(_waitFor);
@@ -145,17 +180,17 @@ class HDMCollection<CollectionItem extends Entity> {
     //   return succes;
   }
 
-  Future<void> refresh() {
+  Future<void> refresh() async {
     //todo check the last log and get all things from it to now
   }
 
   Stream<List<CollectionItem>> get(Box<CollectionItem> box) {
     StreamController<List<CollectionItem>> controller = StreamController<List<CollectionItem>>();
 
-    controller.add(box.values.map((e) => jsonDecode(e as String)).toList());
+    controller.add(box.values.map<CollectionItem>((e) => Entity.fromJson(jsonDecode(e as String)) as CollectionItem).toList());
 
     box.watch().listen((event) {
-      controller.add(box.values.map((e) => jsonDecode(e as String)).toList());
+      controller.add(box.values.map<CollectionItem>((e) => Entity.fromJson(jsonDecode(e as String)) as CollectionItem).toList());
     });
 
     controller.onCancel = () {

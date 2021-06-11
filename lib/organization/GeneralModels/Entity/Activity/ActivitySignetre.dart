@@ -1,20 +1,20 @@
 //region header
 
+import 'package:json_annotation/json_annotation.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 
 import 'AccesLevel/AccesLevel.dart';
 import 'Log/Log.dart';
 
 abstract class ActivitySignetre extends Entity {
-  ActivitySignetre(String entityId, {this.postedAt, DateTime lastTimeEdited}) : super(entityId, lastTimeEdited: lastTimeEdited) {
+  ActivitySignetre(String entityId, {required DateTime lastTimeEdited}) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: EntityTyps.ActivitySignetre) {
     log = HDMCollection<Log>(this, "Log");
     accesLevel = HDMCollection<AccesLevel>(this, "Log");
   }
-
-  HDMCollection<Log> log;
-  HDMCollection<AccesLevel> accesLevel;
-
-  final DateTime postedAt;
+  @JsonKey(ignore: true)
+  late HDMCollection<Log> log;
+  @JsonKey(ignore: true)
+  late HDMCollection<AccesLevel> accesLevel;
 
   //region jsonApi
   // factory ActivitySignetre.fromJson(Map<String, dynamic> json) {

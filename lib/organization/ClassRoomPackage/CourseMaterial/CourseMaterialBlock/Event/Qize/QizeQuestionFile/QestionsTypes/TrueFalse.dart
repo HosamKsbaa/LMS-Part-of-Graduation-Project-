@@ -10,10 +10,10 @@ part 'TrueFalse.g.dart';
 //flutter packages pub run build_runner build
 //endregion
 class TrueFalse extends Qestion {
-  TrueFalse(String qestionHead, String qestionid, String qestionSection, double marks, {bool seen, String type: "TrueFalse"}) : super(qestionHead, qestionid, qestionSection, marks, seen, qestionType: type);
+  TrueFalse(String qestionHead, String qestionid, String qestionSection, double marks, this.anser, {required bool seen, required QestionType qestionType}) : super(qestionHead: qestionHead, qestionid: qestionid, qestionSection: qestionSection, marks: marks, seen: seen, qestionType: QestionType.MCQ);
 
   ///true = true , false = false
-  bool anser;
+  final bool anser;
 
   //region jsonApi
   factory TrueFalse.fromJson(Map<String, dynamic> json) => _$TrueFalseFromJson(json);

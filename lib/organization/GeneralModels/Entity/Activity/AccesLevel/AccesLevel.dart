@@ -9,7 +9,7 @@ part 'AccesLevel.g.dart';
 //flutter packages pub run build_runner build
 //endregion
 class AccesLevel extends Entity {
-  AccesLevel(String entityId, this.OrgAccountUid, this.accesLevel, DateTime lastTimeEdited) : super(entityId, lastTimeEdited: lastTimeEdited);
+  AccesLevel(String entityId, this.OrgAccountUid, this.accesLevel, DateTime lastTimeEdited) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: EntityTyps.AccesLevel);
   final String OrgAccountUid;
   List<AccesLevel> accesLevel;
 

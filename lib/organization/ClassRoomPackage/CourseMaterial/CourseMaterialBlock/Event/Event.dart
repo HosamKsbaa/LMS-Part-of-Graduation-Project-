@@ -2,9 +2,13 @@ import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialB
 
 import '../CourseMaterialBlock.dart';
 
+enum LMSEventType {
+  Quiz,
+}
+
 abstract class LMSEvent extends CourseMaterialBlock {
-  LMSEvent(String title, String userOrgnizationAccountId, DateTime postedAt, this.eventType, List<Importance> importance, {String courseMaterialType = "LMSEvent"}) : super(title, userOrgnizationAccountId, postedAt, courseMaterialType, importance);
-  final String eventType;
+  LMSEvent(String entityId, {required String title, required DateTime lastTimeEdited, required this.eventType, required List<Importance> importance}) : super(entityId, lastTimeEdited: lastTimeEdited, courseMaterialType: CourseMaterialType.Event, importance: importance, title: title);
+  final LMSEventType eventType;
   //region jsonApi
   factory LMSEvent.fromJson(Map<String, dynamic> json) {
     if (json["eventType"] == "Quiz")

@@ -1,8 +1,13 @@
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 
+enum HiddenType {
+  AnserFile,
+  qestionFile,
+}
+
 abstract class Hidden extends Entity {
-  final String hiddenType;
-  Hidden(String entityId, {this.hiddenType, String collection, Entity parent, DateTime lastTimeEdited}) : super(entityId, parent: parent, lastTimeEdited: lastTimeEdited, collection: "hiddenType");
+  final HiddenType hiddenType;
+  Hidden(String entityId, {required this.hiddenType, required DateTime lastTimeEdited}) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: EntityTyps.Hidden);
 
   //region jsonApi
   factory Hidden.fromJson(Map<String, dynamic> json) {

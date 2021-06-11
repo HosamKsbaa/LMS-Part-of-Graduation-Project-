@@ -11,7 +11,7 @@ part 'QestionsFile.g.dart';
 //flutter packages pub run build_runner build
 //endregion
 class QestionsFile extends Hidden {
-  QestionsFile(this.quizMainPage, this.qestionMap, {String hiddenType = "QestionsFile"}) : super(hiddenType);
+  QestionsFile(String entityId, {required this.quizMainPage, required this.qestionMap, required DateTime lastTimeEdited}) : super(entityId, lastTimeEdited: lastTimeEdited, hiddenType: HiddenType.qestionFile);
 
   final String quizMainPage;
   final Map<String, Qestion> qestionMap;

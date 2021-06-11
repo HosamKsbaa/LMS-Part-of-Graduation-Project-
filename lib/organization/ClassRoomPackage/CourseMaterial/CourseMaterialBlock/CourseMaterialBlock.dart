@@ -1,10 +1,14 @@
-import 'package:lms/organization/GeneralModels/Entity/entity.dart';
+import 'package:lms/organization/GeneralModels/Entity/Activity/ActivitySignetre.dart';
 
 import 'Event/Event.dart';
 
-abstract class CourseMaterialBlock extends Entity {
-  CourseMaterialBlock(this.title, String userOrgnizationAccountId, DateTime postedAt, this.courseMaterialType, this.importance, {String activitySignetreType = "CourseMaterialBlock"}) : super('', '', null);
-  final String courseMaterialType;
+enum CourseMaterialType {
+  Event,
+}
+
+abstract class CourseMaterialBlock extends ActivitySignetre {
+  CourseMaterialBlock(String entityId, {required this.title, required DateTime lastTimeEdited, required this.courseMaterialType, required this.importance}) : super(entityId, lastTimeEdited: lastTimeEdited);
+  final CourseMaterialType courseMaterialType;
   final String title;
   final List<Importance> importance;
 

@@ -1,24 +1,21 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
-import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 
 import '../OrgAccount.dart';
 
 part 'Student.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(nullable: true)
 class Student extends OrgAccount {
   final List<ClassRoom> classRoomList;
 
   Student(
-    String orgAccountId, {
-    this.classRoomList,
-    String type = "administrator",
-    String orgid,
-    List<String> eventpointer,
-    DateTime lastTimeEdited,
-    Entity parent,
-  }) : super(orgAccountId, lastTimeEdited: lastTimeEdited, parent: parent, orgAccountType: type, orgid: orgid);
+    String entityId, {
+    required this.classRoomList,
+    required OrgAccountType orgAccountType,
+    required DateTime lastTimeEdited,
+    required String orgid,
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Student, orgid: orgid);
   factory Student.fromJson(Map<String, dynamic> json) => _$StudentFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudentToJson(this);

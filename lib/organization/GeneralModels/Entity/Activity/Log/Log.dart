@@ -12,7 +12,8 @@ class Log extends Entity {
   final String orgAccountId;
   final String entityId;
   final Map event;
-  Log(this.entityId, {DateTime lastTimeEdited, this.orgAccountId, this.event}) : super(DateTime.now().toString(), lastTimeEdited: lastTimeEdited);
+
+  Log(this.entityId, {required DateTime lastTimeEdited, required this.orgAccountId, required this.event}) : super(DateTime.now().toString(), lastTimeEdited: lastTimeEdited, entityTyps: EntityTyps.Log);
   //region jsonApi
   factory Log.fromJson(Map<String, dynamic> json) => _$LogFromJson(json);
   Map<String, dynamic> toJson() => _$LogToJson(this);

@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
-import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 
 import '../OrgAccount.dart';
 
@@ -11,14 +10,12 @@ class Teacher extends OrgAccount {
   List<ClassRoom> coursesList;
 
   Teacher(
-    String orgAccountId, {
-    this.coursesList,
-    String type = "teacher",
-    String orgid,
-    List<String> eventpointer,
-    DateTime lastTimeEdited,
-    Entity parent,
-  }) : super(orgAccountId, lastTimeEdited: lastTimeEdited, parent: parent, orgAccountType: type, orgid: orgid);
+    String entityId, {
+    required this.coursesList,
+    required OrgAccountType orgAccountType,
+    required String orgid,
+    required DateTime lastTimeEdited,
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Teacher, orgid: orgid);
 
   factory Teacher.fromJson(Map<String, dynamic> json) => _$TeacherFromJson(json);
 
