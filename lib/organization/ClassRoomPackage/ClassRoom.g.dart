@@ -8,8 +8,8 @@ part of 'ClassRoom.dart';
 
 ClassRoom _$ClassRoomFromJson(Map<String, dynamic> json) {
   return ClassRoom(
+    json['entityId'] as String,
     classRoomName: json['classRoomName'] as String,
-    entityId: json['entityId'] as String,
     lastTimeEdited: DateTime.parse(json['lastTimeEdited'] as String),
   )..collectionPath = json['collectionPath'] as String;
 }

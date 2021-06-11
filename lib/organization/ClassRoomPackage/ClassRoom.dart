@@ -18,7 +18,7 @@ class ClassRoom extends ActivitySignetre {
   @JsonKey(ignore: true)
   late HDMCollection<CourseMaterialBlock> courseMaterial;
 
-  ClassRoom({required this.classRoomName, required String entityId, required DateTime lastTimeEdited}) : super(entityId, lastTimeEdited: lastTimeEdited) {
+  ClassRoom(String entityId, {required this.classRoomName, required DateTime lastTimeEdited}) : super(entityId, lastTimeEdited: lastTimeEdited) {
     personal = HDMCollection<OrgAccount>(this, "personal");
     hiddenDocs = HDMCollection<Hidden>(this, "hiddenDocs");
     courseMaterial = HDMCollection<CourseMaterialBlock>(this, "courseMaterial");

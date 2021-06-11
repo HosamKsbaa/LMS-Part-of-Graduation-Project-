@@ -7,10 +7,13 @@ part of 'Appcntroler.dart';
 // **************************************************************************
 
 Appcntroler _$AppcntrolerFromJson(Map<String, dynamic> json) {
-  return Appcntroler()..collectionPath = json['collectionPath'] as String;
+  return Appcntroler()
+    ..lastTimeEdited = DateTime.parse(json['lastTimeEdited'] as String)
+    ..collectionPath = json['collectionPath'] as String;
 }
 
 Map<String, dynamic> _$AppcntrolerToJson(Appcntroler instance) =>
     <String, dynamic>{
+      'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
     };

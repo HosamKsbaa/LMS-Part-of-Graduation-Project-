@@ -1,7 +1,7 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:lms/organization/Appcntroler.dart';
+import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
+import 'package:lms/organization/Organization.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 class AddAnOrgController {
@@ -25,10 +25,10 @@ class AddAnOrgController {
   void AddAClass(String classRoom) {}
 
   void addAmOrgnization() {
-    // var x = Organization(name: "Myorg", organizationId: "1");
-    // appcntroler.orgAccount.add(x);
-    // var classroom = ClassRoom(classRoomName: "data science", parent: x, classRoomId: "2");
-    // classroom.waitFor().then((value) => x.classroom.add(classroom));
+    var x = Organization("test", name: "org1", lastTimeEdited: DateTime.now());
+    appcntroler.orgAccount.add(x);
+    var classroom = ClassRoom("TestclassRoom1", classRoomName: "data science", lastTimeEdited: DateTime.now());
+    classroom.waitFor().then((value) => x.classroom.add(classroom));
   }
 }
 

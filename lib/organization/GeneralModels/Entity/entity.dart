@@ -22,15 +22,17 @@ enum EntityTyps {
 
 abstract class Entity {
   @mustCallSuper
-  Entity(
-    this.entityId, {
-    required this.entityTyps,
-    required this.lastTimeEdited,
-  });
+  Entity(this.entityId, {required this.entityTyps, required this.lastTimeEdited}) {
+    if (this is Appcntroler) {
+      print(this.runtimeType);
+
+      collectionPath = "/";
+    }
+  }
 
   bool _waitForDone = false;
   final entityTyps;
-  final DateTime lastTimeEdited;
+  DateTime lastTimeEdited;
   Entity? _parent;
   late String collectionPath;
   @required
@@ -79,10 +81,6 @@ abstract class Entity {
       print(this.runtimeType);
 
       collectionPath = '/Organization';
-    } else if (this is Appcntroler) {
-      print(this.runtimeType);
-
-      collectionPath = "/";
     } else if (_parent == null) {
       throw {"Has No paretn ${this.runtimeType}"};
     } else {
@@ -130,7 +128,7 @@ class HDMCollection<CollectionItem extends Entity> {
   late String _collectionPath;
 
   late CollectionReference _collectionDocRef;
-  late Box objBox;
+  late Box<String> objBox;
 
   HDMCollection(this._parent, this.collectionName) {
     this._parent._waitForList.add(_waitFor);
@@ -155,11 +153,13 @@ class HDMCollection<CollectionItem extends Entity> {
   Future<void> add(CollectionItem obj) async {
     //if (_parent._waitForDone == false) throw {"not initilized ${this.runtimeType}"};
     // bool succes = false;
-    _collectionDocRef = FirebaseFirestore.instance.collection(_collectionPath);
+    obj._setPath(_parent, collectionName);
 
+    _collectionDocRef = FirebaseFirestore.instance.collection(_collectionPath);
+    obj.lastTimeEdited = DateTime.now();
     await _collectionDocRef.doc(obj.entityId).set(obj.toJson());
-    var z = await Hive.openBox(_collectionPath.replaceAll('/', "%%"));
-    await z.put(
+    objBox = await Hive.openBox(_collectionPath.replaceAll('/', "%%"));
+    await objBox.put(
       obj.entityId,
       jsonEncode(obj.toJson()),
     );
@@ -184,13 +184,19 @@ class HDMCollection<CollectionItem extends Entity> {
     //todo check the last log and get all things from it to now
   }
 
-  Stream<List<CollectionItem>> get(Box<CollectionItem> box) {
+  Stream<List<CollectionItem>> get() {
+    CollectionItem tra(String e) {
+      var x = Entity.fromJson(jsonDecode(e));
+      x._setPath(_parent, collectionName);
+      return x as CollectionItem;
+    }
+
     StreamController<List<CollectionItem>> controller = StreamController<List<CollectionItem>>();
 
-    controller.add(box.values.map<CollectionItem>((e) => Entity.fromJson(jsonDecode(e as String)) as CollectionItem).toList());
+    controller.add(objBox.values.map<CollectionItem>(tra).toList());
 
-    box.watch().listen((event) {
-      controller.add(box.values.map<CollectionItem>((e) => Entity.fromJson(jsonDecode(e as String)) as CollectionItem).toList());
+    objBox.watch().listen((event) {
+      controller.add(objBox.values.map<CollectionItem>(tra).toList());
     });
 
     controller.onCancel = () {

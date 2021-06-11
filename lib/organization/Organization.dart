@@ -16,11 +16,7 @@ class Organization extends Entity {
   @JsonKey(ignore: true)
   late HDMCollection<ClassRoom> classroom;
 
-  Organization(
-    String entityId, {
-    required this.name,
-    required DateTime lastTimeEdited,
-  }) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: EntityTyps.Organization) {
+  Organization(String entityId, {required this.name, required DateTime lastTimeEdited}) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: EntityTyps.Organization) {
     personal = HDMCollection<OrgAccount>(this, "personal");
     classroom = HDMCollection<ClassRoom>(this, "classroom");
   }
