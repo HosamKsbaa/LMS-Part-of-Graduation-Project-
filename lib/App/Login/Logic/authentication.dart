@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,8 +9,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lms/App/MainPage/AccountsPage.dart';
 
 class Authentication {
-  static User user;
-  static SnackBar customSnackBar({@required String content}) {
+  static User? user;
+  static SnackBar customSnackBar({required String content}) {
     return SnackBar(
       backgroundColor: Colors.black,
       content: Text(
@@ -21,8 +21,8 @@ class Authentication {
   }
 
   static Future<void> addUser() async {
-    DocumentReference userPublicDoc = FirebaseFirestore.instance.collection('User Public Data').doc(Authentication.user.uid);
-    DocumentReference userPrivatDoc = FirebaseFirestore.instance.collection('User Private Data').doc(Authentication.user.uid);
+    DocumentReference userPublicDoc = FirebaseFirestore.instance.collection('User Public Data').doc(Authentication.user!.uid);
+    DocumentReference userPrivatDoc = FirebaseFirestore.instance.collection('User Private Data').doc(Authentication.user!.uid);
 
     bool exists;
 
@@ -32,15 +32,15 @@ class Authentication {
     if (!exists) {
       userPublicDoc
           .set({
-            'displayName': user.displayName,
+            'displayName': user!.displayName,
             'FCmToken': "",
-            "UserProfilePicURL": user.photoURL,
+            "UserProfilePicURL": user!.photoURL,
           })
           .then((value) => print("User Added"))
           .catchError((error) => print("Failed to add user: $error"));
       userPrivatDoc
           .set({
-            'FirstName': user.displayName,
+            'FirstName': user!.displayName,
             'LastName': "",
             'Gender': "",
             'PhoneNumber': "",
@@ -54,10 +54,10 @@ class Authentication {
     }
   }
 
-  static Future<FirebaseApp> initializeFirebase({@required BuildContext context}) async {
+  static Future<FirebaseApp> initializeFirebase({required BuildContext context}) async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
 
-    User theUser = FirebaseAuth.instance.currentUser;
+    User? theUser = FirebaseAuth.instance.currentUser;
 
     if (theUser != null) {
       user = theUser;
@@ -71,9 +71,9 @@ class Authentication {
     return firebaseApp;
   }
 
-  static Future<User> signInWithGoogle({@required BuildContext context}) async {
+  static Future<User?> signInWithGoogle({required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
-    User theUser;
+    User? theUser;
 
     if (kIsWeb) {
       GoogleAuthProvider authProvider = GoogleAuthProvider();
@@ -89,7 +89,7 @@ class Authentication {
     } else {
       final GoogleSignIn googleSignIn = GoogleSignIn();
 
-      final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
 
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
@@ -133,7 +133,7 @@ class Authentication {
     return theUser;
   }
 
-  static Future<void> signOut({@required BuildContext context}) async {
+  static Future<void> signOut({required BuildContext? context}) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
     try {
@@ -142,7 +142,7 @@ class Authentication {
       }
       await FirebaseAuth.instance.signOut();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(context!).showSnackBar(
         Authentication.customSnackBar(
           content: 'Error signing out. Try again.',
         ),

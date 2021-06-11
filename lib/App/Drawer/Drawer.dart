@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +11,8 @@ import 'package:x_bloc2/x_bloc2.dart';
 class HDmDrawerController {
 //region  Keys
   static const List<HDMKey<HDmDrawerController>> _keyList = [key1];
-  HDMMain<HDmDrawerController> data;
-  BuildContext context;
+  late HDMMain<HDmDrawerController> data;
+  BuildContext? context;
   void _start() => data = HDMMain<HDmDrawerController>(this, (HDMBox box) => _WidgetDrawer(this, box), _keyList);
   static const HDMKey<HDmDrawerController> key1 = HDMKey<HDmDrawerController>();
 
@@ -23,14 +23,14 @@ class HDmDrawerController {
   }
   bool showUserDetails = false;
 
-  void _moveToUserProfilePage() => hDMNavigatorPush(context, () => UserInfoScreen(user: Authentication.user));
+  void _moveToUserProfilePage() => hDMNavigatorPush(context!, () => UserInfoScreen(user: Authentication.user));
   void _signOut() {
-    Authentication.signOut(context: context).then((value) => hDMNavigatorpop(context, LogInController().data.play));
+    Authentication.signOut(context: context).then((value) => hDMNavigatorpop(context!, LogInController().data.play));
   }
 }
 
 class _WidgetDrawer extends HDMStatelessWidget<HDmDrawerController> {
-  _WidgetDrawer(HDmDrawerController app, HDMBox box) : super(app, box);
+  _WidgetDrawer(HDmDrawerController app, HDMBox box) : super(app, box as HDMBox<HDmDrawerController>);
 
   List<Widget> _buildDrawerList() {
     return <Widget>[
@@ -69,7 +69,7 @@ class _WidgetDrawer extends HDMStatelessWidget<HDmDrawerController> {
   @override
   Widget build(BuildContext context) {
     app.context = context;
-    print(Authentication.user.photoURL);
+    print(Authentication.user!.photoURL);
     return Drawer(
       // Add a ListView to the drawer. This ensures the user can scroll
       // through the options in the drawer if there isn't enough vertical
@@ -80,15 +80,15 @@ class _WidgetDrawer extends HDMStatelessWidget<HDmDrawerController> {
         padding: EdgeInsets.zero,
         children: <Widget>[
               UserAccountsDrawerHeader(
-                accountName: Text(Authentication.user.displayName),
-                accountEmail: Text(Authentication.user.email),
+                accountName: Text(Authentication.user!.displayName!),
+                accountEmail: Text(Authentication.user!.email!),
                 onDetailsPressed: () {
                   app.showUserDetails = !app.showUserDetails;
                   app.data.updateTheWholeApp();
                 },
                 currentAccountPicture: CachedNetworkImage(
                   placeholder: (context, url) => CircularProgressIndicator(),
-                  imageUrl: Authentication.user.photoURL,
+                  imageUrl: Authentication.user!.photoURL!,
                 ),
               )
             ] +

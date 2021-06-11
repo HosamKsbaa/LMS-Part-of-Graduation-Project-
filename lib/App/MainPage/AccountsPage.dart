@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ import '_/AddAnOrg.dart';
 class AccountsPageController {
 //region  Keys
   static const List<HDMKey<AccountsPageController>> _keyList = [key1];
-  HDMMain<AccountsPageController> data;
+  late HDMMain<AccountsPageController> data;
 
   void _start() => data = HDMMain<AccountsPageController>(this, (HDMBox box) => _WidgetAccountsPage(this, box), _keyList);
   static const HDMKey<AccountsPageController> key1 = HDMKey<AccountsPageController>();
@@ -21,7 +21,7 @@ class AccountsPageController {
   AccountsPageController() {
     _start();
   }
-  BuildContext _context;
+  late BuildContext _context;
   List<OrgAccount> accounts = [];
   void addAccount() {
     hDMNavigatorPush(_context, AddAnOrgController().data.play);
@@ -31,7 +31,7 @@ class AccountsPageController {
 }
 
 class _WidgetAccountsPage extends HDMStatelessWidget<AccountsPageController> {
-  _WidgetAccountsPage(AccountsPageController app, HDMBox box) : super(app, box);
+  _WidgetAccountsPage(AccountsPageController app, HDMBox box) : super(app, box as HDMBox<AccountsPageController>);
 
   @override
   Widget build(BuildContext context) {

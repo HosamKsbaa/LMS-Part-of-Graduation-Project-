@@ -1,4 +1,4 @@
-// @dart=2.9
+
 
 import 'package:flutter/material.dart';
 import 'package:x_bloc2/x_bloc2.dart';
@@ -10,7 +10,7 @@ import 'Widgets/widgets/google_sign_in_button.dart';
 class LogInController {
 //region  Keys
   static const List<HDMKey<LogInController>> _keyList = [key1];
-  HDMMain<LogInController> data;
+  late HDMMain<LogInController> data;
 
   void _start() => data = HDMMain<LogInController>(this, (HDMBox box) => _WidgetLogIn(this, box), _keyList);
   static const HDMKey<LogInController> key1 = HDMKey<LogInController>();
@@ -22,7 +22,7 @@ class LogInController {
 }
 
 class _WidgetLogIn extends HDMStatelessWidget<LogInController> {
-  _WidgetLogIn(LogInController app, HDMBox box) : super(app, box);
+  _WidgetLogIn(LogInController app, HDMBox box) : super(app, box as HDMBox<LogInController>);
 
   @override
   Widget build(BuildContext context) {
