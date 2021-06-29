@@ -10,8 +10,9 @@ class Owner extends OrgAccount {
     String entityId, {
     required OrgAccountType orgAccountType,
     required DateTime lastTimeEdited,
+    required String uid,
     required String orgid,
-  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Owner, orgid: orgid);
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Owner, orgid: orgid, uid: uid);
   factory Owner.fromJson(Map<String, dynamic> json) => _$OwnerFromJson(json);
 
   Map<String, dynamic> toJson() => _$OwnerToJson(this);

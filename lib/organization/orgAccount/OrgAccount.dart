@@ -18,10 +18,12 @@ abstract class OrgAccount extends ActivitySignetre {
   final String orgid;
 
   // final List<String> eventpointer;
+  final String uid;
   final OrgAccountType orgAccountType;
 
   OrgAccount(
     String entityId, {
+    required this.uid,
     required this.orgid,
     required this.orgAccountType,
     required DateTime lastTimeEdited,

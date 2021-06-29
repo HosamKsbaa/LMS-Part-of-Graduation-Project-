@@ -3,6 +3,8 @@ import 'package:lms/organization/GeneralModels/Entity/Activity/ActivitySignetre.
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 import 'package:lms/organization/GeneralModels/HiddenFile/Hidden.dart';
 import 'package:lms/organization/orgAccount/OrgAccount.dart';
+import 'package:lms/organization/orgAccount/OrgAccountPointer.dart';
+import 'package:lms/organization/orgAccount/Role/Teacher.dart';
 
 import 'CourseMaterial/CourseMaterialBlock/CourseMaterialBlock.dart';
 
@@ -11,15 +13,14 @@ part 'ClassRoom.g.dart';
 @JsonSerializable(explicitToJson: true)
 class ClassRoom extends ActivitySignetre {
   late String classRoomName;
-  @JsonKey(ignore: true)
-  late HDMCollection<OrgAccount> personal;
+
   @JsonKey(ignore: true)
   late HDMCollection<Hidden> hiddenDocs;
   @JsonKey(ignore: true)
   late HDMCollection<CourseMaterialBlock> courseMaterial;
 
   ClassRoom(String entityId, {required this.classRoomName, required DateTime lastTimeEdited}) : super(entityId, lastTimeEdited: lastTimeEdited) {
-    personal = HDMCollection<OrgAccount>(this, "personal");
+    personalPointer = HDMCollection<OrgAccountPointer>(this, "personalPointer");
     hiddenDocs = HDMCollection<Hidden>(this, "hiddenDocs");
     courseMaterial = HDMCollection<CourseMaterialBlock>(this, "courseMaterial");
   }
@@ -28,13 +29,19 @@ class ClassRoom extends ActivitySignetre {
 
   Map<String, dynamic> toJson() => _$ClassRoomToJson(this);
 
-  @override
-  void firstTimeInit() {
-    // TODO: implement firstTimeInit
+  //region personalPointer
+  @JsonKey(ignore: true)
+  late HDMCollection<OrgAccountPointer> personalPointer;
+  void addTeacher(Teacher teacher) {
+    var obj = OrgAccountPointer(
+      teacher.entityId,
+      orgAccountid: teacher.entityId,
+      lastTimeEdited: DateTime.now(),
+      orgAccountType: OrgAccountType.Teacher,
+      entityTyps: EntityTyps.orgAccountPointer,
+    );
+    personalPointer.add(obj);
   }
 
-  @override
-  void subWaitFor() {
-    // TODO: implement subWaitFor
-  }
+  //endregion
 }

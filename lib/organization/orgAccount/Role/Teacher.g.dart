@@ -15,6 +15,7 @@ Teacher _$TeacherFromJson(Map<String, dynamic> json) {
     orgAccountType:
         _$enumDecode(_$OrgAccountTypeEnumMap, json['orgAccountType']),
     orgid: json['orgid'] as String,
+    uid: json['uid'] as String,
     lastTimeEdited: DateTime.parse(json['lastTimeEdited'] as String),
   )..collectionPath = json['collectionPath'] as String;
 }
@@ -24,6 +25,7 @@ Map<String, dynamic> _$TeacherToJson(Teacher instance) => <String, dynamic>{
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
       'orgid': instance.orgid,
+      'uid': instance.uid,
       'orgAccountType': _$OrgAccountTypeEnumMap[instance.orgAccountType],
       'coursesList': instance.coursesList,
     };

@@ -23,7 +23,7 @@ class Organization extends Entity {
 
   @JsonKey(ignore: true)
   late HDMCollection<ClassRoom> classroom;
-  Future<ClassRoom> addClassroom(String entityId, {required String classRoomName}) async {
+  Future<ClassRoom> addClassroom(String uid, {required String classRoomName}) async {
     var x = ClassRoom(entityId, lastTimeEdited: DateTime.now(), classRoomName: classRoomName);
     await classroom.add(x);
     return x;
@@ -34,38 +34,49 @@ class Organization extends Entity {
   @JsonKey(ignore: true)
   late HDMCollection<OrgAccount> personal;
 
-  Future<OrgAccount> addOwner(String entityId) async {
-    var x = Owner(entityId, lastTimeEdited: DateTime.now(), orgAccountType: OrgAccountType.Owner, orgid: this.entityId);
+  Future<OrgAccount> addOwner(String uid) async {
+    OrgAccountType orgAccountType = OrgAccountType.Owner;
+    var x = Owner(orgAccountType.toString() + " - " + uid, lastTimeEdited: DateTime.now(), orgAccountType: orgAccountType, orgid: this.entityId, uid: uid);
     await personal.add(x);
     return x;
   }
 
-  Future<OrgAccount> addAdministrator(String entityId) async {
-    var x = Administrator(entityId, lastTimeEdited: DateTime.now(), orgAccountType: OrgAccountType.Administrator, orgid: this.entityId);
+  Future<OrgAccount> addAdministrator(String uid) async {
+    OrgAccountType orgAccountType = OrgAccountType.Administrator;
+
+    var x = Administrator(orgAccountType.toString() + " - " + uid, lastTimeEdited: DateTime.now(), orgAccountType: orgAccountType, orgid: this.entityId, uid: uid);
     await personal.add(x);
     return x;
   }
 
-  Future<OrgAccount> addOrgAccount(String entityId) async {
-    var x = Owner(entityId, lastTimeEdited: DateTime.now(), orgAccountType: OrgAccountType.Owner, orgid: this.entityId);
+  Future<OrgAccount> addOrgAccount(String uid) async {
+    OrgAccountType orgAccountType = OrgAccountType.Owner;
+
+    var x = Owner(orgAccountType.toString() + " - " + uid, lastTimeEdited: DateTime.now(), orgAccountType: orgAccountType, orgid: this.entityId, uid: uid);
     await personal.add(x);
     return x;
   }
 
-  Future<OrgAccount> addTeacher(String entityId) async {
-    var x = Teacher(entityId, lastTimeEdited: DateTime.now(), orgAccountType: OrgAccountType.Teacher, orgid: this.entityId, coursesList: []);
+  Future<OrgAccount> addTeacher(String uid) async {
+    OrgAccountType orgAccountType = OrgAccountType.Teacher;
+
+    var x = Teacher(orgAccountType.toString() + " - " + uid, lastTimeEdited: DateTime.now(), orgAccountType: orgAccountType, orgid: this.entityId, coursesList: [], uid: uid);
     await personal.add(x);
     return x;
   }
 
-  Future<OrgAccount> addStudent(String entityId) async {
-    var x = Student(entityId, lastTimeEdited: DateTime.now(), orgAccountType: OrgAccountType.Student, orgid: this.entityId, classRoomList: []);
+  Future<OrgAccount> addStudent(String uid) async {
+    OrgAccountType orgAccountType = OrgAccountType.Student;
+
+    var x = Student(orgAccountType.toString() + " - " + uid, lastTimeEdited: DateTime.now(), orgAccountType: orgAccountType, orgid: this.entityId, classRoomList: [], uid: uid);
     await personal.add(x);
     return x;
   }
 
-  Future<OrgAccount> addParent(String entityId) async {
-    var x = Parent(entityId, lastTimeEdited: DateTime.now(), orgAccountType: OrgAccountType.Parent, orgid: this.entityId);
+  Future<OrgAccount> addParent(String uid) async {
+    OrgAccountType orgAccountType = OrgAccountType.Parent;
+
+    var x = Parent(orgAccountType.toString() + " - " + uid, lastTimeEdited: DateTime.now(), orgAccountType: orgAccountType, orgid: this.entityId, uid: uid);
     await personal.add(x);
     return x;
   }

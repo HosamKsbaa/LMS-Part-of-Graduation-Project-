@@ -14,8 +14,9 @@ class Teacher extends OrgAccount {
     required this.coursesList,
     required OrgAccountType orgAccountType,
     required String orgid,
+    required String uid,
     required DateTime lastTimeEdited,
-  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Teacher, orgid: orgid);
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Teacher, orgid: orgid, uid: uid);
 
   factory Teacher.fromJson(Map<String, dynamic> json) => _$TeacherFromJson(json);
 

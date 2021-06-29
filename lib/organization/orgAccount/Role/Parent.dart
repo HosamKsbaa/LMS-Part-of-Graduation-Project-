@@ -10,8 +10,9 @@ class Parent extends OrgAccount {
     String entityId, {
     required OrgAccountType orgAccountType,
     required DateTime lastTimeEdited,
+    required String uid,
     required String orgid,
-  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Parent, orgid: orgid);
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Parent, orgid: orgid, uid: uid);
 
   factory Parent.fromJson(Map<String, dynamic> json) => _$ParentFromJson(json);
 

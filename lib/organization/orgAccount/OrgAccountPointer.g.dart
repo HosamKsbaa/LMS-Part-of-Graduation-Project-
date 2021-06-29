@@ -1,29 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'Parent.dart';
+part of 'OrgAccountPointer.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Parent _$ParentFromJson(Map<String, dynamic> json) {
-  return Parent(
+OrgAccountPointer _$OrgAccountPointerFromJson(Map<String, dynamic> json) {
+  return OrgAccountPointer(
     json['entityId'] as String,
+    orgAccountid: json['orgAccountid'] as String,
     orgAccountType:
         _$enumDecode(_$OrgAccountTypeEnumMap, json['orgAccountType']),
+    entityTyps: _$enumDecode(_$EntityTypsEnumMap, json['entityTyps']),
     lastTimeEdited: DateTime.parse(json['lastTimeEdited'] as String),
-    uid: json['uid'] as String,
-    orgid: json['orgid'] as String,
   )..collectionPath = json['collectionPath'] as String;
 }
 
-Map<String, dynamic> _$ParentToJson(Parent instance) => <String, dynamic>{
+Map<String, dynamic> _$OrgAccountPointerToJson(OrgAccountPointer instance) =>
+    <String, dynamic>{
+      'entityTyps': _$EntityTypsEnumMap[instance.entityTyps],
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
-      'orgid': instance.orgid,
-      'uid': instance.uid,
       'orgAccountType': _$OrgAccountTypeEnumMap[instance.orgAccountType],
+      'orgAccountid': instance.orgAccountid,
     };
 
 K _$enumDecode<K, V>(
@@ -58,4 +59,16 @@ const _$OrgAccountTypeEnumMap = {
   OrgAccountType.Parent: 'Parent',
   OrgAccountType.Student: 'Student',
   OrgAccountType.Teacher: 'Teacher',
+};
+
+const _$EntityTypsEnumMap = {
+  EntityTyps.Organization: 'Organization',
+  EntityTyps.ActivitySignetre: 'ActivitySignetre',
+  EntityTyps.AccesLevel: 'AccesLevel',
+  EntityTyps.Log: 'Log',
+  EntityTyps.Hidden: 'Hidden',
+  EntityTyps.orgAccountPointer: 'orgAccountPointer',
+  EntityTyps.RootEntity: 'RootEntity',
+  EntityTyps.UserPriviteDate: 'UserPriviteDate',
+  EntityTyps.UserPublicData: 'UserPublicData',
 };

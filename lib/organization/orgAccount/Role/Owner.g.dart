@@ -12,6 +12,7 @@ Owner _$OwnerFromJson(Map<String, dynamic> json) {
     orgAccountType:
         _$enumDecode(_$OrgAccountTypeEnumMap, json['orgAccountType']),
     lastTimeEdited: DateTime.parse(json['lastTimeEdited'] as String),
+    uid: json['uid'] as String,
     orgid: json['orgid'] as String,
   )..collectionPath = json['collectionPath'] as String;
 }
@@ -21,6 +22,7 @@ Map<String, dynamic> _$OwnerToJson(Owner instance) => <String, dynamic>{
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
       'orgid': instance.orgid,
+      'uid': instance.uid,
       'orgAccountType': _$OrgAccountTypeEnumMap[instance.orgAccountType],
     };
 

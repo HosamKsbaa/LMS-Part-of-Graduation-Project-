@@ -4,29 +4,33 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
+import 'package:lms/User/UserPriviteDate.dart';
+import 'package:lms/User/UserPublicData.dart';
 import 'package:lms/organization/Organization.dart';
 import 'package:lms/organization/orgAccount/OrgAccount.dart';
+import 'package:lms/organization/orgAccount/OrgAccountPointer.dart';
 import 'package:overlay_support/overlay_support.dart';
 
-import '../../Appcntroler.dart';
+import 'RootEntity/RootEntity.dart';
 
-typedef _AsyncCallback = Future<void> Function();
 enum EntityTyps {
   Organization,
-  Appcntroler,
+  // Appcntroler,
   ActivitySignetre,
   AccesLevel,
   Log,
   Hidden,
+  orgAccountPointer,
+  RootEntity,
+  UserPriviteDate,
+  UserPublicData,
 }
 
 abstract class Entity {
   @mustCallSuper
-  Entity(this.entityId, {required EntityTyps entityTyps, required this.lastTimeEdited}) {
-    this._entityTyps = entityTyps;
-  }
+  Entity(this.entityId, {required this.entityTyps, required this.lastTimeEdited});
 
-  late final EntityTyps _entityTyps;
+  final EntityTyps entityTyps;
   DateTime lastTimeEdited;
   Entity? _parent;
   late String collectionPath;
@@ -39,7 +43,7 @@ abstract class Entity {
   void setPath(Entity? parent, collection) {
     _parent = parent;
 
-    if (this is Appcntroler) {
+    if (this is RootEntity) {
       print(this.runtimeType);
       collectionPath = "/";
     } else if (this is Organization) {
@@ -95,8 +99,8 @@ abstract class Entity {
       case EntityTyps.Organization:
         return OrgAccount.fromJson(json);
         break;
-      case EntityTyps.Appcntroler:
-        return OrgAccount.fromJson(json);
+      case EntityTyps.RootEntity:
+        return RootEntity.fromJson(json);
         break;
       case EntityTyps.ActivitySignetre:
         return OrgAccount.fromJson(json);
@@ -109,6 +113,15 @@ abstract class Entity {
         break;
       case EntityTyps.Hidden:
         return OrgAccount.fromJson(json);
+        break;
+      case EntityTyps.orgAccountPointer:
+        return OrgAccountPointer.fromJson(json);
+        break;
+      case EntityTyps.UserPublicData:
+        return UserPublicData.fromJson(json);
+        break;
+      case EntityTyps.UserPriviteDate:
+        return UserPriviteDate.fromJson(json);
         break;
       default:
         return throw {"Error undefined ${json["orgAccountType"]}}"};

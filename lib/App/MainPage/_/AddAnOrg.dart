@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lms/organization/Appcntroler.dart';
+import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
 import 'package:x_bloc2/x_bloc2.dart';
+
+import 'AddAnOrgPage/AddOrgInffo.dart';
 
 class AddAnOrgController {
 //region  Keys
@@ -16,15 +18,13 @@ class AddAnOrgController {
   }
   void nextStepOrg() {}
   void nextStepclass() {}
-  Appcntroler appcntroler = Appcntroler();
 
   Future<void> CreatAnOrg(String orgName) async {}
 
   void AddAClass(String classRoom) {}
 
-  Future<void> addAmOrgnization() async {
-    var x = await appcntroler.addOrgnization("test", name: "org1");
-    var classroom = x.addClassroom("TestclassRoom1", classRoomName: "data science");
+  Future<void> addAmOrgnization(BuildContext context) async {
+    hDMNavigatorPush(context, AddOrgInffoController().data.play);
   }
 }
 
@@ -39,7 +39,7 @@ class _WidgetAddAnOrg extends HDMStatelessWidget<AddAnOrgController> {
         children: [
           Card(
             child: ListTile(
-              onTap: app.addAmOrgnization,
+              onTap: () => app.addAmOrgnization(context),
               //enabled: false,
               trailing: Icon(Icons.business_outlined),
               title: Text("Create A new organization"),

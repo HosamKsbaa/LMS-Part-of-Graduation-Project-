@@ -14,8 +14,9 @@ class Student extends OrgAccount {
     required this.classRoomList,
     required OrgAccountType orgAccountType,
     required DateTime lastTimeEdited,
+    required String uid,
     required String orgid,
-  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Student, orgid: orgid);
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Student, orgid: orgid, uid: uid);
   factory Student.fromJson(Map<String, dynamic> json) => _$StudentFromJson(json);
 
   Map<String, dynamic> toJson() => _$StudentToJson(this);

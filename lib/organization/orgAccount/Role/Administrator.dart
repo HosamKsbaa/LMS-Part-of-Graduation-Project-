@@ -10,8 +10,9 @@ class Administrator extends OrgAccount {
     String entityId, {
     required OrgAccountType orgAccountType,
     required DateTime lastTimeEdited,
+    required String uid,
     required String orgid,
-  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Administrator, orgid: orgid);
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Administrator, orgid: orgid, uid: uid);
   //
   // void addAstudent(CollageStudent student) {
   //   this.personalHandler.students.add(student);

@@ -30,6 +30,9 @@ class AccesLevel extends Entity {
 }
 
 enum AccessLevel {
+  CanEditeAccesLevel,
+  CanReadAccesLevel,
+  CanReadLog,
   Read, // R
   right, //w
   delete, //D
