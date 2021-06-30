@@ -95,7 +95,7 @@ class _WidgetSignUpInfo extends HDMStatelessWidget<SignUpInfoController> {
                             onPressed: () => app.SignUpAnewUser(context),
                             child: Text('Submit'),
                           ),
-                          // Add TextFormFields and ElevatedButton here.
+                          // Add TextFormFields and ElevatedButton here
                         ],
                       ),
                     ),
