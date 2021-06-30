@@ -182,6 +182,9 @@ class Appcntroler extends RootEntity {
   Future<Organization> addOrgnization(String entityId, {required String name}) async {
     var x = Organization(entityId, lastTimeEdited: DateTime.now(), name: name);
     await orgAccount.add(x);
+    var theorgAccount = await x.addOwner(userUid);
+
+    this.usedrPriviteDate!.addAnOrgAccountPinter(theorgAccount);
     return x;
   }
 
