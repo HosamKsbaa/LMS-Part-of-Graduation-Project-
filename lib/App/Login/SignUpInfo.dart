@@ -49,7 +49,7 @@ class _WidgetSignUpInfo extends HDMStatelessWidget<SignUpInfoController> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    CustomText(onSaved: (v) => app.displayName = v!, labelText: "displayName"),
+                    CustomText(onSaved: (v) => app.displayName = v!, labelText: "displayName", prefiex: Icon(Icons.ac_unit),),
                     CustomText(onSaved: (v) => app.firstName = v!, labelText: "firstName"),
                     CustomText(onSaved: (v) => app.lastName = v!, labelText: "lastName"),
                     CustomText(onSaved: (v) => app.PhoneNumber = v!, labelText: "PhoneNumber"),
@@ -91,8 +91,9 @@ class _WidgetSignUpInfo extends HDMStatelessWidget<SignUpInfoController> {
 }
 
 class CustomText extends StatelessWidget {
-  const CustomText({Key? key, required this.onSaved, required this.labelText}) : super(key: key);
+  const CustomText({Key? key, required this.onSaved, required this.labelText, this.prefiex}) : super(key: key);
   final String? labelText;
+  final Icon? prefiex;
   final void Function(String?)? onSaved;
   @override
   Widget build(BuildContext context) {
@@ -106,6 +107,7 @@ class CustomText extends StatelessWidget {
           enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
           hoverColor: Colors.white,
           labelText: labelText,
+          
         ),
         validator: (value) {
           if (value == null || value.isEmpty) {
