@@ -1,23 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lms/App/Login/Logic/authentication.dart';
 import 'package:lms/App/Login/Widgets/res/custom_colors.dart';
 
+import '../../../../main.dart';
 import '../../LogIn.dart';
 
 class UserInfoScreen extends StatefulWidget {
-  const UserInfoScreen({Key key, @required User user})
+  const UserInfoScreen({Key? key, required User? user})
       : _user = user,
         super(key: key);
 
-  final User _user;
+  final User? _user;
 
   @override
   _UserInfoScreenState createState() => _UserInfoScreenState();
 }
 
 class _UserInfoScreenState extends State<UserInfoScreen> {
-  User _user;
+  User? _user;
   bool _isSigningOut = false;
 
   Route _routeToSignInScreen() {
@@ -65,12 +65,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(),
-              _user.photoURL != null
+              _user!.photoURL != null
                   ? ClipOval(
                       child: Material(
                         color: CustomColors.firebaseGrey.withOpacity(0.3),
                         child: Image.network(
-                          _user.photoURL,
+                          _user!.photoURL!,
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -98,7 +98,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               ),
               SizedBox(height: 8.0),
               Text(
-                _user.displayName,
+                _user!.displayName!,
                 style: TextStyle(
                   color: CustomColors.firebaseYellow,
                   fontSize: 26,
@@ -106,7 +106,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               ),
               SizedBox(height: 8.0),
               Text(
-                '( ${_user.email} )',
+                '( ${_user!.email} )',
                 style: TextStyle(
                   color: CustomColors.firebaseOrange,
                   fontSize: 20,
@@ -138,7 +138,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         setState(() {
                           _isSigningOut = true;
                         });
-                        await Authentication.signOut(context: context);
+                        await TheApp.appcntroler.signOut(context: context);
                         setState(() {
                           _isSigningOut = false;
                         });

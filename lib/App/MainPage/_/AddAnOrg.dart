@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
 import 'package:x_bloc2/x_bloc2.dart';
+
+import 'AddAnOrgPage/AddOrgInffo.dart';
 
 class AddAnOrgController {
 //region  Keys
   static const List<HDMKey<AddAnOrgController>> _keyList = [key1];
-  HDMMain<AddAnOrgController> data;
+  late HDMMain<AddAnOrgController> data;
 
   void _start() => data = HDMMain<AddAnOrgController>(this, (HDMBox box) => _WidgetAddAnOrg(this, box), _keyList);
   static const HDMKey<AddAnOrgController> key1 = HDMKey<AddAnOrgController>();
@@ -15,10 +18,18 @@ class AddAnOrgController {
   }
   void nextStepOrg() {}
   void nextStepclass() {}
+
+  Future<void> CreatAnOrg(String orgName) async {}
+
+  void AddAClass(String classRoom) {}
+
+  Future<void> addAmOrgnization(BuildContext context) async {
+    hDMNavigatorPush(context, AddOrgInffoController().data.play);
+  }
 }
 
 class _WidgetAddAnOrg extends HDMStatelessWidget<AddAnOrgController> {
-  _WidgetAddAnOrg(AddAnOrgController app, HDMBox box) : super(app, box);
+  _WidgetAddAnOrg(AddAnOrgController app, HDMBox box) : super(app, box as HDMBox<AddAnOrgController>);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +39,8 @@ class _WidgetAddAnOrg extends HDMStatelessWidget<AddAnOrgController> {
         children: [
           Card(
             child: ListTile(
-              enabled: false,
+              onTap: () => app.addAmOrgnization(context),
+              //enabled: false,
               trailing: Icon(Icons.business_outlined),
               title: Text("Create A new organization"),
               leading: Icon(Icons.add),
