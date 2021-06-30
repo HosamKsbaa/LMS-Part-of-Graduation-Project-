@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 
 import '../OrgAccount.dart';
 
@@ -12,7 +13,8 @@ class Administrator extends OrgAccount {
     required DateTime lastTimeEdited,
     required String uid,
     required String orgid,
-  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Administrator, orgid: orgid, uid: uid);
+    required EntityTyps entityTyps,
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Administrator, orgid: orgid, uid: uid, entityTyps: entityTyps);
   //
   // void addAstudent(CollageStudent student) {
   //   this.personalHandler.students.add(student);

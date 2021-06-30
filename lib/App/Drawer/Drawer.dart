@@ -1,12 +1,11 @@
-
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
 import 'package:lms/App/Login/LogIn.dart';
-import 'package:lms/App/Login/Logic/authentication.dart';
 import 'package:lms/App/Login/Widgets/screens/user_info_screen.dart';
 import 'package:x_bloc2/x_bloc2.dart';
+
+import '../../main.dart';
 
 class HDmDrawerController {
 //region  Keys
@@ -23,9 +22,9 @@ class HDmDrawerController {
   }
   bool showUserDetails = false;
 
-  void _moveToUserProfilePage() => hDMNavigatorPush(context!, () => UserInfoScreen(user: Authentication.user));
+  void _moveToUserProfilePage() => hDMNavigatorPush(context!, () => UserInfoScreen(user: TheApp.appcntroler.user));
   void _signOut() {
-    Authentication.signOut(context: context).then((value) => hDMNavigatorpop(context!, LogInController().data.play));
+    TheApp.appcntroler.signOut(context: context).then((value) => hDMNavigatorpop(context!, LogInController().data.play));
   }
 }
 
@@ -69,7 +68,7 @@ class _WidgetDrawer extends HDMStatelessWidget<HDmDrawerController> {
   @override
   Widget build(BuildContext context) {
     app.context = context;
-    print(Authentication.user!.photoURL);
+    //  print(TheApp.appcntroler.user!.photoURL);
     return Drawer(
       // Add a ListView to the drawer. This ensures the user can scroll
       // through the options in the drawer if there isn't enough vertical
@@ -80,15 +79,15 @@ class _WidgetDrawer extends HDMStatelessWidget<HDmDrawerController> {
         padding: EdgeInsets.zero,
         children: <Widget>[
               UserAccountsDrawerHeader(
-                accountName: Text(Authentication.user!.displayName!),
-                accountEmail: Text(Authentication.user!.email!),
+                accountName: Text(TheApp.appcntroler.user!.displayName!),
+                accountEmail: Text(TheApp.appcntroler.user!.email!),
                 onDetailsPressed: () {
                   app.showUserDetails = !app.showUserDetails;
                   app.data.updateTheWholeApp();
                 },
                 currentAccountPicture: CachedNetworkImage(
                   placeholder: (context, url) => CircularProgressIndicator(),
-                  imageUrl: Authentication.user!.photoURL!,
+                  imageUrl: TheApp.appcntroler.user!.photoURL!,
                 ),
               )
             ] +

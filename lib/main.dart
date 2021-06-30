@@ -1,13 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
 
-import 'App/Login/LogIn.dart';
-import 'App/Login/Logic/authentication.dart';
-import 'App/MainPage/AccountsPage.dart';
+import 'MainControler.dart';
 import 'organization/orgnizationAccountControler.dart';
 
 //flutter packages pub run build_runner build --delete-conflicting-outputs
@@ -38,25 +35,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: StreamBuilder<User?>(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.active) {
-                User? user = snapshot.data;
-                if (user == null) {
-                  return LogInController().data.play();
-                }
-                Authentication.user = user;
-                return AccountsPageController().data.play();
-              } else {
-                return Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
-            },
-          )
+          home: MainControlerController().data.play()
           //home: ,
           ),
     );

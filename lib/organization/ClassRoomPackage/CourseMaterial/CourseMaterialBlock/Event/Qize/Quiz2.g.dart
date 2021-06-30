@@ -17,13 +17,19 @@ Quiz _$QuizFromJson(Map<String, dynamic> json) {
     importance: (json['importance'] as List<dynamic>)
         .map((e) => _$enumDecode(_$ImportanceEnumMap, e))
         .toList(),
+    entityTyps: _$enumDecode(_$EntityTypsEnumMap, json['entityTyps']),
+    activitySignetreTyps: _$enumDecode(
+        _$ActivitySignetreTypsEnumMap, json['activitySignetreTyps']),
   )..collectionPath = json['collectionPath'] as String;
 }
 
 Map<String, dynamic> _$QuizToJson(Quiz instance) => <String, dynamic>{
+      'entityTyps': _$EntityTypsEnumMap[instance.entityTyps],
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
+      'activitySignetreTyps':
+          _$ActivitySignetreTypsEnumMap[instance.activitySignetreTyps],
       'title': instance.title,
       'importance':
           instance.importance.map((e) => _$ImportanceEnumMap[e]).toList(),
@@ -65,4 +71,24 @@ const _$LMSEventTypeEnumMap = {
 const _$ImportanceEnumMap = {
   Importance.toAll: 'toAll',
   Importance.allstudents: 'allstudents',
+};
+
+const _$EntityTypsEnumMap = {
+  EntityTyps.Organization: 'Organization',
+  EntityTyps.ActivitySignetre: 'ActivitySignetre',
+  EntityTyps.AccesLevel: 'AccesLevel',
+  EntityTyps.Log: 'Log',
+  EntityTyps.Hidden: 'Hidden',
+  EntityTyps.orgAccountPointer: 'orgAccountPointer',
+  EntityTyps.RootEntity: 'RootEntity',
+  EntityTyps.UserPriviteDate: 'UserPriviteDate',
+  EntityTyps.UserPublicData: 'UserPublicData',
+};
+
+const _$ActivitySignetreTypsEnumMap = {
+  ActivitySignetreTyps.OrgAccount: 'OrgAccount',
+  ActivitySignetreTyps.Quiz: 'Quiz',
+  ActivitySignetreTyps.ClassRoom: 'ClassRoom',
+  ActivitySignetreTyps.LmsEvent: 'LmsEvent',
+  ActivitySignetreTyps.CourseMaterialBlock: 'CourseMaterialBlock',
 };

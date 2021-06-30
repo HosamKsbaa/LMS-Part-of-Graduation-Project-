@@ -14,10 +14,12 @@ Owner _$OwnerFromJson(Map<String, dynamic> json) {
     lastTimeEdited: DateTime.parse(json['lastTimeEdited'] as String),
     uid: json['uid'] as String,
     orgid: json['orgid'] as String,
+    entityTyps: _$enumDecode(_$EntityTypsEnumMap, json['entityTyps']),
   )..collectionPath = json['collectionPath'] as String;
 }
 
 Map<String, dynamic> _$OwnerToJson(Owner instance) => <String, dynamic>{
+      'entityTyps': _$EntityTypsEnumMap[instance.entityTyps],
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
@@ -58,4 +60,16 @@ const _$OrgAccountTypeEnumMap = {
   OrgAccountType.Parent: 'Parent',
   OrgAccountType.Student: 'Student',
   OrgAccountType.Teacher: 'Teacher',
+};
+
+const _$EntityTypsEnumMap = {
+  EntityTyps.Organization: 'Organization',
+  EntityTyps.ActivitySignetre: 'ActivitySignetre',
+  EntityTyps.AccesLevel: 'AccesLevel',
+  EntityTyps.Log: 'Log',
+  EntityTyps.Hidden: 'Hidden',
+  EntityTyps.orgAccountPointer: 'orgAccountPointer',
+  EntityTyps.RootEntity: 'RootEntity',
+  EntityTyps.UserPriviteDate: 'UserPriviteDate',
+  EntityTyps.UserPublicData: 'UserPublicData',
 };

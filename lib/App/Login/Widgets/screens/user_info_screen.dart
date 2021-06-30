@@ -1,10 +1,8 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lms/App/Login/Logic/authentication.dart';
 import 'package:lms/App/Login/Widgets/res/custom_colors.dart';
 
+import '../../../../main.dart';
 import '../../LogIn.dart';
 
 class UserInfoScreen extends StatefulWidget {
@@ -140,7 +138,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         setState(() {
                           _isSigningOut = true;
                         });
-                        await Authentication.signOut(context: context);
+                        await TheApp.appcntroler.signOut(context: context);
                         setState(() {
                           _isSigningOut = false;
                         });

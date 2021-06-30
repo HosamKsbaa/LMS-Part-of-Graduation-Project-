@@ -12,7 +12,8 @@ part 'UserPriviteDate.g.dart';
 //flutter packages pub run build_runner build
 //endregion
 class UserPriviteDate extends Entity {
-  UserPriviteDate({required this.firstName, required this.lastName, required this.gender, required this.Birthday, required this.PhoneNumber, required this.email}) : super(TheApp.appcntroler.userUid, entityTyps: EntityTyps.UserPriviteDate, lastTimeEdited: DateTime.now()) {
+  UserPriviteDate({required this.firstName, required this.lastName, required this.gender, required this.Birthday, required this.PhoneNumber, required this.email, required EntityTyps entityTyps})
+      : super(TheApp.appcntroler.userUid, entityTyps: EntityTyps.UserPriviteDate, lastTimeEdited: DateTime.now()) {
     userOrgnizationAccounts = HDMCollection<OrgAccountPointer>(this, "userOrgnizationAccounts");
   }
   final String firstName;

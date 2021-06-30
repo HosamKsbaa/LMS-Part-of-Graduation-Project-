@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-void hDMNavigatorPush(BuildContext context, Function play) {
+void hDMNavigatorPush(BuildContext context, Widget play()) {
   Navigator.push(
     context,
     PageRouteBuilder(
@@ -25,7 +25,7 @@ void hDMNavigatorPush(BuildContext context, Function play) {
   );
 }
 
-void hDMNavigatorpop(BuildContext context, Function play) {
+void hDMNavigatorpop(BuildContext context, Widget play()) {
   Navigator.pushAndRemoveUntil(
       context,
       PageRouteBuilder(

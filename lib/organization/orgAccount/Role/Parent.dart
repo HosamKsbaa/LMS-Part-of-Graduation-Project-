@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 
 import '../OrgAccount.dart';
 
@@ -12,7 +13,8 @@ class Parent extends OrgAccount {
     required DateTime lastTimeEdited,
     required String uid,
     required String orgid,
-  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Parent, orgid: orgid, uid: uid);
+    required EntityTyps entityTyps,
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Parent, orgid: orgid, uid: uid, entityTyps: entityTyps);
 
   factory Parent.fromJson(Map<String, dynamic> json) => _$ParentFromJson(json);
 

@@ -6,11 +6,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:lms/User/UserPriviteDate.dart';
 import 'package:lms/User/UserPublicData.dart';
-import 'package:lms/organization/Organization.dart';
+import 'package:lms/organization/GeneralModels/HiddenFile/Hidden.dart';
 import 'package:lms/organization/orgAccount/OrgAccount.dart';
 import 'package:lms/organization/orgAccount/OrgAccountPointer.dart';
 import 'package:overlay_support/overlay_support.dart';
 
+import '../../orgnizationAccountControler.dart';
+import 'Activity/AccesLevel/AccesLevel.dart';
+import 'Activity/Log/Log.dart';
 import 'RootEntity/RootEntity.dart';
 
 enum EntityTyps {
@@ -44,12 +47,12 @@ abstract class Entity {
     _parent = parent;
 
     if (this is RootEntity) {
-      print(this.runtimeType);
+      //print(this.runtimeType);
       collectionPath = "/";
-    } else if (this is Organization) {
-      print(this.runtimeType);
+    } else if (this._parent is RootEntity) {
+      //  print(this.runtimeType);
 
-      collectionPath = '/Organization';
+      collectionPath = "/" + collection;
     } else if (_parent == null) {
       throw {"Has No paretn ${this.runtimeType}"};
     } else {
@@ -61,7 +64,7 @@ abstract class Entity {
       //todo delete all data if opration fail
       toast("there is an error on collection $Entity $e");
     }
-    print("Path of $Entity is $collectionPath <<<<<<<<<<<");
+    // print("Path of $Entity is $collectionPath <<<<<<<<<<<");
     //print(path);
   }
 
@@ -95,7 +98,12 @@ abstract class Entity {
   }
 
   factory Entity.fromJson(Map<String, dynamic> json) {
-    switch (json["orgAccountType"] as EntityTyps) {
+    var x = EntityTyps.values.firstWhere((e) {
+      // print(e.toString().split(".").last + "==" + json["entityTyps"]);
+      return e.toString().split(".").last == json["entityTyps"];
+    });
+    assert(x != null, "there is no orgAccountType parameter in  ");
+    switch (x) {
       case EntityTyps.Organization:
         return OrgAccount.fromJson(json);
         break;
@@ -106,13 +114,16 @@ abstract class Entity {
         return OrgAccount.fromJson(json);
         break;
       case EntityTyps.AccesLevel:
-        return OrgAccount.fromJson(json);
+        return AccesLevel.fromJson(json);
         break;
       case EntityTyps.Log:
-        return OrgAccount.fromJson(json);
+        return Log.fromJson(json);
         break;
       case EntityTyps.Hidden:
-        return OrgAccount.fromJson(json);
+        return Hidden.fromJson(json);
+        break;
+      case EntityTyps.UserPriviteDate:
+        return UserPriviteDate.fromJson(json);
         break;
       case EntityTyps.orgAccountPointer:
         return OrgAccountPointer.fromJson(json);
@@ -120,9 +131,7 @@ abstract class Entity {
       case EntityTyps.UserPublicData:
         return UserPublicData.fromJson(json);
         break;
-      case EntityTyps.UserPriviteDate:
-        return UserPriviteDate.fromJson(json);
-        break;
+
       default:
         return throw {"Error undefined ${json["orgAccountType"]}}"};
     }
@@ -143,23 +152,52 @@ class HDMCollection<CollectionItem extends Entity> {
     _parent._childCollections.add(this);
   }
 
+  void cleanBox() {
+    _objBox.deleteFromDisk();
+  }
+
+  Future<CollectionItem?> getValOnline(String entityId) async {
+    //print("????????????????? " + _collectionPath + '/' + entityId);
+    var x = FirebaseFirestore.instance.doc(_collectionPath + '/' + entityId);
+    var x2 = (await x.get()).data();
+    if (x2 == null) return null;
+    CollectionItem? x3 = Entity.fromJson(x2) as CollectionItem?;
+    return x3;
+  }
+
+  void updateValue() {}
+
+  Future<CollectionItem?> getValLocaly(String entityId) async {
+    _objBox = await Hive.openBox(_collectionPath.replaceAll('/', "%%"));
+    //print(TheApp.appcntroler.userUid);
+    // print(TheApp.appcntroler.user!.uid.toString());
+    // print(_objBox.keys);
+    // print(_objBox.values);
+    var e = _objBox.get(entityId);
+    if (e == null)
+      return null;
+    else {
+      return Entity.fromJson(jsonDecode(e)) as CollectionItem?;
+    }
+  }
+
   Future<void> _trigerSetChild(CollectionItem obj) async {
     obj.setPath(_parent, collectionName);
     await obj._waitFor();
   }
 
   void _setIt() {
-    print("$this is set ");
-    if (this is HDMCollection<Organization>) {
-      print(this.runtimeType);
+    // print("$this is set ");
+    if (this._parent is Appcntroler) {
+      //  print(this.runtimeType);
 
-      _collectionPath = '/Organization';
+      _collectionPath = '/' + collectionName;
     } else {
-      print(this.runtimeType);
+      // print(this.runtimeType);
 
       _collectionPath = _parent.collectionPath + '/' + _parent.entityId + '/' + collectionName;
     }
-    print("Path of $CollectionItem is $_collectionPath");
+    // print("Path of $CollectionItem is $_collectionPath");
   }
 
   Future<void> _waitFor() async {

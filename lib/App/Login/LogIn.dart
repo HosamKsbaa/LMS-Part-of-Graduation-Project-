@@ -1,9 +1,7 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
-import 'Logic/authentication.dart';
+import '../../main.dart';
 import 'Widgets/res/custom_colors.dart';
 import 'Widgets/widgets/google_sign_in_button.dart';
 
@@ -68,7 +66,7 @@ class _WidgetLogIn extends HDMStatelessWidget<LogInController> {
                 ),
               ),
               FutureBuilder(
-                future: Authentication.initializeFirebase(context: context),
+                future: TheApp.appcntroler.initializeFirebase(context: context),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Text('Error initializing Firebase');

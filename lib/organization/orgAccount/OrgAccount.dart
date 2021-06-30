@@ -1,4 +1,5 @@
 import 'package:lms/organization/GeneralModels/Entity/Activity/ActivitySignetre.dart';
+import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 
 import '../orgAccount/Role/Administrator.dart';
 import '../orgAccount/Role/Owner.dart';
@@ -27,7 +28,8 @@ abstract class OrgAccount extends ActivitySignetre {
     required this.orgid,
     required this.orgAccountType,
     required DateTime lastTimeEdited,
-  }) : super(entityId, lastTimeEdited: lastTimeEdited);
+    required EntityTyps entityTyps,
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: entityTyps, activitySignetreTyps: ActivitySignetreTyps.OrgAccount);
 
   factory OrgAccount.fromJson(Map<String, dynamic> json) {
     if (json["orgAccountType"] == "student")
