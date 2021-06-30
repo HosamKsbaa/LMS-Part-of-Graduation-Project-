@@ -25,46 +25,47 @@ class _WidgetLogIn extends HDMStatelessWidget<LogInController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.firebaseNavy,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 16.0,
-            right: 16.0,
-            bottom: 20.0,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Row(),
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Flexible(
-                        flex: 1,
-                        child: FlutterLogo(
-                          size: 150,
-                        )),
-                    SizedBox(height: 20),
-                    Text(
-                      'LMS',
-                      style: TextStyle(
-                        color: CustomColors.firebaseYellow,
-                        fontSize: 40,
-                      ),
-                    ),
-                    Text(
-                      'X-Team',
-                      style: TextStyle(
-                        color: CustomColors.firebaseOrange,
-                        fontSize: 40,
-                      ),
-                    ),
-                  ],
+      body: Stack(children: <Widget>[
+      Container(
+        // Indigo Container
+        height: 670,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.elliptical(500, 100),
+                bottomRight: Radius.elliptical(500, 100)),
+            color: Colors.indigo[900]),
+      ),
+      Container(
+          // Light Blue container
+          height: 600,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.elliptical(500, 100),
+                bottomRight: Radius.elliptical(500, 100)),
+            color: Colors.lightBlue[300],
+          )),
+      Column(
+        children: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(left: 40),
+              child: Image(
+                height: 250,
+                width: 300,
+                image: AssetImage("assets/logo.png")
+
+              )
+              ),
+
+              Padding( padding: EdgeInsets.only(bottom: 30, left: 20),
+                child: Text("E-Learning Portal",
+                style :  TextStyle(
+                fontSize: 30) 
                 ),
               ),
+              
+      
+       
+           
               FutureBuilder(
                 future: TheApp.appcntroler.initializeFirebase(context: context),
                 builder: (context, snapshot) {
@@ -78,12 +79,43 @@ class _WidgetLogIn extends HDMStatelessWidget<LogInController> {
                       CustomColors.firebaseOrange,
                     ),
                   );
-                },
+                }
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+
+              Padding( padding: EdgeInsets.only(top: 170 , left: 50),
+                child: Row (children: [
+                    Text("Follow Us",
+                  style:  TextStyle(fontSize: 25),
+                  ),
+                    FlatButton( onPressed: () => {},
+                    child: Image(
+                      width: 40,
+                      height: 40,
+                      image: AssetImage("assets/fb.png")
+                    )
+                  )
+                  ,
+                   FlatButton( onPressed: () => {},
+                    child: Image(
+                      width: 40,
+                      height: 40,
+                      image: AssetImage("assets/insta.png")
+                    )
+                  )
+                   ],)
+              
+              )
+              
+        ]
+        )
+        ]
+             
+    
+      )
+      );
+      
+
+    
+    
   }
 }
