@@ -15,10 +15,10 @@ abstract class HDMPointer extends Entity {
     pointerPath.replaceFirst("/", "");
     List<String> thelist = pointerPath.split("/");
     thelist.removeAt(0);
-
-    thelist.forEach((element) {
-      print(element.toString());
-    });
+    //
+    // thelist.forEach((element) {
+    //   print(element.toString());
+    // });
     Future<Entity?> getObj(HDMCollection<Entity> collection) async {
       Entity? entity = await collection.getValLocaly(thelist.first);
       thelist.removeAt(0);

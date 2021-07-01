@@ -34,7 +34,7 @@ class _WidgetMainControler extends HDMStatelessWidget<MainControlerController> {
           if (user == null) {
             return LogInController().data.play();
           } else {
-            print("User init ");
+            //print("User init ");
             TheApp.appcntroler.user = user;
 
             return FutureBuilder<bool>(

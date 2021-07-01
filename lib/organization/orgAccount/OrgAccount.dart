@@ -29,15 +29,13 @@ abstract class OrgAccount extends ActivitySignetre {
     required this.orgAccountType,
     required DateTime lastTimeEdited,
     required EntityTyps entityTyps,
-
     required ActivitySignetreTyps activitySignetreTyps,
-  }) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: entityTyps, activitySignetreTyps:activitySignetreTyps);
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: entityTyps, activitySignetreTyps: activitySignetreTyps);
 
   factory OrgAccount.fromJson(Map<String, dynamic> json) {
-    var x = OrgAccountType.values.firstWhere((element) =>
-    element.toString().split(".") == json["orgAccountType"]);
-    assert(x != null ,"there is no orgAccountType parameter in ");
-    switch(x) {
+    var x = OrgAccountType.values.firstWhere((element) => element.toString().split(".").last == json["orgAccountType"]);
+    assert(x != null, "there is no orgAccountType parameter in ");
+    switch (x) {
       case OrgAccountType.Student:
         return Student.fromJson(json);
       case OrgAccountType.Parent:
@@ -50,7 +48,7 @@ abstract class OrgAccount extends ActivitySignetre {
         return Owner.fromJson(json);
       default:
         return throw {"Error undefined ${json["orgAccountType"]}}"};
-  }
+    }
   }
   Map<String, dynamic> toJson();
 }

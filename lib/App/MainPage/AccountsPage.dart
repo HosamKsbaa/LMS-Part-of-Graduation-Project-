@@ -97,24 +97,24 @@ class HDMStreamBuilder<x extends HDMPointer, y extends Entity> extends Stateless
             return LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) => Column(
                 children: [
-                  Text("There is ${data.length} elements"),
+                  Text("There is ${data.length} elements last update ${DateTime.now()}"),
                   Container(
                     height: constraints.maxHeight * .8,
                     color: Colors.grey,
                     child: ListView(
                       children: data
                           .map((e) => FutureBuilder<Entity?>(
-                          future: e.getIt(),
-                          builder: (context, builder) {
-                            if (builder.hasError) {
-                              throw {builder.error};
-                              return err();
-                            } else if (builder.hasData) {
-                              return func(builder.data as y);
-                            } else {
-                              return loading();
-                            }
-                          }))
+                              future: e.getIt(),
+                              builder: (context, builder) {
+                                if (builder.hasError) {
+                                  throw {builder.error};
+                                  return err();
+                                } else if (builder.hasData) {
+                                  return func(builder.data as y);
+                                } else {
+                                  return loading();
+                                }
+                              }))
                           .toList(),
                     ),
                   ),

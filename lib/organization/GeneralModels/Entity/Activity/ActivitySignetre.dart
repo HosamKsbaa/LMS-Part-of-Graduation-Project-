@@ -20,13 +20,7 @@ enum ActivitySignetreTyps {
 }
 
 abstract class ActivitySignetre extends Entity {
-  ActivitySignetre(String entityId,
-      {required this.activitySignetreTyps,
-      required DateTime lastTimeEdited,
-      required EntityTyps entityTyps})
-      : super(entityId,
-            lastTimeEdited: lastTimeEdited,
-            entityTyps: EntityTyps.ActivitySignetre) {
+  ActivitySignetre(String entityId, {required this.activitySignetreTyps, required DateTime lastTimeEdited, required EntityTyps entityTyps}) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: EntityTyps.ActivitySignetre) {
     log = HDMCollection<Log>(this, "Log");
     accesLevel = HDMCollection<AccesLevel>(this, "Log");
   }
@@ -41,10 +35,9 @@ abstract class ActivitySignetre extends Entity {
   //region jsonApi
 
   factory ActivitySignetre.fromJson(Map<String, dynamic> json) {
-    var x = ActivitySignetreTyps.values.firstWhere((element) =>
-        element.toString().split(".") == json["activitySignetreTyps"]);
-    assert(x != null ,"there is no activitySignetreTyps parameter in ");
-    switch(x){
+    var x = ActivitySignetreTyps.values.firstWhere((element) => element.toString().split(".").last == json["activitySignetreTyps"]);
+    assert(x != null, "there is no activitySignetreTyps parameter in ");
+    switch (x) {
       case ActivitySignetreTyps.OrgAccount:
         return OrgAccount.fromJson(json);
       case ActivitySignetreTyps.ClassRoom:

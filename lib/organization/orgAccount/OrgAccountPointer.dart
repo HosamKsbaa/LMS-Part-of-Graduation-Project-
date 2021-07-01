@@ -1,10 +1,8 @@
 //region header
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lms/main.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 
-import '../Organization.dart';
 import 'OrgAccount.dart';
 
 part 'OrgAccountPointer.g.dart';
@@ -19,10 +17,6 @@ class OrgAccountPointer extends HDMPointer {
 
   final OrgAccountType orgAccountType;
   final String orgAccountid;
-
-  Future<Organization?> getOrg() async {
-    return await TheApp.appcntroler.orgAccount.getValLocaly(orgAccountid);
-  }
 
   void getAccounts() {}
   //region jsonApi

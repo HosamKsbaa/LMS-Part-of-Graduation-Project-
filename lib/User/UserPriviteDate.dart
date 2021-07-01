@@ -27,7 +27,7 @@ class UserPriviteDate extends Entity {
   late HDMCollection<OrgAccountPointer> userOrgnizationAccounts;
 
   Future<OrgAccountPointer> addAnOrgAccountPinter(OrgAccount orgAccount) async {
-    var x = OrgAccountPointer(orgAccount.entityId,
+    var x = OrgAccountPointer(orgAccount.uid,
         pointerPath: orgAccount.collectionPath, pointerId: orgAccount.entityId, lastTimeEdited: DateTime.now(), entityTyps: orgAccount.entityTyps, orgAccountType: orgAccount.orgAccountType, orgAccountid: orgAccount.entityId, pointerTypes: HDMPointerTypes.OrgAccountPointer);
     await userOrgnizationAccounts.add(x);
     return x;
@@ -38,7 +38,7 @@ class UserPriviteDate extends Entity {
 
   //region jsonApi
   factory UserPriviteDate.fromJson(Map<String, dynamic> json) {
-    print("done1");
+    // print("done1");
 
     return _$UserPriviteDateFromJson(json);
   }

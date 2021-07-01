@@ -23,15 +23,14 @@ abstract class LMSEvent extends CourseMaterialBlock {
   //region jsonApi
   factory LMSEvent.fromJson(Map<String, dynamic> json) {
     var x = LMSEventType.values.firstWhere((e) {
-      print("testhello"+e.toString().split(".").last + "==" + json["eventType"]);
+      // print("testhello"+e.toString().split(".").last + "==" + json["eventType"]);
       return e.toString().split(".").last == json["eventType"];
     });
     assert(x != null, "there is no courseMaterialType parameter in  ");
-    if(x == LMSEventType.Quiz)
+    if (x == LMSEventType.Quiz)
       return Quiz.fromJson(json);
     else
       return throw {"Error undefined ${json["eventType"]}"};
-
   }
   Map<String, dynamic> toJson();
   //endregion

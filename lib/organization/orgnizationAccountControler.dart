@@ -41,24 +41,26 @@ class Appcntroler extends RootEntity {
   late HDMCollection<UserPublicData> userPublicDataColl;
   @JsonKey(ignore: true)
   late User _user;
+  @JsonKey(ignore: true)
   User get user {
     return _user;
   }
 
+  @JsonKey(ignore: true)
   set user(User user) {
     if (user == null) {
       throw {"don't do that "};
     }
-    print("xxxxxxxxxxxxxxxxxxxxxxx");
+    //  print("xxxxxxxxxxxxxxxxxxxxxxx");
     _user = user;
   }
 
   Future<bool> afterSuccesLogInChecks({required BuildContext context}) async {
-  //  print(">>>>>>>>>>>>>>>Check if he is stored localy1");
+    //  print(">>>>>>>>>>>>>>>Check if he is stored localy1");
 
     usedrPriviteDate = await this.userPriviteDateColl.getValLocaly(this.user.uid);
     userPublicData = await this.userPublicDataColl.getValLocaly(this.user.uid);
-   // print(">>>>>>>>>>>>>>>Check if he is stored localy2");
+    // print(">>>>>>>>>>>>>>>Check if he is stored localy2");
 
     assert((usedrPriviteDate == null) == (userPublicData == null));
     if (usedrPriviteDate == null) {
@@ -181,7 +183,7 @@ class Appcntroler extends RootEntity {
   Future<Organization> addOrgnization(String entityId, {required String name}) async {
     var x = Organization(entityId, lastTimeEdited: DateTime.now(), name: name);
     await orgAccount.add(x);
-    var theorgAccount = await x.addOwner(user.uid);
+    var theorgAccount = await x.addOwner(user.uid + x.entityId);
     this.usedrPriviteDate!.addAnOrgAccountPinter(theorgAccount);
     return x;
   }

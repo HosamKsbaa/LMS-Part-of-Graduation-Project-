@@ -104,7 +104,7 @@ abstract class Entity {
 
   factory Entity.fromJson(Map<String, dynamic> json) {
     var x = EntityTyps.values.firstWhere((e) {
-      print("testhello" + e.toString().split(".").last + "==" + json["entityTyps"]);
+      // print("testhello" + e.toString().split(".").last + "==" + json["entityTyps"]);
       return e.toString().split(".").last == json["entityTyps"];
     });
     assert(x != null, "there is no orgAccountType parameter in  ");
@@ -148,16 +148,17 @@ class HDMCollection<CollectionItem extends Entity> {
   final Entity _parent;
   final String collectionName;
   late String _collectionPath;
+  // bool isSet=false;
 
   late CollectionReference _collectionDocRef;
-  late Box<String> _objBox;
+  Box<String>? _objBox;
 
   HDMCollection(this._parent, this.collectionName) {
     _parent._childCollections.add(this);
   }
 
   void cleanBox() {
-    _objBox.deleteFromDisk();
+    _objBox!.deleteFromDisk();
   }
 
   Future<CollectionItem?> getValOnline(String entityId) async {
@@ -174,14 +175,15 @@ class HDMCollection<CollectionItem extends Entity> {
   void updateValue() {}
 
   Future<CollectionItem?> getValLocaly(String entityId) async {
-    _objBox = await Hive.openBox(_collectionPath.replaceAll('/', "%%"));
+    await _waitFor();
+
     //print(TheApp.appcntroler.userUid);
     // print(TheApp.appcntroler.user!.uid.toString());
     // print(_objBox.keys);
     // print(_objBox.values);
-    var e = _objBox.get(entityId);
+    var e = _objBox!.get(entityId);
     if (e == null) {
-      _objBox.values.forEach((element) {
+      _objBox!.values.forEach((element) {
         print(element);
       });
       return null;
@@ -194,14 +196,14 @@ class HDMCollection<CollectionItem extends Entity> {
 
   Future<void> _trigerSetChild(CollectionItem obj) async {
     obj.setPath(_parent, collectionName);
-    await obj._waitFor();
+//    isSet=true;
   }
 
   void _setIt() {
     // print("$this is set ");
     if (this._parent is Appcntroler) {
       //  print(this.runtimeType);
-      print("set it for Appcntroler");
+      //  print("set it for Appcntroler");
       _collectionPath = '/' + collectionName;
     } else {
       // print(this.runtimeType);
@@ -212,7 +214,15 @@ class HDMCollection<CollectionItem extends Entity> {
   }
 
   Future<void> _waitFor() async {
-    _objBox = await Hive.openBox(_collectionPath.replaceAll('/', "%%"));
+    // print("check if box is open");
+
+    if (_objBox == null) {
+      //   print("no");
+      _objBox = await Hive.openBox(_collectionPath.replaceAll('/', "%%"));
+      return;
+    }
+    // print("yes");
+    return;
   }
 
   Future<void> _refresh() async {
@@ -222,17 +232,38 @@ class HDMCollection<CollectionItem extends Entity> {
   Future<void> add(CollectionItem obj) async {
     //if (_parent._waitForDone == false) throw {"not initilized ${this.runtimeType}"};
     // bool succes = false;
-    print(">>>>>>>>>$this is set ");
+    //print(">>>>>>>>>$this is set ");
+
+    ///remove
+    CollectionItem tra(String e) {
+      //  print(">>><<<" + e);
+      return Entity.fromJson(jsonDecode(e)) as CollectionItem;
+    }
 
     await _trigerSetChild(obj);
     _collectionDocRef = FirebaseFirestore.instance.collection(_collectionPath);
     obj.lastTimeEdited = DateTime.now();
     await _collectionDocRef.doc(obj.entityId).set(obj.toJson());
-    _objBox = await Hive.openBox(_collectionPath.replaceAll('/', "%%"));
-    await _objBox.put(
+    await _waitFor();
+
+    ///re
+    bool checkMethou() {
+      var x = _objBox!.values.map<CollectionItem>(tra).toList();
+
+      var x2 = x.any((element) {
+        return element.entityId == obj.entityId;
+      });
+      return x2;
+    }
+
+    assert(!checkMethou(), "2 elements with the same id ix it ${this.runtimeType} ");
+    await _objBox!.put(
       obj.entityId,
       jsonEncode(obj.toJson()),
     );
+
+    var x1 = _objBox!.values.map<CollectionItem>(tra).toList();
+
     void _injectParent(CollectionItem collectionItem) {
       return collectionItem.setPath(_parent, collectionName);
     }
@@ -261,7 +292,7 @@ class HDMCollection<CollectionItem extends Entity> {
       }
 
       await _waitFor();
-      var x = _objBox.values.map<CollectionItem>(tra).toList();
+      var x = _objBox!.values.map<CollectionItem>(tra).toList();
       print("================" + x.toString());
       await Future.forEach<CollectionItem>(x, _trigerSetChild);
       controller.add(x);
@@ -272,7 +303,7 @@ class HDMCollection<CollectionItem extends Entity> {
       geter().then((value) => controller.add(value));
     };
 
-    _waitFor().then((value) => _objBox.watch().listen((event) async {
+    _waitFor().then((value) => _objBox!.watch().listen((event) async {
           geter().then((value) => controller.add(value));
         }));
 
