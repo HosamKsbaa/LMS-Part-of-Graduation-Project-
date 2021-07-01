@@ -2,8 +2,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lms/main.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
-import 'package:lms/organization/orgAccount/OrgAccount.dart';
-import 'package:lms/organization/orgAccount/OrgAccountPointer.dart';
+import 'package:lms/organization/Organization.dart';
+import 'package:lms/organization/OrgnizationPointer.dart';
 
 part 'UserPriviteDate.g.dart';
 
@@ -14,7 +14,7 @@ part 'UserPriviteDate.g.dart';
 class UserPriviteDate extends Entity {
   UserPriviteDate({required this.firstName, required this.lastName, required this.gender, required this.Birthday, required this.PhoneNumber, required this.email, required EntityTyps entityTyps})
       : super(TheApp.appcntroler.user.uid, entityTyps: EntityTyps.UserPriviteDate, lastTimeEdited: DateTime.now()) {
-    userOrgnizationAccounts = HDMCollection<OrgAccountPointer>(this, "userOrgnizationAccounts");
+    orgPointer = HDMCollection<OrgnizationPointer>(this, "OrgnizationPointer");
     //print("done1");
   }
   final String firstName;
@@ -24,12 +24,11 @@ class UserPriviteDate extends Entity {
   final String PhoneNumber;
   final String email;
   @JsonKey(ignore: true)
-  late HDMCollection<OrgAccountPointer> userOrgnizationAccounts;
+  late HDMCollection<OrgnizationPointer> orgPointer;
 
-  Future<OrgAccountPointer> addAnOrgAccountPinter(OrgAccount orgAccount) async {
-    var x = OrgAccountPointer(orgAccount.uid,
-        pointerPath: orgAccount.collectionPath, pointerId: orgAccount.entityId, lastTimeEdited: DateTime.now(), entityTyps: orgAccount.entityTyps, orgAccountType: orgAccount.orgAccountType, orgAccountid: orgAccount.entityId, pointerTypes: HDMPointerTypes.OrgAccountPointer);
-    await userOrgnizationAccounts.add(x);
+  Future<OrgnizationPointer> addAnOrganizationPinter(Organization orgAccount) async {
+    var x = OrgnizationPointer(orgAccount.entityId, pointerPath: orgAccount.collectionPath, pointerId: orgAccount.entityId, lastTimeEdited: DateTime.now(), entityTyps: orgAccount.entityTyps, pointerTypes: HDMPointerTypes.OrgnizationPointer, orgid: orgAccount.entityId);
+    await orgPointer.add(x);
     return x;
   }
   //appsettings

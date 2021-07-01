@@ -9,6 +9,7 @@ import 'package:lms/User/UserPublicData.dart';
 import 'package:lms/main.dart';
 import 'package:lms/organization/GeneralModels/HiddenFile/Hidden.dart';
 import 'package:lms/organization/Organization.dart';
+import 'package:lms/organization/OrgnizationPointer.dart';
 import 'package:lms/organization/orgAccount/OrgAccountPointer.dart';
 import 'package:overlay_support/overlay_support.dart';
 

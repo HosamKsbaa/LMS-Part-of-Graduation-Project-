@@ -1,8 +1,6 @@
 part of '../../Entity/entity.dart';
 
-enum HDMPointerTypes {
-  OrgAccountPointer,
-}
+enum HDMPointerTypes { OrgAccountPointer, OrgnizationPointer }
 
 abstract class HDMPointer extends Entity {
   HDMPointer(String entityId, {required this.pointerPath, required this.pointerId, required EntityTyps entityTyps, required this.pointerTypes, required DateTime lastTimeEdited}) : super(entityId, entityTyps: entityTyps, lastTimeEdited: lastTimeEdited);
@@ -55,6 +53,9 @@ abstract class HDMPointer extends Entity {
     switch (x) {
       case HDMPointerTypes.OrgAccountPointer:
         return OrgAccountPointer.fromJson(json);
+        break;
+      case HDMPointerTypes.OrgnizationPointer:
+        return OrgnizationPointer.fromJson(json);
         break;
 
       default:

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lms/App/Drawer/Drawer.dart';
 import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
-import 'package:lms/organization/orgAccount/OrgAccountPointer.dart';
+import 'package:lms/organization/Organization.dart';
+import 'package:lms/organization/OrgnizationPointer.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 import '../../main.dart';
@@ -43,13 +44,13 @@ class _WidgetAccountsPage extends HDMStatelessWidget<AccountsPageController> {
         title: Text("Accounts"),
       ),
 //body: StreamBuilder<List<UserPriviteDate>>(stream: TheApp.appcntroler.userPriviteDateColl.get(), builder: (context, obj) {}),
-      body: HDMStreamBuilder<OrgAccountPointer, OrgAccount>(
-        stream: TheApp.appcntroler.usedrPriviteDate!.userOrgnizationAccounts.get(),
+      body: HDMStreamBuilder<OrgnizationPointer, Organization>(
+        stream: TheApp.appcntroler.usedrPriviteDate!.orgPointer.get(),
         err: () => ListTile(
           title: Text("err"),
         ),
         func: (r) => ListTile(
-          title: Text(r!.orgid),
+          title: Text(r!.name),
         ),
         loading: () => ListTile(
           title: Text("err"),

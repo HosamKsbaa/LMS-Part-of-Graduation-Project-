@@ -55,6 +55,7 @@ class Appcntroler extends RootEntity {
     _user = user;
   }
 
+  //late Function refrechTheapp;
   Future<bool> afterSuccesLogInChecks({required BuildContext context}) async {
     //  print(">>>>>>>>>>>>>>>Check if he is stored localy1");
 
@@ -68,10 +69,13 @@ class Appcntroler extends RootEntity {
 
       toast("notFound");
       await checkIfUserAlreadyExciteOnLineIfNoRegisterIt(context: context);
+      return true;
     } else {
       print(">>>>>>>>>>>>>>>yes localy");
+      return true;
+
+      //  TheApp.appcntroler.refrechTheapp();
     }
-    return true;
     //print("sucess ");
   }
 
@@ -96,12 +100,14 @@ class Appcntroler extends RootEntity {
       //goto registerPage
       toast("notFound");
       hDMNavigatorPush(context, SignUpInfoController().data.play);
+      await Future.delayed(const Duration(seconds: 1), () {});
       print("usedrPriviteDate $usedrPriviteDate");
       print("userPublicData $userPublicData");
-      return true;
+      return false;
       // return ;
     } else {
       print(">>>>>>>>>>>>>>>yes online");
+      // TheApp.appcntroler.refrechTheapp();
 
       return true;
 
@@ -156,9 +162,10 @@ class Appcntroler extends RootEntity {
     }
 
     if (theUser != null) {
-      checkIfUserAlreadyExciteOnLineIfNoRegisterIt(context: context);
-
       user = theUser;
+
+      await checkIfUserAlreadyExciteOnLineIfNoRegisterIt(context: context);
+
       hDMNavigatorpop(context, MainControlerController().data.play);
     }
 
@@ -166,11 +173,13 @@ class Appcntroler extends RootEntity {
   }
 
   Future<void> signOut({required BuildContext? context}) async {
+    usedrPriviteDate = null;
+    userPublicData = null;
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
     try {
-      userPriviteDateColl.cleanBox();
-      userPublicDataColl.cleanBox();
+      // userPriviteDateColl.cleanBox();
+      //  userPublicDataColl.cleanBox();
       if (!kIsWeb) {
         await googleSignIn.signOut();
       }
@@ -184,16 +193,10 @@ class Appcntroler extends RootEntity {
     var x = Organization(entityId, lastTimeEdited: DateTime.now(), name: name);
     await orgAccount.add(x);
     var theorgAccount = await x.addOwner(user.uid + x.entityId);
-    this.usedrPriviteDate!.addAnOrgAccountPinter(theorgAccount);
+
+    var orgPointer = await this.usedrPriviteDate!.addAnOrganizationPinter(x);
+    orgPointer.addorgAccountPointer(theorgAccount);
     return x;
-  }
-
-  Future<void> LogInFromOnline() async {
-    List<UserPriviteDate> z = await userPriviteDateColl.get().first;
-    usedrPriviteDate = z.where((element) => element.entityId == user.uid).first;
-
-    List<UserPublicData> z2 = await userPublicDataColl.get().first;
-    userPublicData = z2.where((element) => element.entityId == user.uid).first;
   }
 
   void LogInFromLocal() {}
@@ -207,8 +210,9 @@ class Appcntroler extends RootEntity {
     await userPriviteDateColl.add(usedrPriviteDate!);
     await userPublicDataColl.add(userPublicData!);
     print("pop");
-    Navigator.of(context).pop();
-    //hDMNavigatorpop(context, MainControlerController().data.play);
+    // TheApp.appcntroler.refrechTheapp();
+
+    hDMNavigatorpop(context, MainControlerController().data.play);
   }
 
   //region jsonApi
