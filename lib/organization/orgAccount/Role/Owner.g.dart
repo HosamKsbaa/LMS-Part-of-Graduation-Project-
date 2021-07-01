@@ -15,6 +15,8 @@ Owner _$OwnerFromJson(Map<String, dynamic> json) {
     uid: json['uid'] as String,
     orgid: json['orgid'] as String,
     entityTyps: _$enumDecode(_$EntityTypsEnumMap, json['entityTyps']),
+    activitySignetreTyps: _$enumDecode(
+        _$ActivitySignetreTypsEnumMap, json['activitySignetreTyps']),
   )..collectionPath = json['collectionPath'] as String;
 }
 
@@ -23,6 +25,8 @@ Map<String, dynamic> _$OwnerToJson(Owner instance) => <String, dynamic>{
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
+      'activitySignetreTyps':
+          _$ActivitySignetreTypsEnumMap[instance.activitySignetreTyps],
       'orgid': instance.orgid,
       'uid': instance.uid,
       'orgAccountType': _$OrgAccountTypeEnumMap[instance.orgAccountType],
@@ -72,4 +76,12 @@ const _$EntityTypsEnumMap = {
   EntityTyps.RootEntity: 'RootEntity',
   EntityTyps.UserPriviteDate: 'UserPriviteDate',
   EntityTyps.UserPublicData: 'UserPublicData',
+};
+
+const _$ActivitySignetreTypsEnumMap = {
+  ActivitySignetreTyps.OrgAccount: 'OrgAccount',
+  ActivitySignetreTyps.Quiz: 'Quiz',
+  ActivitySignetreTyps.ClassRoom: 'ClassRoom',
+  ActivitySignetreTyps.LmsEvent: 'LmsEvent',
+  ActivitySignetreTyps.CourseMaterialBlock: 'CourseMaterialBlock',
 };

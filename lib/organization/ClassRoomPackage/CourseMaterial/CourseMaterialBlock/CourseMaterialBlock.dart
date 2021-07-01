@@ -9,17 +9,22 @@ enum CourseMaterialType {
 
 abstract class CourseMaterialBlock extends ActivitySignetre {
   CourseMaterialBlock(String entityId, {required this.title, required DateTime lastTimeEdited, required this.courseMaterialType, required this.importance, required EntityTyps entityTyps, required ActivitySignetreTyps activitySignetreTyps})
-      : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: EntityTyps.ActivitySignetre, activitySignetreTyps: ActivitySignetreTyps.CourseMaterialBlock);
+      : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: EntityTyps.ActivitySignetre, activitySignetreTyps: activitySignetreTyps);
   final CourseMaterialType courseMaterialType;
   final String title;
   final List<Importance> importance;
 
   //region jsonApi
   factory CourseMaterialBlock.fromJson(Map<String, dynamic> json) {
-    if (json["courseMaterialType"] == "LMSEvent ")
+    var x = CourseMaterialType.values.firstWhere((e) {
+      print("testhello"+e.toString().split(".").last + "==" + json["courseMaterialType"]);
+      return e.toString().split(".").last == json["courseMaterialType"];
+    });
+    assert(x != null, "there is no courseMaterialType parameter in  ");
+    if(x == CourseMaterialType.Event)
       return LMSEvent.fromJson(json);
     else
-      throw {"Error undefined OrgAccount type"};
+      return throw {"Error undefined ${json["courseMaterialType"]}"};
   }
   Map<String, dynamic> toJson();
   //endregion

@@ -1,3 +1,5 @@
+import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialBlock/Event/Qize/QizeQuestionFile/QestionsFile.dart';
+import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialBlock/Event/Qize/StudentAnsersFile/AnswerFile.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 
 enum HiddenType {
@@ -11,12 +13,18 @@ abstract class Hidden extends Entity {
 
   //region jsonApi
   factory Hidden.fromJson(Map<String, dynamic> json) {
-    // if (json["hiddenType"] == "student")
-    //   return Student.fromJson(json);
-    // else if (json["type"] == "parent")
-    //   return Parent.fromJson(json);
-    // else
-    throw {"Error undefined OrgAccount type"};
+    var x = HiddenType.values.firstWhere((e) {
+      return e.toString().split(".").last == json["hiddenType"];
+    });
+    assert(x != null, "there is no hiddentType parameter in  ");
+    switch(x){
+      case HiddenType.AnserFile:
+        return AnswerFile.fromJson(json);
+      case HiddenType.qestionFile:
+        return QestionsFile.fromJson(json);
+      default:
+        return throw {"Error undefined ${json["hiddenType"]}"};
+    }
   }
   Map<String, dynamic> toJson();
   //endregion

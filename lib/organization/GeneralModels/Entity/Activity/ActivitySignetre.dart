@@ -1,7 +1,12 @@
 //region header
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
+import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialBlock/CourseMaterialBlock.dart';
+import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialBlock/Event/Event.dart';
+import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialBlock/Event/Qize/Quiz2.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
+import 'package:lms/organization/orgAccount/OrgAccount.dart';
 
 import 'AccesLevel/AccesLevel.dart';
 import 'Log/Log.dart';
@@ -15,10 +20,17 @@ enum ActivitySignetreTyps {
 }
 
 abstract class ActivitySignetre extends Entity {
-  ActivitySignetre(String entityId, {required this.activitySignetreTyps, required DateTime lastTimeEdited, required EntityTyps entityTyps}) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: EntityTyps.ActivitySignetre) {
+  ActivitySignetre(String entityId,
+      {required this.activitySignetreTyps,
+      required DateTime lastTimeEdited,
+      required EntityTyps entityTyps})
+      : super(entityId,
+            lastTimeEdited: lastTimeEdited,
+            entityTyps: EntityTyps.ActivitySignetre) {
     log = HDMCollection<Log>(this, "Log");
     accesLevel = HDMCollection<AccesLevel>(this, "Log");
   }
+
   final ActivitySignetreTyps activitySignetreTyps;
 
   @JsonKey(ignore: true)
@@ -27,15 +39,28 @@ abstract class ActivitySignetre extends Entity {
   late HDMCollection<AccesLevel> accesLevel;
 
   //region jsonApi
-  // factory ActivitySignetre.fromJson(Map<String, dynamic> json) {
-  //   if (json["activitySignetreType"] == "CourseMaterialBlock")
-  //     return CourseMaterialBlock.fromJson(json);
-  //   // else if (json["activitySignetreType"] == "parent")
-  //   //   return Parent.fromJson(json);
-  //   //
-  //   else
-  //     throw {"this Shoud be implemented only at intractionBlock  n "};
-  // }
+
+  factory ActivitySignetre.fromJson(Map<String, dynamic> json) {
+    var x = ActivitySignetreTyps.values.firstWhere((element) =>
+        element.toString().split(".") == json["activitySignetreTyps"]);
+    assert(x != null ,"there is no activitySignetreTyps parameter in ");
+    switch(x){
+      case ActivitySignetreTyps.OrgAccount:
+        return OrgAccount.fromJson(json);
+      case ActivitySignetreTyps.ClassRoom:
+        return ClassRoom.fromJson(json);
+      case ActivitySignetreTyps.Quiz:
+        return Quiz.fromJson(json);
+      case ActivitySignetreTyps.LmsEvent:
+        return LMSEvent.fromJson(json);
+      case ActivitySignetreTyps.CourseMaterialBlock:
+        return CourseMaterialBlock.fromJson(json);
+      default:
+        return throw {"Error undefined ${json["activitySignetreTyps"]}}"};
+    }
+  }
+
   Map<String, dynamic> toJson();
-  //endregion
+//endregion
+
 }

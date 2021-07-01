@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lms/organization/GeneralModels/Entity/Activity/ActivitySignetre.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 
 import '../OrgAccount.dart';
@@ -14,7 +15,9 @@ class Parent extends OrgAccount {
     required String uid,
     required String orgid,
     required EntityTyps entityTyps,
-  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Parent, orgid: orgid, uid: uid, entityTyps: entityTyps);
+
+    required ActivitySignetreTyps activitySignetreTyps,
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Parent, orgid: orgid, uid: uid, entityTyps: entityTyps,activitySignetreTyps: activitySignetreTyps);
 
   factory Parent.fromJson(Map<String, dynamic> json) => _$ParentFromJson(json);
 

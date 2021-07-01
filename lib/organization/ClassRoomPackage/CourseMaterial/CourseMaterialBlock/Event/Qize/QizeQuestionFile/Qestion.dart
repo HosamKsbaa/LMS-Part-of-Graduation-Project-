@@ -18,15 +18,17 @@ abstract class Qestion {
   final bool seen;
   //region jsonApi
   factory Qestion.fromJson(Map<String, dynamic> json) {
-    // if(Map[]){
-    //
-    // }
-    if (json["qestionType"] == "MCQ")
+    var x = QestionType.values.firstWhere((e) {
+      print("testhello"+e.toString().split(".").last + "==" + json["qestionType"]);
+      return e.toString().split(".").last == json["qestionType"];
+    });
+    assert(x != null, "there is no qestionType parameter in  ");
+    if(x == QestionType.MCQ)
       return MCQ.fromJson(json);
-    else if (json["qestionType"] == "String")
+    else if(x == QestionType.TrueFalse)
       return TrueFalse.fromJson(json);
     else
-      throw {"bad"};
+      return throw {"Error undefined ${json["qestionType"]}"};
   }
   Map<String, dynamic> toJson();
 //endregion

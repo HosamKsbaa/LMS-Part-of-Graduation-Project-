@@ -11,7 +11,7 @@ part 'OrgAccountPointer.g.dart';
 //flutter packages pub run build_runner build
 //endregion
 class OrgAccountPointer extends Entity {
-  OrgAccountPointer(String entityId, {required this.orgAccountid, required this.orgAccountType, required EntityTyps entityTyps, required DateTime lastTimeEdited}) : super(entityId, entityTyps: EntityTyps.orgAccountPointer, lastTimeEdited: lastTimeEdited);
+  OrgAccountPointer(String entityId, {required this.orgAccountid, required this.orgAccountType, required EntityTyps entityTyps, required DateTime lastTimeEdited}) : super(entityId, entityTyps: EntityTyps.orgAccountPointer, lastTimeEdited: lastTimeEdited,);
   final OrgAccountType orgAccountType;
   final String orgAccountid;
 
