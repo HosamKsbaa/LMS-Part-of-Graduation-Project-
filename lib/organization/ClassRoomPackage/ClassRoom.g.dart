@@ -67,7 +67,7 @@ const _$EntityTypsEnumMap = {
   EntityTyps.AccesLevel: 'AccesLevel',
   EntityTyps.Log: 'Log',
   EntityTyps.Hidden: 'Hidden',
-  EntityTyps.orgAccountPointer: 'orgAccountPointer',
+  EntityTyps.Pointer: 'Pointer',
   EntityTyps.RootEntity: 'RootEntity',
   EntityTyps.UserPriviteDate: 'UserPriviteDate',
   EntityTyps.UserPublicData: 'UserPublicData',

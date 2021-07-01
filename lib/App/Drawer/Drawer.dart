@@ -79,15 +79,15 @@ class _WidgetDrawer extends HDMStatelessWidget<HDmDrawerController> {
         padding: EdgeInsets.zero,
         children: <Widget>[
               UserAccountsDrawerHeader(
-                accountName: Text(TheApp.appcntroler.user!.displayName!),
-                accountEmail: Text(TheApp.appcntroler.user!.email!),
+                accountName: Text(TheApp.appcntroler.user.displayName!),
+                accountEmail: Text(TheApp.appcntroler.user.email!),
                 onDetailsPressed: () {
                   app.showUserDetails = !app.showUserDetails;
                   app.data.updateTheWholeApp();
                 },
                 currentAccountPicture: CachedNetworkImage(
                   placeholder: (context, url) => CircularProgressIndicator(),
-                  imageUrl: TheApp.appcntroler.user!.photoURL!,
+                  imageUrl: TheApp.appcntroler.user.photoURL!,
                 ),
               )
             ] +

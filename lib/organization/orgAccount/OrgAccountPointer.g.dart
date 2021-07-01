@@ -9,11 +9,14 @@ part of 'OrgAccountPointer.dart';
 OrgAccountPointer _$OrgAccountPointerFromJson(Map<String, dynamic> json) {
   return OrgAccountPointer(
     json['entityId'] as String,
+    pointerPath: json['pointerPath'] as String,
+    pointerId: json['pointerId'] as String,
     orgAccountid: json['orgAccountid'] as String,
     orgAccountType:
         _$enumDecode(_$OrgAccountTypeEnumMap, json['orgAccountType']),
     entityTyps: _$enumDecode(_$EntityTypsEnumMap, json['entityTyps']),
     lastTimeEdited: DateTime.parse(json['lastTimeEdited'] as String),
+    pointerTypes: _$enumDecode(_$HDMPointerTypesEnumMap, json['pointerTypes']),
   )..collectionPath = json['collectionPath'] as String;
 }
 
@@ -23,6 +26,9 @@ Map<String, dynamic> _$OrgAccountPointerToJson(OrgAccountPointer instance) =>
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
+      'pointerPath': instance.pointerPath,
+      'pointerId': instance.pointerId,
+      'pointerTypes': _$HDMPointerTypesEnumMap[instance.pointerTypes],
       'orgAccountType': _$OrgAccountTypeEnumMap[instance.orgAccountType],
       'orgAccountid': instance.orgAccountid,
     };
@@ -67,8 +73,12 @@ const _$EntityTypsEnumMap = {
   EntityTyps.AccesLevel: 'AccesLevel',
   EntityTyps.Log: 'Log',
   EntityTyps.Hidden: 'Hidden',
-  EntityTyps.orgAccountPointer: 'orgAccountPointer',
+  EntityTyps.Pointer: 'Pointer',
   EntityTyps.RootEntity: 'RootEntity',
   EntityTyps.UserPriviteDate: 'UserPriviteDate',
   EntityTyps.UserPublicData: 'UserPublicData',
+};
+
+const _$HDMPointerTypesEnumMap = {
+  HDMPointerTypes.OrgAccountPointer: 'OrgAccountPointer',
 };

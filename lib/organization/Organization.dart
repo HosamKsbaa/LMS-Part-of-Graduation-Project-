@@ -15,7 +15,7 @@ part 'Organization.g.dart';
 @JsonSerializable()
 class Organization extends Entity {
   final String name;
-  Organization(String entityId, {required this.name, required DateTime lastTimeEdited, entityTyps: EntityTyps.orgAccountPointer}) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: EntityTyps.Organization) {
+  Organization(String entityId, {required this.name, required DateTime lastTimeEdited, entityTyps: EntityTyps.Organization}) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: EntityTyps.Organization) {
     personal = HDMCollection<OrgAccount>(this, "personal");
     classroom = HDMCollection<ClassRoom>(this, "classroom");
   }
