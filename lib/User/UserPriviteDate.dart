@@ -13,8 +13,9 @@ part 'UserPriviteDate.g.dart';
 //endregion
 class UserPriviteDate extends Entity {
   UserPriviteDate({required this.firstName, required this.lastName, required this.gender, required this.Birthday, required this.PhoneNumber, required this.email, required EntityTyps entityTyps})
-      : super(TheApp.appcntroler.userUid, entityTyps: EntityTyps.UserPriviteDate, lastTimeEdited: DateTime.now()) {
+      : super(TheApp.appcntroler.user.uid, entityTyps: EntityTyps.UserPriviteDate, lastTimeEdited: DateTime.now()) {
     userOrgnizationAccounts = HDMCollection<OrgAccountPointer>(this, "userOrgnizationAccounts");
+    //print("done1");
   }
   final String firstName;
   final String lastName;
@@ -26,7 +27,8 @@ class UserPriviteDate extends Entity {
   late HDMCollection<OrgAccountPointer> userOrgnizationAccounts;
 
   Future<OrgAccountPointer> addAnOrgAccountPinter(OrgAccount orgAccount) async {
-    var x = OrgAccountPointer(orgAccount.entityId, lastTimeEdited: DateTime.now(), entityTyps: orgAccount.entityTyps, orgAccountType: orgAccount.orgAccountType, orgAccountid: orgAccount.entityId);
+    var x = OrgAccountPointer(orgAccount.entityId,
+        pointerPath: orgAccount.collectionPath, pointerId: orgAccount.entityId, lastTimeEdited: DateTime.now(), entityTyps: orgAccount.entityTyps, orgAccountType: orgAccount.orgAccountType, orgAccountid: orgAccount.entityId, pointerTypes: HDMPointerTypes.OrgAccountPointer);
     await userOrgnizationAccounts.add(x);
     return x;
   }
@@ -35,7 +37,11 @@ class UserPriviteDate extends Entity {
   //conversations
 
   //region jsonApi
-  factory UserPriviteDate.fromJson(Map<String, dynamic> json) => _$UserPriviteDateFromJson(json);
+  factory UserPriviteDate.fromJson(Map<String, dynamic> json) {
+    print("done1");
+
+    return _$UserPriviteDateFromJson(json);
+  }
   Map<String, dynamic> toJson() => _$UserPriviteDateToJson(this);
   //endregion
 }

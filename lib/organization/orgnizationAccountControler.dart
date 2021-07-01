@@ -7,7 +7,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
 import 'package:lms/App/Login/SignUpInfo.dart';
-import 'package:lms/App/MainPage/AccountsPage.dart';
 import 'package:lms/User/UserPriviteDate.dart';
 import 'package:lms/User/UserPublicData.dart';
 import 'package:lms/organization/GeneralModels/Entity/RootEntity/RootEntity.dart';
@@ -41,29 +40,37 @@ class Appcntroler extends RootEntity {
   @JsonKey(ignore: true)
   late HDMCollection<UserPublicData> userPublicDataColl;
   @JsonKey(ignore: true)
-  late String userUid;
-  @JsonKey(ignore: true)
-  User? user;
+  late User _user;
+  User get user {
+    return _user;
+  }
+
+  set user(User user) {
+    if (user == null) {
+      throw {"don't do that "};
+    }
+    print("xxxxxxxxxxxxxxxxxxxxxxx");
+    _user = user;
+  }
 
   Future<bool> afterSuccesLogInChecks({required BuildContext context}) async {
-    usedrPriviteDate = await this.userPriviteDateColl.getValLocaly(this.userUid);
-    userPublicData = await this.userPublicDataColl.getValLocaly(this.userUid);
-    print(">>>>>>>>>>>>>>>Check if he is stored localy");
+  //  print(">>>>>>>>>>>>>>>Check if he is stored localy1");
+
+    usedrPriviteDate = await this.userPriviteDateColl.getValLocaly(this.user.uid);
+    userPublicData = await this.userPublicDataColl.getValLocaly(this.user.uid);
+   // print(">>>>>>>>>>>>>>>Check if he is stored localy2");
+
     assert((usedrPriviteDate == null) == (userPublicData == null));
     if (usedrPriviteDate == null) {
       print(">>>>>>>>>>>>>>>no localy");
 
-      //goto registerPage
       toast("notFound");
       await checkIfUserAlreadyExciteOnLineIfNoRegisterIt(context: context);
-      //hDMNavigatorPush(context, SignUpInfoController().data.play);
-      // print("usedrPriviteDate $usedrPriviteDate");
-      // print("userPublicData $userPublicData");
     } else {
       print(">>>>>>>>>>>>>>>yes localy");
     }
     return true;
-    print("sucess ");
+    //print("sucess ");
   }
 
   Future<FirebaseApp> initializeFirebase({required BuildContext context}) async {
@@ -71,23 +78,15 @@ class Appcntroler extends RootEntity {
 
     User? theUser = FirebaseAuth.instance.currentUser;
 
-    if (theUser != null) {
-      user = theUser;
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => AccountsPageController().data.play(),
-        ),
-      );
-    }
-
     return firebaseApp;
   }
 
   Future<bool> checkIfUserAlreadyExciteOnLineIfNoRegisterIt({required BuildContext context}) async {
-    usedrPriviteDate = await this.userPriviteDateColl.getValOnline(this.userUid);
-    userPublicData = await this.userPublicDataColl.getValOnline(this.userUid);
-    assert((usedrPriviteDate == null) == (userPublicData == null));
     print(">>>>>>>>>>>>>>>Check if he is stored online");
+
+    usedrPriviteDate = await this.userPriviteDateColl.getValOnline(this.user.uid);
+    userPublicData = await this.userPublicDataColl.getValOnline(this.user.uid);
+    // assert((usedrPriviteDate == null) == (userPublicData == null), "");
 
     if (usedrPriviteDate == null) {
       print(">>>>>>>>>>>>>>>no online");
@@ -182,18 +181,17 @@ class Appcntroler extends RootEntity {
   Future<Organization> addOrgnization(String entityId, {required String name}) async {
     var x = Organization(entityId, lastTimeEdited: DateTime.now(), name: name);
     await orgAccount.add(x);
-    var theorgAccount = await x.addOwner(userUid);
-
+    var theorgAccount = await x.addOwner(user.uid);
     this.usedrPriviteDate!.addAnOrgAccountPinter(theorgAccount);
     return x;
   }
 
   Future<void> LogInFromOnline() async {
     List<UserPriviteDate> z = await userPriviteDateColl.get().first;
-    usedrPriviteDate = z.where((element) => element.entityId == userUid).first;
+    usedrPriviteDate = z.where((element) => element.entityId == user.uid).first;
 
     List<UserPublicData> z2 = await userPublicDataColl.get().first;
-    userPublicData = z2.where((element) => element.entityId == userUid).first;
+    userPublicData = z2.where((element) => element.entityId == user.uid).first;
   }
 
   void LogInFromLocal() {}
@@ -206,7 +204,9 @@ class Appcntroler extends RootEntity {
     userPublicData = UserPublicData(displayName: displayName, FcmToken: FcmTokens, userProfilePic: userProfilePic, entityTyps: EntityTyps.UserPublicData);
     await userPriviteDateColl.add(usedrPriviteDate!);
     await userPublicDataColl.add(userPublicData!);
-    hDMNavigatorpop(context, MainControlerController().data.play);
+    print("pop");
+    Navigator.of(context).pop();
+    //hDMNavigatorpop(context, MainControlerController().data.play);
   }
 
   //region jsonApi

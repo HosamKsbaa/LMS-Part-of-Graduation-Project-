@@ -1,4 +1,5 @@
 //region header
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lms/main.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
@@ -12,8 +13,9 @@ part 'OrgAccountPointer.g.dart';
 
 //flutter packages pub run build_runner build
 //endregion
-class OrgAccountPointer extends Entity {
-  OrgAccountPointer(String entityId, {required this.orgAccountid, required this.orgAccountType, required EntityTyps entityTyps, required DateTime lastTimeEdited}) : super(entityId, entityTyps: EntityTyps.orgAccountPointer, lastTimeEdited: lastTimeEdited);
+class OrgAccountPointer extends HDMPointer {
+  OrgAccountPointer(String entityId, {required String pointerPath, required String pointerId, required this.orgAccountid, required this.orgAccountType, required EntityTyps entityTyps, required DateTime lastTimeEdited, required HDMPointerTypes pointerTypes})
+      : super(entityId, pointerId: pointerId, pointerPath: pointerPath, entityTyps: EntityTyps.Pointer, lastTimeEdited: lastTimeEdited, pointerTypes: HDMPointerTypes.OrgAccountPointer);
   final OrgAccountType orgAccountType;
   final String orgAccountid;
 

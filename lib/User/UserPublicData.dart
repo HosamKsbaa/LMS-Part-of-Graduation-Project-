@@ -11,7 +11,7 @@ part 'UserPublicData.g.dart';
 //flutter packages pub run build_runner build
 //endregion
 class UserPublicData extends Entity {
-  UserPublicData({required this.displayName, required this.userProfilePic, required EntityTyps entityTyps, required this.FcmToken}) : super(TheApp.appcntroler.userUid, entityTyps: EntityTyps.UserPublicData, lastTimeEdited: DateTime.now());
+  UserPublicData({required this.displayName, required this.userProfilePic, required EntityTyps entityTyps, required this.FcmToken}) : super(TheApp.appcntroler.user.uid, entityTyps: EntityTyps.UserPublicData, lastTimeEdited: DateTime.now());
   final String displayName;
   final String userProfilePic;
   final String FcmToken;

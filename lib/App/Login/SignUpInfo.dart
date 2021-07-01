@@ -91,8 +91,9 @@ class _WidgetSignUpInfo extends HDMStatelessWidget<SignUpInfoController> {
 }
 
 class CustomText extends StatelessWidget {
-  const CustomText({Key? key, required this.onSaved, required this.labelText}) : super(key: key);
+  const CustomText({Key? key, required this.onSaved, required this.labelText, this.prefix}) : super(key: key);
   final String? labelText;
+  final Widget? prefix;
   final void Function(String?)? onSaved;
   @override
   Widget build(BuildContext context) {

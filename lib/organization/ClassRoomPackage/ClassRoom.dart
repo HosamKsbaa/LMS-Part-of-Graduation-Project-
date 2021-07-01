@@ -2,9 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:lms/organization/GeneralModels/Entity/Activity/ActivitySignetre.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 import 'package:lms/organization/GeneralModels/HiddenFile/Hidden.dart';
-import 'package:lms/organization/orgAccount/OrgAccount.dart';
 import 'package:lms/organization/orgAccount/OrgAccountPointer.dart';
-import 'package:lms/organization/orgAccount/Role/Teacher.dart';
 
 import 'CourseMaterial/CourseMaterialBlock/CourseMaterialBlock.dart';
 
@@ -32,16 +30,16 @@ class ClassRoom extends ActivitySignetre {
   //region personalPointer
   @JsonKey(ignore: true)
   late HDMCollection<OrgAccountPointer> personalPointer;
-  void addTeacher(Teacher teacher) {
-    var obj = OrgAccountPointer(
-      teacher.entityId,
-      orgAccountid: teacher.entityId,
-      lastTimeEdited: DateTime.now(),
-      orgAccountType: OrgAccountType.Teacher,
-      entityTyps: EntityTyps.orgAccountPointer,
-    );
-    personalPointer.add(obj);
-  }
+  // void addTeacher(Teacher teacher) {
+  //   var obj = OrgAccountPointer(
+  //     teacher.entityId,
+  //     orgAccountid: teacher.entityId,
+  //     lastTimeEdited: DateTime.now(),
+  //     orgAccountType: OrgAccountType.Teacher,
+  //     entityTyps: EntityTyps.orgAccountPointer, pointerTypes: null,
+  //   );
+  //   personalPointer.add(obj);
+  // }
 
   //endregion
 }

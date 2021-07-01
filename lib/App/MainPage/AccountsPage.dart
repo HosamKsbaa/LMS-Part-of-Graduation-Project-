@@ -2,8 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lms/App/Drawer/Drawer.dart';
 import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
+import 'package:lms/organization/GeneralModels/Entity/entity.dart';
+import 'package:lms/organization/orgAccount/OrgAccountPointer.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
+import '../../main.dart';
 import '../../organization/orgAccount/OrgAccount.dart';
 import '_/AddAnOrg.dart';
 
@@ -40,11 +43,76 @@ class _WidgetAccountsPage extends HDMStatelessWidget<AccountsPageController> {
       appBar: AppBar(
         title: Text("Accounts"),
       ),
-      body: ListView(),
+      //body: StreamBuilder<List<UserPriviteDate>>(stream: TheApp.appcntroler.userPriviteDateColl.get(), builder: (context, obj) {}),
+      body: HDMStreamBuilder<OrgAccountPointer, OrgAccount>(
+        stream: TheApp.appcntroler.usedrPriviteDate!.userOrgnizationAccounts.get(),
+        err: () => ListTile(),
+        func: (r) => ListTile(
+          title: Text(r!.orgid),
+        ),
+        loading: () => ListTile(),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: app.addAccount,
         child: Icon(Icons.add),
       ),
+    );
+  }
+}
+
+class HDMStreamBuilder<x extends HDMPointer, y extends Entity> extends StatelessWidget {
+  const HDMStreamBuilder({Key? key, required this.stream, required this.loading, required this.func, required this.err}) : super(key: key);
+  final Stream<List<x>>? stream;
+  final Widget Function() loading;
+  final Widget Function(y?) func;
+
+  final Widget Function() err;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<List<x>>(
+      stream: stream,
+      builder: (BuildContext context, AsyncSnapshot<List<x>> snapshot) {
+        int counter = 0;
+        if (snapshot.hasError) {
+          return Center(
+            child: Container(
+              child: Icon(
+                Icons.error_outline,
+                color: Colors.red,
+                size: 60,
+              ),
+            ),
+          );
+        } else if (snapshot.hasData) {
+          List<x> data = snapshot.data!;
+          if (data.length == 0) {
+            return Container(
+              child: Text("No elements"),
+            );
+          } else {
+            return ListView(
+              children: data
+                  .map((e) => FutureBuilder<Entity?>(
+                      future: e.getIt(),
+                      builder: (context, builder) {
+                        if (builder.hasError) {
+                          return err();
+                        } else if (builder.hasData) {
+                          return func(builder.data as y);
+                        } else {
+                          return loading();
+                        }
+                      }))
+                  .toList(),
+            );
+          }
+        }
+
+        return Container(
+          child: Center(child: LinearProgressIndicator()),
+        );
+      },
     );
   }
 }

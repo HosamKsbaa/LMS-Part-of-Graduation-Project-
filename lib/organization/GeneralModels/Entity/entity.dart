@@ -6,15 +6,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:lms/User/UserPriviteDate.dart';
 import 'package:lms/User/UserPublicData.dart';
+import 'package:lms/main.dart';
 import 'package:lms/organization/GeneralModels/HiddenFile/Hidden.dart';
 import 'package:lms/organization/orgAccount/OrgAccount.dart';
 import 'package:lms/organization/orgAccount/OrgAccountPointer.dart';
 import 'package:overlay_support/overlay_support.dart';
 
+import '../../Organization.dart';
 import '../../orgnizationAccountControler.dart';
 import 'Activity/AccesLevel/AccesLevel.dart';
 import 'Activity/Log/Log.dart';
 import 'RootEntity/RootEntity.dart';
+
+part "pointer/Pointer.dart";
 
 enum EntityTyps {
   Organization,
@@ -23,7 +27,7 @@ enum EntityTyps {
   AccesLevel,
   Log,
   Hidden,
-  orgAccountPointer,
+  Pointer,
   RootEntity,
   UserPriviteDate,
   UserPublicData,
@@ -105,7 +109,7 @@ abstract class Entity {
     assert(x != null, "there is no orgAccountType parameter in  ");
     switch (x) {
       case EntityTyps.Organization:
-        return OrgAccount.fromJson(json);
+        return Organization.fromJson(json);
         break;
       case EntityTyps.RootEntity:
         return RootEntity.fromJson(json);
@@ -125,13 +129,12 @@ abstract class Entity {
       case EntityTyps.UserPriviteDate:
         return UserPriviteDate.fromJson(json);
         break;
-      case EntityTyps.orgAccountPointer:
-        return OrgAccountPointer.fromJson(json);
+      case EntityTyps.Pointer:
+        return HDMPointer.fromJson(json);
         break;
       case EntityTyps.UserPublicData:
         return UserPublicData.fromJson(json);
         break;
-
       default:
         return throw {"Error undefined ${json["orgAccountType"]}}"};
     }
@@ -162,6 +165,8 @@ class HDMCollection<CollectionItem extends Entity> {
     var x2 = (await x.get()).data();
     if (x2 == null) return null;
     CollectionItem? x3 = Entity.fromJson(x2) as CollectionItem?;
+    x3!.setPath(this._parent, collectionName);
+
     return x3;
   }
 
@@ -174,10 +179,15 @@ class HDMCollection<CollectionItem extends Entity> {
     // print(_objBox.keys);
     // print(_objBox.values);
     var e = _objBox.get(entityId);
-    if (e == null)
+    if (e == null) {
+      _objBox.values.forEach((element) {
+        print(element);
+      });
       return null;
-    else {
-      return Entity.fromJson(jsonDecode(e)) as CollectionItem?;
+    } else {
+      var z = Entity.fromJson(jsonDecode(e)) as CollectionItem?;
+      z!.setPath(this._parent, collectionName);
+      return z;
     }
   }
 
@@ -190,7 +200,7 @@ class HDMCollection<CollectionItem extends Entity> {
     // print("$this is set ");
     if (this._parent is Appcntroler) {
       //  print(this.runtimeType);
-
+      print("set it for Appcntroler");
       _collectionPath = '/' + collectionName;
     } else {
       // print(this.runtimeType);
@@ -240,6 +250,8 @@ class HDMCollection<CollectionItem extends Entity> {
   }
 
   Stream<List<CollectionItem>> get() {
+    // print(this.runtimeType);
+    assert(_collectionPath != null, "${this.runtimeType}");
     StreamController<List<CollectionItem>> controller = StreamController<List<CollectionItem>>();
 
     Future<List<CollectionItem>> geter() async {
@@ -247,7 +259,9 @@ class HDMCollection<CollectionItem extends Entity> {
         return Entity.fromJson(jsonDecode(e)) as CollectionItem;
       }
 
+      await _waitFor();
       var x = _objBox.values.map<CollectionItem>(tra).toList();
+      print("================" + x.toString());
       await Future.forEach<CollectionItem>(x, _trigerSetChild);
       controller.add(x);
       return x;
@@ -257,9 +271,9 @@ class HDMCollection<CollectionItem extends Entity> {
       geter().then((value) => controller.add(value));
     };
 
-    _objBox.watch().listen((event) async {
-      geter().then((value) => controller.add(value));
-    });
+    _waitFor().then((value) => _objBox.watch().listen((event) async {
+          geter().then((value) => controller.add(value));
+        }));
 
     controller.onCancel = () {
       controller.close();
