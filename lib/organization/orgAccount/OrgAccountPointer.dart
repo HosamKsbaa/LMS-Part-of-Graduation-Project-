@@ -16,6 +16,7 @@ part 'OrgAccountPointer.g.dart';
 class OrgAccountPointer extends HDMPointer {
   OrgAccountPointer(String entityId, {required String pointerPath, required String pointerId, required this.orgAccountid, required this.orgAccountType, required EntityTyps entityTyps, required DateTime lastTimeEdited, required HDMPointerTypes pointerTypes})
       : super(entityId, pointerId: pointerId, pointerPath: pointerPath, entityTyps: EntityTyps.Pointer, lastTimeEdited: lastTimeEdited, pointerTypes: HDMPointerTypes.OrgAccountPointer);
+
   final OrgAccountType orgAccountType;
   final String orgAccountid;
 

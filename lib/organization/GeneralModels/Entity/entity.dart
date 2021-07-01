@@ -8,7 +8,7 @@ import 'package:lms/User/UserPriviteDate.dart';
 import 'package:lms/User/UserPublicData.dart';
 import 'package:lms/main.dart';
 import 'package:lms/organization/GeneralModels/HiddenFile/Hidden.dart';
-import 'package:lms/organization/orgAccount/OrgAccount.dart';
+import 'package:lms/organization/Organization.dart';
 import 'package:lms/organization/orgAccount/OrgAccountPointer.dart';
 import 'package:overlay_support/overlay_support.dart';
 
@@ -103,7 +103,7 @@ abstract class Entity {
 
   factory Entity.fromJson(Map<String, dynamic> json) {
     var x = EntityTyps.values.firstWhere((e) {
-      // print(e.toString().split(".").last + "==" + json["entityTyps"]);
+      print("testhello"+e.toString().split(".").last + "==" + json["entityTyps"]);
       return e.toString().split(".").last == json["entityTyps"];
     });
     assert(x != null, "there is no orgAccountType parameter in  ");
@@ -114,8 +114,8 @@ abstract class Entity {
       case EntityTyps.RootEntity:
         return RootEntity.fromJson(json);
         break;
-      case EntityTyps.ActivitySignetre:
-        return OrgAccount.fromJson(json);
+      // case EntityTyps.ActivitySignetre:
+      //   return ActivitySignetre.fromJson(json);
         break;
       case EntityTyps.AccesLevel:
         return AccesLevel.fromJson(json);
@@ -136,7 +136,7 @@ abstract class Entity {
         return UserPublicData.fromJson(json);
         break;
       default:
-        return throw {"Error undefined ${json["orgAccountType"]}}"};
+        return throw {"Error undefined ${json["entityTyps"]}}"};
     }
   }
 

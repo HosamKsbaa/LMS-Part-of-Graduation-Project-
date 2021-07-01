@@ -29,21 +29,28 @@ abstract class OrgAccount extends ActivitySignetre {
     required this.orgAccountType,
     required DateTime lastTimeEdited,
     required EntityTyps entityTyps,
-  }) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: entityTyps, activitySignetreTyps: ActivitySignetreTyps.OrgAccount);
+
+    required ActivitySignetreTyps activitySignetreTyps,
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: entityTyps, activitySignetreTyps:activitySignetreTyps);
 
   factory OrgAccount.fromJson(Map<String, dynamic> json) {
-    if (json["orgAccountType"] == "student")
-      return Student.fromJson(json);
-    else if (json["orgAccountType"] == "parent")
-      return Parent.fromJson(json);
-    else if (json["orgAccountType"] == "administrator")
-      return Administrator.fromJson(json);
-    else if (json["orgAccountType"] == "teacher")
-      return Teacher.fromJson(json);
-    else if (json["orgAccountType"] == "owner")
-      return Owner.fromJson(json);
-    else
-      throw {"Error undefined OrgAccount orgAccountType"};
+    var x = OrgAccountType.values.firstWhere((element) =>
+    element.toString().split(".") == json["orgAccountType"]);
+    assert(x != null ,"there is no orgAccountType parameter in ");
+    switch(x) {
+      case OrgAccountType.Student:
+        return Student.fromJson(json);
+      case OrgAccountType.Parent:
+        return Parent.fromJson(json);
+      case OrgAccountType.Administrator:
+        return Administrator.fromJson(json);
+      case OrgAccountType.Teacher:
+        return Teacher.fromJson(json);
+      case OrgAccountType.Owner:
+        return Owner.fromJson(json);
+      default:
+        return throw {"Error undefined ${json["orgAccountType"]}}"};
+  }
   }
   Map<String, dynamic> toJson();
 }
