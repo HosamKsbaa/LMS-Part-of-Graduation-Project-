@@ -15,6 +15,7 @@ import 'package:overlay_support/overlay_support.dart';
 import '../../Organization.dart';
 import '../../orgnizationAccountControler.dart';
 import 'Activity/AccesLevel/AccesLevel.dart';
+import 'Activity/ActivitySignetre.dart';
 import 'Activity/Log/Log.dart';
 import 'RootEntity/RootEntity.dart';
 
@@ -103,7 +104,7 @@ abstract class Entity {
 
   factory Entity.fromJson(Map<String, dynamic> json) {
     var x = EntityTyps.values.firstWhere((e) {
-      print("testhello"+e.toString().split(".").last + "==" + json["entityTyps"]);
+      print("testhello" + e.toString().split(".").last + "==" + json["entityTyps"]);
       return e.toString().split(".").last == json["entityTyps"];
     });
     assert(x != null, "there is no orgAccountType parameter in  ");
@@ -114,8 +115,8 @@ abstract class Entity {
       case EntityTyps.RootEntity:
         return RootEntity.fromJson(json);
         break;
-      // case EntityTyps.ActivitySignetre:
-      //   return ActivitySignetre.fromJson(json);
+      case EntityTyps.ActivitySignetre:
+        return ActivitySignetre.fromJson(json);
         break;
       case EntityTyps.AccesLevel:
         return AccesLevel.fromJson(json);

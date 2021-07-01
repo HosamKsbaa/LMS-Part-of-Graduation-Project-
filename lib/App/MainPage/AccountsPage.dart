@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lms/App/Drawer/Drawer.dart';
 import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
@@ -43,14 +42,18 @@ class _WidgetAccountsPage extends HDMStatelessWidget<AccountsPageController> {
       appBar: AppBar(
         title: Text("Accounts"),
       ),
-      //body: StreamBuilder<List<UserPriviteDate>>(stream: TheApp.appcntroler.userPriviteDateColl.get(), builder: (context, obj) {}),
+//body: StreamBuilder<List<UserPriviteDate>>(stream: TheApp.appcntroler.userPriviteDateColl.get(), builder: (context, obj) {}),
       body: HDMStreamBuilder<OrgAccountPointer, OrgAccount>(
         stream: TheApp.appcntroler.usedrPriviteDate!.userOrgnizationAccounts.get(),
-        err: () => ListTile(),
+        err: () => ListTile(
+          title: Text("err"),
+        ),
         func: (r) => ListTile(
           title: Text(r!.orgid),
         ),
-        loading: () => ListTile(),
+        loading: () => ListTile(
+          title: Text("err"),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: app.addAccount,
@@ -91,20 +94,32 @@ class HDMStreamBuilder<x extends HDMPointer, y extends Entity> extends Stateless
               child: Text("No elements"),
             );
           } else {
-            return ListView(
-              children: data
-                  .map((e) => FutureBuilder<Entity?>(
-                      future: e.getIt(),
-                      builder: (context, builder) {
-                        if (builder.hasError) {
-                          return err();
-                        } else if (builder.hasData) {
-                          return func(builder.data as y);
-                        } else {
-                          return loading();
-                        }
-                      }))
-                  .toList(),
+            return LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) => Column(
+                children: [
+                  Text("There is ${data.length} elements"),
+                  Container(
+                    height: constraints.maxHeight * .8,
+                    color: Colors.grey,
+                    child: ListView(
+                      children: data
+                          .map((e) => FutureBuilder<Entity?>(
+                          future: e.getIt(),
+                          builder: (context, builder) {
+                            if (builder.hasError) {
+                              throw {builder.error};
+                              return err();
+                            } else if (builder.hasData) {
+                              return func(builder.data as y);
+                            } else {
+                              return loading();
+                            }
+                          }))
+                          .toList(),
+                    ),
+                  ),
+                ],
+              ),
             );
           }
         }
