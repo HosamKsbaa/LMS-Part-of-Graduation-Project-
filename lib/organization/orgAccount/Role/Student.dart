@@ -1,7 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
+import 'package:lms/App/MainPage/OrgAccounts/PagesForEachOrgAccount/Student.dart';
 import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
 import 'package:lms/organization/GeneralModels/Entity/Activity/ActivitySignetre.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
+
+import '../../Organization.dart';count.dart';
 
 import '../OrgAccount.dart';
 
@@ -34,5 +39,10 @@ class Student extends OrgAccount {
   @override
   void subWaitFor() {
     // TODO: implement subWaitFor
+  }
+  @override
+  void widget({required OrgAccount orgAccount, required Organization org, required BuildContext context}) {
+    hDMNavigatorPush(context, StudentController(orgAccount: orgAccount, org: org).data.play);
+
   }
 }

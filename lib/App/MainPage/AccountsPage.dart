@@ -8,6 +8,7 @@ import 'package:x_bloc2/x_bloc2.dart';
 
 import '../../main.dart';
 import '../../organization/orgAccount/OrgAccount.dart';
+import 'OrgAccounts/OrgAccounts.dart';
 import '_/AddAnOrg.dart';
 
 class AccountsPageController {
@@ -41,7 +42,7 @@ class _WidgetAccountsPage extends HDMStatelessWidget<AccountsPageController> {
     return Scaffold(
       drawer: HDmDrawerController().data.play(),
       appBar: AppBar(
-        title: Text("Accounts"),
+        title: Text("All orgnizationn"),
       ),
 //body: StreamBuilder<List<UserPriviteDate>>(stream: TheApp.appcntroler.userPriviteDateColl.get(), builder: (context, obj) {}),
       body: HDMStreamBuilder<OrgnizationPointer, Organization>(
@@ -49,8 +50,16 @@ class _WidgetAccountsPage extends HDMStatelessWidget<AccountsPageController> {
         err: () => ListTile(
           title: Text("err"),
         ),
-        func: (r) => ListTile(
-          title: Text(r!.name),
+        func: (Org, orgPointer) => Card(
+          child: ListTile(
+            onTap: () {
+              hDMNavigatorPush(context, OrgAccountsController(hdmPointer: orgPointer, org: Org).data.play);
+            },
+            trailing: Icon(Icons.arrow_forward_ios_rounded),
+            leading: Icon(Icons.school),
+            title: Text(Org!.name),
+            //subtitle: Text(r!.),
+          ),
         ),
         loading: () => ListTile(
           title: Text("err"),
@@ -68,7 +77,7 @@ class HDMStreamBuilder<x extends HDMPointer, y extends Entity> extends Stateless
   const HDMStreamBuilder({Key? key, required this.stream, required this.loading, required this.func, required this.err}) : super(key: key);
   final Stream<List<x>>? stream;
   final Widget Function() loading;
-  final Widget Function(y?) func;
+  final Widget Function(y, x) func;
 
   final Widget Function() err;
 
@@ -99,9 +108,7 @@ class HDMStreamBuilder<x extends HDMPointer, y extends Entity> extends Stateless
               builder: (BuildContext context, BoxConstraints constraints) => Column(
                 children: [
                   Text("There is ${data.length} elements last update ${DateTime.now()}"),
-                  Container(
-                    height: constraints.maxHeight * .8,
-                    color: Colors.grey,
+                  Expanded(
                     child: ListView(
                       children: data
                           .map((e) => FutureBuilder<Entity?>(
@@ -111,14 +118,14 @@ class HDMStreamBuilder<x extends HDMPointer, y extends Entity> extends Stateless
                                   throw {builder.error};
                                   return err();
                                 } else if (builder.hasData) {
-                                  return func(builder.data as y);
+                                  return func(builder.data as y, e);
                                 } else {
                                   return loading();
                                 }
                               }))
                           .toList(),
                     ),
-                  ),
+                  )
                 ],
               ),
             );
