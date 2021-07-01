@@ -6,8 +6,7 @@ import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
 import 'package:lms/organization/GeneralModels/Entity/Activity/ActivitySignetre.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 
-import '../../Organization.dart';count.dart';
-
+import '../../Organization.dart';
 import '../OrgAccount.dart';
 
 part 'Teacher.g.dart';
@@ -24,9 +23,8 @@ class Teacher extends OrgAccount {
     required String uid,
     required DateTime lastTimeEdited,
     required EntityTyps entityTyps,
-
     required ActivitySignetreTyps activitySignetreTyps,
-  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Teacher, orgid: orgid, uid: uid, entityTyps: entityTyps,activitySignetreTyps: activitySignetreTyps);
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, orgAccountType: OrgAccountType.Teacher, orgid: orgid, uid: uid, entityTyps: entityTyps, activitySignetreTyps: activitySignetreTyps);
 
   factory Teacher.fromJson(Map<String, dynamic> json) => _$TeacherFromJson(json);
 
@@ -44,6 +42,5 @@ class Teacher extends OrgAccount {
   @override
   void widget({required OrgAccount orgAccount, required Organization org, required BuildContext context}) {
     hDMNavigatorPush(context, TeacherController(orgAccount: orgAccount, org: org).data.play);
-
   }
 }
