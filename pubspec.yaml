@@ -83,6 +83,11 @@ flutter:
     - assets/fb.png
     - assets/insta.png
     - assets/google_logo.png
+    - assets/parent.png
+    - assets/user1.png
+    - assets/admin.png
+    - assets/teacher.png
+
     - assets/
 
 

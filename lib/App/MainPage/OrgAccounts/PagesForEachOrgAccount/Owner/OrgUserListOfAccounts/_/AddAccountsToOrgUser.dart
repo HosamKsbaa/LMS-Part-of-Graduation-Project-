@@ -53,16 +53,23 @@ class _WidgetAddAccountsToOrgUser extends HDMStatelessWidget<AddAccountsToOrgUse
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Row (children: [
+          Padding( padding: EdgeInsets.only(right: 5),
+            child: Icon(Icons.info)
+          ),
+          Text("Add a User")
+        ],),
+      ),
       body: ListView(
         children: [
           Card(
             child: ListTile(
               onTap: () => app.addOwner(context),
               //enabled: false,
-              trailing: Icon(Icons.business_outlined),
+              trailing: Icon(Icons.add),
               title: Text("Add Owner"),
-              leading: Icon(Icons.add),
+              leading:  Image(image: AssetImage("assets/owner.png")),
             ),
           ),
           Card(
@@ -70,38 +77,38 @@ class _WidgetAddAccountsToOrgUser extends HDMStatelessWidget<AddAccountsToOrgUse
               onTap: () => app.addAdministrator(context),
 
               enabled: false,
-              trailing: Icon(Icons.business_outlined),
+              trailing: Icon(Icons.add),
               title: Text("Add Admin"),
               //   subtitle: Text("Look Up By code"),
-              leading: Icon(Icons.search_off),
+              leading: Image(image: AssetImage("assets/admin.png")) ,
             ),
           ),
           Card(
             child: ListTile(
               onTap: () => app.addTeacher(context),
-              trailing: Icon(Icons.pending_actions),
+              trailing: Icon(Icons.add),
               title: Text("Add Teacher"),
-              leading: Icon(Icons.add),
+              leading: Image(image: AssetImage("assets/teacher.png")),
             ),
           ),
           Card(
             child: ListTile(
               onTap: () => app.addStudent(context),
 
-              trailing: Icon(Icons.pending_actions),
+              trailing: Icon(Icons.add),
               title: Text("Add Student"),
               //   subtitle: Text("Look Up By code"),
-              leading: Icon(Icons.search_off),
+              leading:  Image(image: AssetImage("assets/student.png"),),
             ),
           ),
           Card(
             child: ListTile(
               onTap: () => app.addParent(context),
 
-              trailing: Icon(Icons.pending_actions),
+              trailing: Icon(Icons.add),
               title: Text("Add Parent"),
               //  subtitle: Text("Look Up By code"),
-              leading: Icon(Icons.search_off),
+              leading:  Image(image: AssetImage("assets/parent.png")),
             ),
           )
         ],

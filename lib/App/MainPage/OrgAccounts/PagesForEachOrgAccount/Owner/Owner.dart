@@ -50,7 +50,8 @@ class OwnerController {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Center(
-                        child: Text("Click On this text to add to you clip board "),
+                        child: Text("Click On this text to add to you clip board ",
+                        style: TextStyle(fontSize: 18),),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -87,7 +88,7 @@ class _WidgetOwner extends HDMStatelessWidget<OwnerController> {
               hDMNavigatorPush(context, OrgUserListOfAccountsController(orgUser: eS).data.play);
             },
             trailing: Icon(Icons.arrow_forward_ios_rounded),
-            leading: Icon(Icons.verified_user),
+            leading: Icon(Icons.supervised_user_circle),
             title: Text(show(eS)),
             //subtitle: Text(r!.),
           ),
