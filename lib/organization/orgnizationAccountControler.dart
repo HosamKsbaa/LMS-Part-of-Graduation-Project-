@@ -14,7 +14,9 @@ import 'package:lms/organization/Organization.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import '../MainControler.dart';
+import '../main.dart';
 import 'GeneralModels/Entity/entity.dart';
+import 'orgAccount/OrgUser.dart';
 
 part 'orgnizationAccountControler.g.dart';
 
@@ -24,41 +26,50 @@ part 'orgnizationAccountControler.g.dart';
 //endregion
 class Appcntroler extends RootEntity {
   Appcntroler() : super("", rootEntityTyps: RootEntityTyps.Appcntroler) {
-    orgAccount = HDMCollection<Organization>(this, "Organization");
+    org = HDMCollection<Organization>(this, "Organization");
     userPriviteDateColl = HDMCollection<UserPriviteDate>(this, "userPriviteDate");
 
     userPublicDataColl = HDMCollection<UserPublicData>(this, "userPublicData");
-
-    setPath(null, "/");
+    //todo might be a problem
+    setPath1();
   }
+
+  Future<bool> setPath1() async {
+    await setPath(null, "/");
+    return true;
+  }
+
   late UserPriviteDate? usedrPriviteDate;
   late UserPublicData? userPublicData;
   @JsonKey(ignore: true)
-  late HDMCollection<Organization> orgAccount;
+  late HDMCollection<Organization> org;
   @JsonKey(ignore: true)
   late HDMCollection<UserPriviteDate> userPriviteDateColl;
   @JsonKey(ignore: true)
   late HDMCollection<UserPublicData> userPublicDataColl;
   @JsonKey(ignore: true)
   late User _user;
+  @JsonKey(ignore: true)
   User get user {
     return _user;
   }
 
+  @JsonKey(ignore: true)
   set user(User user) {
     if (user == null) {
       throw {"don't do that "};
     }
-    print("xxxxxxxxxxxxxxxxxxxxxxx");
+    //  print("xxxxxxxxxxxxxxxxxxxxxxx");
     _user = user;
   }
 
+  //late Function refrechTheapp;
   Future<bool> afterSuccesLogInChecks({required BuildContext context}) async {
-  //  print(">>>>>>>>>>>>>>>Check if he is stored localy1");
+    //  print(">>>>>>>>>>>>>>>Check if he is stored localy1");
 
     usedrPriviteDate = await this.userPriviteDateColl.getValLocaly(this.user.uid);
     userPublicData = await this.userPublicDataColl.getValLocaly(this.user.uid);
-   // print(">>>>>>>>>>>>>>>Check if he is stored localy2");
+    // print(">>>>>>>>>>>>>>>Check if he is stored localy2");
 
     assert((usedrPriviteDate == null) == (userPublicData == null));
     if (usedrPriviteDate == null) {
@@ -66,10 +77,13 @@ class Appcntroler extends RootEntity {
 
       toast("notFound");
       await checkIfUserAlreadyExciteOnLineIfNoRegisterIt(context: context);
+      return true;
     } else {
       print(">>>>>>>>>>>>>>>yes localy");
+      return true;
+
+      //  TheApp.appcntroler.refrechTheapp();
     }
-    return true;
     //print("sucess ");
   }
 
@@ -94,12 +108,14 @@ class Appcntroler extends RootEntity {
       //goto registerPage
       toast("notFound");
       hDMNavigatorPush(context, SignUpInfoController().data.play);
+      await Future.delayed(const Duration(seconds: 1), () {});
       print("usedrPriviteDate $usedrPriviteDate");
       print("userPublicData $userPublicData");
-      return true;
+      return false;
       // return ;
     } else {
       print(">>>>>>>>>>>>>>>yes online");
+      // TheApp.appcntroler.refrechTheapp();
 
       return true;
 
@@ -117,9 +133,12 @@ class Appcntroler extends RootEntity {
       GoogleAuthProvider authProvider = GoogleAuthProvider();
 
       try {
-        final UserCredential userCredential = await auth.signInWithPopup(authProvider);
+        await auth.signInWithPopup(authProvider).then((userCredential) {
+          theUser = userCredential.user;
+        }).timeout(Duration(seconds: 30), onTimeout: () {
+          toast("You are Oflline , plz restore connection");
+        });
 
-        theUser = userCredential.user;
         //  checkIfUserAlreadyExciteOnLineIfNoRegisterIt(context: context);
       } catch (e) {
         print(e);
@@ -127,7 +146,9 @@ class Appcntroler extends RootEntity {
     } else {
       final GoogleSignIn googleSignIn = GoogleSignIn();
 
-      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn().timeout(Duration(seconds: 30), onTimeout: () {
+        toast("You are Oflline , plz restore connection");
+      });
 
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
@@ -154,9 +175,10 @@ class Appcntroler extends RootEntity {
     }
 
     if (theUser != null) {
-      checkIfUserAlreadyExciteOnLineIfNoRegisterIt(context: context);
+      user = theUser!;
 
-      user = theUser;
+      await checkIfUserAlreadyExciteOnLineIfNoRegisterIt(context: context);
+
       hDMNavigatorpop(context, MainControlerController().data.play);
     }
 
@@ -164,11 +186,13 @@ class Appcntroler extends RootEntity {
   }
 
   Future<void> signOut({required BuildContext? context}) async {
+    usedrPriviteDate = null;
+    userPublicData = null;
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
     try {
-      userPriviteDateColl.cleanBox();
-      userPublicDataColl.cleanBox();
+      // userPriviteDateColl.cleanBox();
+      //  userPublicDataColl.cleanBox();
       if (!kIsWeb) {
         await googleSignIn.signOut();
       }
@@ -180,19 +204,31 @@ class Appcntroler extends RootEntity {
 
   Future<Organization> addOrgnization(String entityId, {required String name}) async {
     var x = Organization(entityId, lastTimeEdited: DateTime.now(), name: name);
-    await orgAccount.add(x);
-    var theorgAccount = await x.addOwner(user.uid);
-    this.usedrPriviteDate!.addAnOrgAccountPinter(theorgAccount);
+    await org.add(x);
+    // OrgAccount orgAccount = await x.addOwner(user.uid);
+    var id = OrgUser.idGenerator(x);
+    var theorgUser = await x.addAOrgUser(id);
+
+    theorgUser.displayName = TheApp.appcntroler.userPublicData!.displayName;
+    var theorgAccount = await theorgUser.addOwner(user.uid + x.entityId);
+
+    var orgPointer = await this.usedrPriviteDate!.addAnOrganizationPinter(org: x, orgUserCode: id);
+    orgPointer.addorgAccountPointer(theorgAccount);
     return x;
   }
-
-  Future<void> LogInFromOnline() async {
-    List<UserPriviteDate> z = await userPriviteDateColl.get().first;
-    usedrPriviteDate = z.where((element) => element.entityId == user.uid).first;
-
-    List<UserPublicData> z2 = await userPublicDataColl.get().first;
-    userPublicData = z2.where((element) => element.entityId == user.uid).first;
-  }
+  // Future<Organization> connectToAccoun(String entityId, {required String name}) async {
+  //   // var x = Organization(entityId, lastTimeEdited: DateTime.now(), name: name);
+  //   // await org.add(x);
+  //   // // OrgAccount orgAccount = await x.addOwner(user.uid);
+  //   //
+  //   // var theorgUser = await x.addAOrgUser(user.uid);
+  //   // theorgUser.displayName = TheApp.appcntroler.userPublicData!.displayName;
+  //   // var theorgAccount = await theorgUser.addOwner(user.uid + x.entityId);
+  //
+  //   var orgPointer = await this.usedrPriviteDate!.addAnOrganizationPinter(x);
+  //   orgPointer.addorgAccountPointer(theorgAccount);
+  //   return x;
+  // }
 
   void LogInFromLocal() {}
 
@@ -205,8 +241,9 @@ class Appcntroler extends RootEntity {
     await userPriviteDateColl.add(usedrPriviteDate!);
     await userPublicDataColl.add(userPublicData!);
     print("pop");
-    Navigator.of(context).pop();
-    //hDMNavigatorpop(context, MainControlerController().data.play);
+    // TheApp.appcntroler.refrechTheapp();
+
+    hDMNavigatorpop(context, MainControlerController().data.play);
   }
 
   //region jsonApi

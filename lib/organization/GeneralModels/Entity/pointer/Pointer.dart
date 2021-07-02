@@ -1,8 +1,6 @@
 part of '../../Entity/entity.dart';
 
-enum HDMPointerTypes {
-  OrgAccountPointer,
-}
+enum HDMPointerTypes { OrgAccountPointer, OrgnizationPointer }
 
 abstract class HDMPointer extends Entity {
   HDMPointer(String entityId, {required this.pointerPath, required this.pointerId, required EntityTyps entityTyps, required this.pointerTypes, required DateTime lastTimeEdited}) : super(entityId, entityTyps: entityTyps, lastTimeEdited: lastTimeEdited);
@@ -15,10 +13,10 @@ abstract class HDMPointer extends Entity {
     pointerPath.replaceFirst("/", "");
     List<String> thelist = pointerPath.split("/");
     thelist.removeAt(0);
-
-    thelist.forEach((element) {
-      print(element.toString());
-    });
+    //
+    // thelist.forEach((element) {
+    //   print(element.toString());
+    // });
     Future<Entity?> getObj(HDMCollection<Entity> collection) async {
       Entity? entity = await collection.getValLocaly(thelist.first);
       thelist.removeAt(0);
@@ -55,6 +53,9 @@ abstract class HDMPointer extends Entity {
     switch (x) {
       case HDMPointerTypes.OrgAccountPointer:
         return OrgAccountPointer.fromJson(json);
+        break;
+      case HDMPointerTypes.OrgnizationPointer:
+        return OrgnizationPointer.fromJson(json);
         break;
 
       default:

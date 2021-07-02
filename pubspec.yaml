@@ -52,19 +52,19 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^2.0.4
   json_serializable: ^4.1.3
-#  flutter_launcher_icons: ^0.9.0
-#  flutter_launcher_name:
-#    git:
-#      url: https://github.com/ride4sun/flutter_launcher_name
-#      ref: "0.9.1"
-#
-#flutter_icons:
-#  android: "launcher_icon"
-#  ios: true
-#  image_path: "assets/Icon/icon.png"
-#flutter_launcher_name:
-#  name: "تذكير الشنقيطي"
-#
+  flutter_launcher_icons: ^0.9.0
+  flutter_launcher_name:
+    git:
+      url: https://github.com/ride4sun/flutter_launcher_name
+      ref: "0.9.1"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/Icon.png"
+flutter_launcher_name:
+  name: "Pocket Learning"
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -82,11 +82,9 @@ flutter:
     - assets/logo.png
     - assets/fb.png
     - assets/insta.png
-<<<<<<< HEAD
     - assets/google_logo.png
-=======
-    - assets/google_logo.png"
->>>>>>> a9d18f9c3f306041efc1d3a10abeede462346904
+    - assets/
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

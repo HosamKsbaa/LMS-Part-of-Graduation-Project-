@@ -17,11 +17,11 @@ abstract class CourseMaterialBlock extends ActivitySignetre {
   //region jsonApi
   factory CourseMaterialBlock.fromJson(Map<String, dynamic> json) {
     var x = CourseMaterialType.values.firstWhere((e) {
-      print("testhello"+e.toString().split(".").last + "==" + json["courseMaterialType"]);
+      // print("testhello"+e.toString().split(".").last + "==" + json["courseMaterialType"]);
       return e.toString().split(".").last == json["courseMaterialType"];
     });
     assert(x != null, "there is no courseMaterialType parameter in  ");
-    if(x == CourseMaterialType.Event)
+    if (x == CourseMaterialType.Event)
       return LMSEvent.fromJson(json);
     else
       return throw {"Error undefined ${json["courseMaterialType"]}"};
