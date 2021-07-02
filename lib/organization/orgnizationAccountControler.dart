@@ -30,9 +30,15 @@ class Appcntroler extends RootEntity {
     userPriviteDateColl = HDMCollection<UserPriviteDate>(this, "userPriviteDate");
 
     userPublicDataColl = HDMCollection<UserPublicData>(this, "userPublicData");
-
-    setPath(null, "/");
+    //todo might be a problem
+    setPath1();
   }
+
+  Future<bool> setPath1() async {
+    await setPath(null, "/");
+    return true;
+  }
+
   late UserPriviteDate? usedrPriviteDate;
   late UserPublicData? userPublicData;
   @JsonKey(ignore: true)
@@ -127,9 +133,12 @@ class Appcntroler extends RootEntity {
       GoogleAuthProvider authProvider = GoogleAuthProvider();
 
       try {
-        final UserCredential userCredential = await auth.signInWithPopup(authProvider);
+        await auth.signInWithPopup(authProvider).then((userCredential) {
+          theUser = userCredential.user;
+        }).timeout(Duration(seconds: 30), onTimeout: () {
+          toast("You are Oflline , plz restore connection");
+        });
 
-        theUser = userCredential.user;
         //  checkIfUserAlreadyExciteOnLineIfNoRegisterIt(context: context);
       } catch (e) {
         print(e);
@@ -137,7 +146,9 @@ class Appcntroler extends RootEntity {
     } else {
       final GoogleSignIn googleSignIn = GoogleSignIn();
 
-      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn().timeout(Duration(seconds: 30), onTimeout: () {
+        toast("You are Oflline , plz restore connection");
+      });
 
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
@@ -164,7 +175,7 @@ class Appcntroler extends RootEntity {
     }
 
     if (theUser != null) {
-      user = theUser;
+      user = theUser!;
 
       await checkIfUserAlreadyExciteOnLineIfNoRegisterIt(context: context);
 
@@ -195,13 +206,13 @@ class Appcntroler extends RootEntity {
     var x = Organization(entityId, lastTimeEdited: DateTime.now(), name: name);
     await org.add(x);
     // OrgAccount orgAccount = await x.addOwner(user.uid);
-    var id = OrgUser.idGenerator();
+    var id = OrgUser.idGenerator(x);
     var theorgUser = await x.addAOrgUser(id);
 
     theorgUser.displayName = TheApp.appcntroler.userPublicData!.displayName;
     var theorgAccount = await theorgUser.addOwner(user.uid + x.entityId);
 
-    var orgPointer = await this.usedrPriviteDate!.addAnOrganizationPinter(orgAccount: x, orgUserCode: id);
+    var orgPointer = await this.usedrPriviteDate!.addAnOrganizationPinter(org: x, orgUserCode: id);
     orgPointer.addorgAccountPointer(theorgAccount);
     return x;
   }

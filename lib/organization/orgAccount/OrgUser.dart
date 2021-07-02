@@ -31,8 +31,17 @@ class OrgUser extends ActivitySignetre {
   @JsonKey(ignore: true)
   late Organization org;
   //region   OrgAccount
-  static String idGenerator() {
-    return DateTime.now().toString();
+  static String _patrren = "~##~";
+  static String idGenerator(Organization org) {
+    return org.entityId + _patrren + DateTime.now().toString();
+  }
+
+  static String getOrgId(String s) {
+    return s.split(_patrren).first;
+  }
+
+  static String getOrgUserId(String s) {
+    return s;
   }
 
   @JsonKey(ignore: true)

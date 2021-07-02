@@ -34,11 +34,12 @@ class Organization extends Entity {
     var x = OrgUser(id, lastTimeEdited: DateTime.now(), entityTyps: EntityTyps.ActivitySignetre, activitySignetreTyps: ActivitySignetreTyps.OrgUser);
     x.org = this;
     await orgUser.add(x);
+
     return x;
   }
 
   Future<OrgUser> connectTo(String id) async {
-    var x = OrgUser(OrgUser.idGenerator(), lastTimeEdited: DateTime.now(), entityTyps: EntityTyps.ActivitySignetre, activitySignetreTyps: ActivitySignetreTyps.OrgUser);
+    var x = OrgUser(OrgUser.idGenerator(this), lastTimeEdited: DateTime.now(), entityTyps: EntityTyps.ActivitySignetre, activitySignetreTyps: ActivitySignetreTyps.OrgUser);
     x.org = this;
     await orgUser.add(x);
     return x;

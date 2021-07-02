@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lms/organization/orgAccount/OrgUser.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:x_bloc2/x_bloc2.dart';
+
+import '../../../../main.dart';
 
 class AddAnAccountController {
 //region  Keys
@@ -15,23 +19,36 @@ class AddAnAccountController {
     _start();
   }
 
-  // Future<void> connectToAccoun(BuildContext context) async {
-  //   // final FirebaseAuth auth = FirebaseAuth.instance;
-  //   // final User? user = auth.currentUser;
-  //
-  //   if (_formKey.currentState!.validate()) {
-  //     _formKey.currentState!.save();
-  //     toast("proccsing");
-  //
-  //     //  Appcntroler appcntroler = Appcntroler();
-  //     var x = await TheApp.appcntroler.addOrgnization(Code + " - " + user!.uid + DateTime.now().toString(), name: Code);
-  //     toast("Succes");
-  //     Navigator.of(context).pop();
-  //     Navigator.of(context).pop();
-  //     //var classroom = x.addClassroom("TestclassRoom1", classRoomName: "data science");
-  //   }
-  // }
-  //
+  Future<void> connectToAccoun(BuildContext context) async {
+    // final FirebaseAuth auth = FirebaseAuth.instance;
+    // final User? user = auth.currentUser;
+
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      toast("proccsing");
+
+      //  Appcntroler appcntroler = Appcntroler();
+
+      var org = await TheApp.appcntroler.org.getValOnline(OrgUser.getOrgId(Code));
+      if (org != null) {
+        var v = await org.orgUser.getValOnline(OrgUser.getOrgUserId(Code));
+        TheApp.appcntroler.usedrPriviteDate!.addAnOrganizationPinter(org: org, orgUserCode: Code);
+
+        if (v != null) {
+          toast("Succes");
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+          return;
+        } else {
+          toast("the UserOrg Code is Not Correct ${OrgUser.getOrgUserId(Code)} ");
+        }
+      } else {
+        toast("the org Code is Not Correct ${OrgUser.getOrgId(Code)}");
+      }
+
+      //var classroom = x.addClassroom("TestclassRoom1", classRoomName: "data science");
+    }
+  }
 }
 
 class _WidgetAddAnAccount extends HDMStatelessWidget<AddAnAccountController> {
@@ -69,7 +86,7 @@ class _WidgetAddAnAccount extends HDMStatelessWidget<AddAnAccountController> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {}, //=> app.CreatANewOrg(context),
+                    onPressed: () => app.connectToAccoun(context),
                     child: Text('Submit'),
                   ),
                   // Add TextFormFields and ElevatedButton here.

@@ -34,7 +34,7 @@ class OwnerController {
     _start();
   }
   void inviteAnewUserToTheOrg(BuildContext context) {
-    String id = OrgUser.idGenerator();
+    String id = OrgUser.idGenerator(org);
     org.addAOrgUser(id);
     showDialog(
         context: context,

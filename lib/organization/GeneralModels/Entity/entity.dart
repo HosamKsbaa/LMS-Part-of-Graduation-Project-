@@ -48,29 +48,33 @@ abstract class Entity {
   @required
   final String entityId;
   final List<HDMCollection> _childCollections = [];
-
+  bool doneSet = false;
   late DocumentReference _entityDocRef;
 
-  void setPath(Entity? parent, collection) {
-    theParent = parent;
+  Future<void> setPath(Entity? parent, collection) async {
+    if (!doneSet) {
+      theParent = parent;
 
-    if (this is RootEntity) {
-      //print(this.runtimeType);
-      collectionPath = "/";
-    } else if (this.theParent is RootEntity) {
-      //  print(this.runtimeType);
+      if (this is RootEntity) {
+        //print(this.runtimeType);
+        collectionPath = "/";
+      } else if (this.theParent is RootEntity) {
+        //  print(this.runtimeType);
 
-      collectionPath = "/" + collection;
-    } else if (theParent == null) {
-      throw {"Has No paretn ${this.runtimeType}"};
-    } else {
-      collectionPath = theParent!.collectionPath + "/" + theParent!.entityId + "/" + collection;
-    }
-    try {
-      _childCollections.forEach((e) => e._setIt());
-    } catch (e) {
-      //todo delete all data if opration fail
-      toast("there is an error on collection $Entity $e");
+        collectionPath = "/" + collection;
+      } else if (theParent == null) {
+        throw {"Has No paretn ${this.runtimeType}"};
+      } else {
+        collectionPath = theParent!.collectionPath + "/" + theParent!.entityId + "/" + collection;
+      }
+      try {
+        await Future.forEach<HDMCollection>(_childCollections, (e) async => await e._setIt());
+
+        // _childCollections.forEach((e) => e._setIt());
+      } catch (e) {
+        //todo delete all data if opration fail
+        toast("there is an error on collection $Entity $e");
+      }
     }
     // print("Path of $Entity is $collectionPath <<<<<<<<<<<");
     //print(path);
@@ -151,6 +155,7 @@ class HDMCollection<CollectionItem extends Entity> {
   final Entity _parent;
   final String collectionName;
   late String _collectionPath;
+  List<CollectionItem>? list;
   // bool isSet=false;
 
   late CollectionReference _collectionDocRef;
@@ -167,12 +172,19 @@ class HDMCollection<CollectionItem extends Entity> {
   Future<CollectionItem?> getValOnline(String entityId) async {
     //print("????????????????? " + _collectionPath + '/' + entityId);
     var x = FirebaseFirestore.instance.doc(_collectionPath + '/' + entityId);
-    var x2 = (await x.get()).data();
-    if (x2 == null) return null;
-    CollectionItem? x3 = Entity.fromJson(x2) as CollectionItem?;
-    x3!.setPath(this._parent, collectionName);
+    await x.get().then<CollectionItem?>((x1D) async {
+      var x2 = x1D.data();
+      if (x2 == null) {
+        print("didn't find ${_collectionPath + '/' + entityId}");
+        return null;
+      }
+      CollectionItem? x3 = Entity.fromJson(x2) as CollectionItem?;
+      await x3!.setPath(this._parent, collectionName);
 
-    return x3;
+      return x3;
+    }).timeout(Duration(seconds: 1), onTimeout: () {
+      toast("You are Oflline , plz restore connection");
+    });
   }
 
   void updateValue() {}
@@ -200,17 +212,17 @@ class HDMCollection<CollectionItem extends Entity> {
       return null;
     } else {
       var z = Entity.fromJson(jsonDecode(e)) as CollectionItem?;
-      z!.setPath(this._parent, collectionName);
+      await z!.setPath(this._parent, collectionName);
       return z;
     }
   }
 
   Future<void> _trigerSetChild(CollectionItem obj) async {
-    obj.setPath(_parent, collectionName);
+    await obj.setPath(_parent, collectionName);
 //    isSet=true;
   }
 
-  void _setIt() {
+  Future<void> _setIt() async {
     // print("$this is set ");
     if (this._parent is Appcntroler) {
       //  print(this.runtimeType);
@@ -221,6 +233,9 @@ class HDMCollection<CollectionItem extends Entity> {
 
       _collectionPath = _parent.collectionPath + '/' + _parent.entityId + '/' + collectionName;
     }
+    await _waitFor();
+    // list = await _objBox!.values.map<CollectionItem>(_tra).toList();
+
     // print("Path of $CollectionItem is $_collectionPath");
   }
 
@@ -230,6 +245,7 @@ class HDMCollection<CollectionItem extends Entity> {
     if (_objBox == null) {
       //   print("no");
       _objBox = await Hive.openBox(_collectionPath.replaceAll('/', "%%"));
+
       return;
     }
     // print("yes");
@@ -252,44 +268,36 @@ class HDMCollection<CollectionItem extends Entity> {
     }
 
     await _trigerSetChild(obj);
+
     _collectionDocRef = FirebaseFirestore.instance.collection(_collectionPath);
     obj.lastTimeEdited = DateTime.now();
-    await _collectionDocRef.doc(obj.entityId).set(obj.toJson());
-    await _waitFor();
 
-    ///re
-    bool checkMethou() {
-      var x = _objBox!.values.map<CollectionItem>(tra).toList();
+    await _collectionDocRef.doc(obj.entityId).set(obj.toJson()).then((value) async {
+      await _waitFor();
 
-      var x2 = x.any((element) {
-        return element.entityId == obj.entityId;
-      });
-      return x2;
-    }
+      bool checkMethou() {
+        var x = _objBox!.values.map<CollectionItem>(tra).toList();
 
-    assert(!checkMethou(), "2 elements with the same id ix it ${this.runtimeType} ");
-    await _objBox!.put(
-      obj.entityId,
-      jsonEncode(obj.toJson()),
-    );
+        var x2 = x.any((element) {
+          return element.entityId == obj.entityId;
+        });
+        return x2;
+      }
 
-    var x1 = _objBox!.values.map<CollectionItem>(tra).toList();
+      assert(!checkMethou(), "2 elements with the same id ix it ${this.runtimeType} ");
+      await _objBox!.put(
+        obj.entityId,
+        jsonEncode(obj.toJson()),
+      );
 
-    void _injectParent(CollectionItem collectionItem) {
-      return collectionItem.setPath(_parent, collectionName);
-    }
-    // try {
-    //   await _collectionDocRef.doc(obj.entityId).set(obj.toJson());
-    //   await objBox.put(
-    //     obj.entityId,
-    //     jsonEncode(obj.toJson()),
-    //   );
-    //   succes = true;
-    // } catch (e) {
-    //   _throwAnError(e);
-    // }
+      toast("Sucessfuly added To Local and global Database");
+    }).timeout(Duration(seconds: 1), onTimeout: () {
+      toast("You are Oflline , plz restore connection");
+    });
+  }
 
-    //   return succes;
+  CollectionItem _tra(String e) {
+    return Entity.fromJson(jsonDecode(e)) as CollectionItem;
   }
 
   Stream<List<CollectionItem>> get() {
@@ -297,25 +305,21 @@ class HDMCollection<CollectionItem extends Entity> {
     assert(_collectionPath != null, "${this.runtimeType}");
     StreamController<List<CollectionItem>> controller = StreamController<List<CollectionItem>>();
 
-    Future<List<CollectionItem>> geter() async {
-      CollectionItem tra(String e) {
-        return Entity.fromJson(jsonDecode(e)) as CollectionItem;
-      }
-
+    Future<List<CollectionItem>?> geter() async {
       await _waitFor();
-      var x = _objBox!.values.map<CollectionItem>(tra).toList();
-      print("================" + x.toString());
-      await Future.forEach<CollectionItem>(x, _trigerSetChild);
-      controller.add(x);
-      return x;
+      list = _objBox!.values.map<CollectionItem>(_tra).toList();
+      print("================" + list.toString());
+      await Future.forEach<CollectionItem>(list!, _trigerSetChild);
+      controller.add(list!);
+      return list;
     }
 
     controller.onListen = () async {
-      geter().then((value) => controller.add(value));
+      geter().then((value) => controller.add(value!));
     };
 
     _waitFor().then((value) => _objBox!.watch().listen((event) async {
-          geter().then((value) => controller.add(value));
+          geter().then((value) => controller.add(value!));
         }));
 
     controller.onCancel = () {

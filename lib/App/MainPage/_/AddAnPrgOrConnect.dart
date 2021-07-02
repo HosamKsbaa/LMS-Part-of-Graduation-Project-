@@ -28,7 +28,7 @@ class AddAnOrgController {
     hDMNavigatorPush(context, AddOrgInffoController().data.play);
   }
 
-  Future<void> addAnAccount(BuildContext context) async {
+  Future<void> ConnectToOrg(BuildContext context) async {
     hDMNavigatorPush(context, AddAnAccountController().data.play);
   }
 }
@@ -53,7 +53,7 @@ class _WidgetAddAnOrg extends HDMStatelessWidget<AddAnOrgController> {
           ),
           Card(
             child: ListTile(
-              onTap: () => app.addAnAccount(context),
+              onTap: () => app.ConnectToOrg(context),
               trailing: Icon(Icons.business_outlined),
               title: Text("Join An existing organization"),
               subtitle: Text("Look Up By code"),
