@@ -17,14 +17,15 @@ class OrgUserListOfAccountsController {
   static const HDMKey<OrgUserListOfAccountsController> key1 = HDMKey<OrgUserListOfAccountsController>();
 
 //endregion
+  final OrgAccount ownerAccount;
 
   final OrgUser orgUser;
 
-  OrgUserListOfAccountsController({required this.orgUser}) {
+  OrgUserListOfAccountsController(this.ownerAccount, {required this.orgUser}) {
     _start();
   }
   void addAccount(BuildContext context) {
-    hDMNavigatorPush(context, AddAccountsToOrgUserController(orgUser: orgUser).data.play);
+    hDMNavigatorPush(context, AddAccountsToOrgUserController(ownerAccount, orgUser: orgUser).data.play);
   }
 }
 
@@ -36,7 +37,7 @@ class _WidgetOrgUserListOfAccounts extends HDMStatelessWidget<OrgUserListOfAccou
     return Scaffold(
       drawer: HDmDrawerController().data.play(),
       appBar: AppBar(
-        title: Text(show(app.orgUser)),
+        title: Text(show(app.orgUser, app.ownerAccount)),
       ),
       body: HDMStreamBuilder<OrgAccount>(
         stream: app.orgUser.personal.get(),

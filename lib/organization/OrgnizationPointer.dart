@@ -12,12 +12,13 @@ part 'OrgnizationPointer.g.dart';
 //flutter packages pub run build_runner build
 //endregion
 class OrgnizationPointer extends HDMPointer {
-  OrgnizationPointer(String entityId, {required this.orgid, required String pointerPath, required String pointerId, required EntityTyps entityTyps, required DateTime lastTimeEdited, required HDMPointerTypes pointerTypes})
+  OrgnizationPointer(String entityId, {required this.orgUserCode, required this.orgid, required String pointerPath, required String pointerId, required EntityTyps entityTyps, required DateTime lastTimeEdited, required HDMPointerTypes pointerTypes})
       : super(entityId, pointerId: pointerId, pointerPath: pointerPath, entityTyps: EntityTyps.Pointer, lastTimeEdited: lastTimeEdited, pointerTypes: HDMPointerTypes.OrgnizationPointer) {
     orgAccountPointer = HDMCollection<OrgAccountPointer>(this, "orgAccountPointer");
   }
 
   final String orgid;
+  final String orgUserCode;
   @JsonKey(ignore: true)
   late HDMCollection<OrgAccountPointer> orgAccountPointer;
   Future<OrgAccountPointer> addorgAccountPointer(OrgAccount orgAccount) async {

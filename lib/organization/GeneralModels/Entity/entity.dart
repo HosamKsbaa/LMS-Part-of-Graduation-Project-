@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:lms/User/UserPriviteDate.dart';
 import 'package:lms/User/UserPublicData.dart';
 import 'package:lms/main.dart';
@@ -41,6 +42,7 @@ abstract class Entity {
 
   final EntityTyps entityTyps;
   DateTime lastTimeEdited;
+  @JsonKey(ignore: true)
   Entity? theParent;
   late String collectionPath;
   @required
@@ -184,9 +186,17 @@ class HDMCollection<CollectionItem extends Entity> {
     // print(_objBox.values);
     var e = _objBox!.get(entityId);
     if (e == null) {
-      _objBox!.values.forEach((element) {
-        print(element);
-      });
+      List<String> values = _objBox!.keys.map((e) => e.toString() + "\n").toList();
+      print("""didn't find ${this.runtimeType} 
+         $entityId
+         =================
+         $values 
+      """);
+
+      // print("");
+      // _objBox!.values.forEach((element) {
+      //   print(element);
+      // });
       return null;
     } else {
       var z = Entity.fromJson(jsonDecode(e)) as CollectionItem?;

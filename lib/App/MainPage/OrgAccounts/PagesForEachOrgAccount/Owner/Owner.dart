@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lms/App/Drawer/Drawer.dart';
 import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
-import 'package:lms/main.dart';
 import 'package:lms/organization/Organization.dart';
 import 'package:lms/organization/orgAccount/OrgAccount.dart';
 import 'package:lms/organization/orgAccount/OrgUser.dart';
@@ -11,8 +10,8 @@ import 'package:x_bloc2/x_bloc2.dart';
 import '../../../AccountsPage.dart';
 import 'OrgUserListOfAccounts/OrgUserListOfAccounts.dart';
 
-String show(OrgUser e) {
-  if (e.entityId == TheApp.appcntroler.user.uid) {
+String show(OrgUser e, OrgAccount a) {
+  if (e.entityId == a.theParent!.entityId) {
     return "Me";
   } else if (e.displayName == null) {
     return "Not Connected" + e.lastTimeEdited.toString();
@@ -29,13 +28,13 @@ class OwnerController {
   static const HDMKey<OwnerController> key1 = HDMKey<OwnerController>();
 
 //endregion
-  final OrgAccount orgAccount;
+  final OrgAccount ownerAccount;
   final Organization org;
-  OwnerController({required this.orgAccount, required this.org}) {
+  OwnerController({required this.ownerAccount, required this.org}) {
     _start();
   }
   void inviteAnewUserToTheOrg(BuildContext context) {
-    String id = orgAccount.uid + DateTime.now().toString();
+    String id = OrgUser.idGenerator();
     org.addAOrgUser(id);
     showDialog(
         context: context,
@@ -84,11 +83,11 @@ class _WidgetOwner extends HDMStatelessWidget<OwnerController> {
         func: (eS) => Card(
           child: ListTile(
             onTap: () {
-              hDMNavigatorPush(context, OrgUserListOfAccountsController(orgUser: eS).data.play);
+              hDMNavigatorPush(context, OrgUserListOfAccountsController(app.ownerAccount, orgUser: eS).data.play);
             },
             trailing: Icon(Icons.arrow_forward_ios_rounded),
             leading: Icon(Icons.verified_user),
-            title: Text(show(eS)),
+            title: Text(show(eS, app.ownerAccount)),
             //subtitle: Text(r!.),
           ),
         ),

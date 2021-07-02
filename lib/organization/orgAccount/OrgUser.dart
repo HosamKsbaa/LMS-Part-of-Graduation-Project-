@@ -31,6 +31,10 @@ class OrgUser extends ActivitySignetre {
   @JsonKey(ignore: true)
   late Organization org;
   //region   OrgAccount
+  static String idGenerator() {
+    return DateTime.now().toString();
+  }
+
   @JsonKey(ignore: true)
   late HDMCollection<OrgAccount> personal;
 

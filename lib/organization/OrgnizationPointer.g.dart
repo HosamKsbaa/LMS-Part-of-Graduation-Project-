@@ -9,6 +9,7 @@ part of 'OrgnizationPointer.dart';
 OrgnizationPointer _$OrgnizationPointerFromJson(Map<String, dynamic> json) {
   return OrgnizationPointer(
     json['entityId'] as String,
+    orgUserCode: json['orgUserCode'] as String,
     orgid: json['orgid'] as String,
     pointerPath: json['pointerPath'] as String,
     pointerId: json['pointerId'] as String,
@@ -28,6 +29,7 @@ Map<String, dynamic> _$OrgnizationPointerToJson(OrgnizationPointer instance) =>
       'pointerId': instance.pointerId,
       'pointerTypes': _$HDMPointerTypesEnumMap[instance.pointerTypes],
       'orgid': instance.orgid,
+      'orgUserCode': instance.orgUserCode,
     };
 
 K _$enumDecode<K, V>(
