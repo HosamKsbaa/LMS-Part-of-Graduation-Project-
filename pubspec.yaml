@@ -61,7 +61,7 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/Icon2.png"
+  image_path: "assets/Icon.png"
 flutter_launcher_name:
   name: "Pocket Learning"
 
