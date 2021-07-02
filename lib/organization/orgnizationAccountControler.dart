@@ -14,6 +14,7 @@ import 'package:lms/organization/Organization.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import '../MainControler.dart';
+import '../main.dart';
 import 'GeneralModels/Entity/entity.dart';
 
 part 'orgnizationAccountControler.g.dart';
@@ -192,7 +193,11 @@ class Appcntroler extends RootEntity {
   Future<Organization> addOrgnization(String entityId, {required String name}) async {
     var x = Organization(entityId, lastTimeEdited: DateTime.now(), name: name);
     await orgAccount.add(x);
-    var theorgAccount = await x.addOwner(user.uid + x.entityId);
+    // OrgAccount orgAccount = await x.addOwner(user.uid);
+
+    var theorgUser = await x.addAOrgUser(user.uid);
+    theorgUser.displayName = TheApp.appcntroler.userPublicData!.displayName;
+    var theorgAccount = await theorgUser.addOwner(user.uid + x.entityId);
 
     var orgPointer = await this.usedrPriviteDate!.addAnOrganizationPinter(x);
     orgPointer.addorgAccountPointer(theorgAccount);

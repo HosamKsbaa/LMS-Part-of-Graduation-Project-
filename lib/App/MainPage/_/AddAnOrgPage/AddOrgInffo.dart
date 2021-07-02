@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lms/main.dart';
-import 'package:lms/organization/orgAccount/OrgAccount.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
@@ -20,7 +19,7 @@ class AddOrgInffoController {
     _start();
   }
 
-  Future<void> CreatANewOrg() async {
+  Future<void> CreatANewOrg(BuildContext context) async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final User? user = auth.currentUser;
 
@@ -31,7 +30,8 @@ class AddOrgInffoController {
       //  Appcntroler appcntroler = Appcntroler();
       var x = await TheApp.appcntroler.addOrgnization(orgName + " - " + user!.uid + DateTime.now().toString(), name: orgName);
       toast("Succes");
-      OrgAccount orgAccount = await x.addOwner(user.uid);
+      Navigator.of(context).pop();
+      Navigator.of(context).pop();
       //var classroom = x.addClassroom("TestclassRoom1", classRoomName: "data science");
     }
   }
@@ -71,7 +71,7 @@ class _WidgetAddOrgInffo extends HDMStatelessWidget<AddOrgInffoController> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: app.CreatANewOrg,
+                    onPressed: () => app.CreatANewOrg(context),
                     child: Text('Submit'),
                   ),
                   // Add TextFormFields and ElevatedButton here.

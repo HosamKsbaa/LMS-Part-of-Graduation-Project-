@@ -1,39 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'Student.dart';
+part of 'OrgUser.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Student _$StudentFromJson(Map<String, dynamic> json) {
-  return Student(
+OrgUser _$OrgUserFromJson(Map<String, dynamic> json) {
+  return OrgUser(
     json['entityId'] as String,
-    classRoomList: (json['classRoomList'] as List<dynamic>)
-        .map((e) => ClassRoom.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    orgAccountType:
-        _$enumDecode(_$OrgAccountTypeEnumMap, json['orgAccountType']),
+    displayName: json['displayName'] as String?,
     lastTimeEdited: DateTime.parse(json['lastTimeEdited'] as String),
-    uid: json['uid'] as String,
-    orgid: json['orgid'] as String,
     entityTyps: _$enumDecode(_$EntityTypsEnumMap, json['entityTyps']),
     activitySignetreTyps: _$enumDecode(
         _$ActivitySignetreTypsEnumMap, json['activitySignetreTyps']),
   )..collectionPath = json['collectionPath'] as String;
 }
 
-Map<String, dynamic> _$StudentToJson(Student instance) => <String, dynamic>{
+Map<String, dynamic> _$OrgUserToJson(OrgUser instance) => <String, dynamic>{
       'entityTyps': _$EntityTypsEnumMap[instance.entityTyps],
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
       'activitySignetreTyps':
           _$ActivitySignetreTypsEnumMap[instance.activitySignetreTyps],
-      'orgid': instance.orgid,
-      'uid': instance.uid,
-      'orgAccountType': _$OrgAccountTypeEnumMap[instance.orgAccountType],
-      'classRoomList': instance.classRoomList,
+      'displayName': instance.displayName,
     };
 
 K _$enumDecode<K, V>(
@@ -61,14 +52,6 @@ K _$enumDecode<K, V>(
     },
   ).key;
 }
-
-const _$OrgAccountTypeEnumMap = {
-  OrgAccountType.Administrator: 'Administrator',
-  OrgAccountType.Owner: 'Owner',
-  OrgAccountType.Parent: 'Parent',
-  OrgAccountType.Student: 'Student',
-  OrgAccountType.Teacher: 'Teacher',
-};
 
 const _$EntityTypsEnumMap = {
   EntityTyps.Organization: 'Organization',

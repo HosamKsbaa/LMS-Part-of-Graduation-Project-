@@ -35,7 +35,7 @@ class _WidgetOrgAccounts extends HDMStatelessWidget<OrgAccountsController> {
         title: Text("Accounts"),
       ),
 //body: StreamBuilder<List<UserPriviteDate>>(stream: TheApp.appcntroler.userPriviteDateColl.get(), builder: (context, obj) {}),
-      body: HDMStreamBuilder<OrgAccountPointer, OrgAccount>(
+      body: HDMStreamBuilderForPointers<OrgAccountPointer, OrgAccount>(
         stream: app.hdmPointer.orgAccountPointer.get(),
         err: () => ListTile(
           title: Text("err"),
@@ -45,7 +45,7 @@ class _WidgetOrgAccounts extends HDMStatelessWidget<OrgAccountsController> {
             onTap: () => orgAccount.widget(orgAccount: orgAccount, org: app.org, context: context),
             trailing: Icon(Icons.arrow_forward_ios_rounded),
             leading: Icon(Icons.supervised_user_circle),
-            title: Text(orgAccount!.orgAccountType.toString()),
+            title: Text(orgAccount.orgAccountType.toString()),
             //subtitle: Text(r!.),
           ),
         ),

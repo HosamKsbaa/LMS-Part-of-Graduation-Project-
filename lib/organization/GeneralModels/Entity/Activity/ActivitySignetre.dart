@@ -7,6 +7,7 @@ import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialB
 import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialBlock/Event/Qize/Quiz2.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 import 'package:lms/organization/orgAccount/OrgAccount.dart';
+import 'package:lms/organization/orgAccount/OrgUser.dart';
 
 import 'AccesLevel/AccesLevel.dart';
 import 'Log/Log.dart';
@@ -17,6 +18,7 @@ enum ActivitySignetreTyps {
   ClassRoom,
   LmsEvent,
   CourseMaterialBlock,
+  OrgUser,
 }
 
 abstract class ActivitySignetre extends Entity {
@@ -48,6 +50,8 @@ abstract class ActivitySignetre extends Entity {
         return LMSEvent.fromJson(json);
       case ActivitySignetreTyps.CourseMaterialBlock:
         return CourseMaterialBlock.fromJson(json);
+      case ActivitySignetreTyps.OrgUser:
+        return OrgUser.fromJson(json);
       default:
         return throw {"Error undefined ${json["activitySignetreTyps"]}}"};
     }

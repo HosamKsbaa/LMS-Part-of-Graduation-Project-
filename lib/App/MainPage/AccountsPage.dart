@@ -45,7 +45,7 @@ class _WidgetAccountsPage extends HDMStatelessWidget<AccountsPageController> {
         title: Text("All orgnizationn"),
       ),
 //body: StreamBuilder<List<UserPriviteDate>>(stream: TheApp.appcntroler.userPriviteDateColl.get(), builder: (context, obj) {}),
-      body: HDMStreamBuilder<OrgnizationPointer, Organization>(
+      body: HDMStreamBuilderForPointers<OrgnizationPointer, Organization>(
         stream: TheApp.appcntroler.usedrPriviteDate!.orgPointer.get(),
         err: () => ListTile(
           title: Text("err"),
@@ -57,7 +57,7 @@ class _WidgetAccountsPage extends HDMStatelessWidget<AccountsPageController> {
             },
             trailing: Icon(Icons.arrow_forward_ios_rounded),
             leading: Icon(Icons.school),
-            title: Text(Org!.name),
+            title: Text(Org.name),
             //subtitle: Text(r!.),
           ),
         ),
@@ -73,8 +73,8 @@ class _WidgetAccountsPage extends HDMStatelessWidget<AccountsPageController> {
   }
 }
 
-class HDMStreamBuilder<x extends HDMPointer, y extends Entity> extends StatelessWidget {
-  const HDMStreamBuilder({Key? key, required this.stream, required this.loading, required this.func, required this.err}) : super(key: key);
+class HDMStreamBuilderForPointers<x extends HDMPointer, y extends Entity> extends StatelessWidget {
+  const HDMStreamBuilderForPointers({Key? key, required this.stream, required this.loading, required this.func, required this.err}) : super(key: key);
   final Stream<List<x>>? stream;
   final Widget Function() loading;
   final Widget Function(y, x) func;
@@ -88,6 +88,8 @@ class HDMStreamBuilder<x extends HDMPointer, y extends Entity> extends Stateless
       builder: (BuildContext context, AsyncSnapshot<List<x>> snapshot) {
         int counter = 0;
         if (snapshot.hasError) {
+          throw {snapshot.error};
+
           return Center(
             child: Container(
               child: Icon(
@@ -124,6 +126,59 @@ class HDMStreamBuilder<x extends HDMPointer, y extends Entity> extends Stateless
                                 }
                               }))
                           .toList(),
+                    ),
+                  )
+                ],
+              ),
+            );
+          }
+        }
+
+        return Container(
+          child: Center(child: LinearProgressIndicator()),
+        );
+      },
+    );
+  }
+}
+
+class HDMStreamBuilder<x extends Entity> extends StatelessWidget {
+  const HDMStreamBuilder({Key? key, required this.stream, required this.func}) : super(key: key);
+  final Stream<List<x>>? stream;
+  final Widget Function(x) func;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<List<x>>(
+      stream: stream,
+      builder: (BuildContext context, AsyncSnapshot<List<x>> snapshot) {
+        int counter = 0;
+        if (snapshot.hasError) {
+          throw {snapshot.error};
+
+          return Center(
+            child: Container(
+              child: Icon(
+                Icons.error_outline,
+                color: Colors.red,
+                size: 60,
+              ),
+            ),
+          );
+        } else if (snapshot.hasData) {
+          List<x> data = snapshot.data!;
+          if (data.length == 0) {
+            return Container(
+              child: Text("No elements"),
+            );
+          } else {
+            return LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) => Column(
+                children: [
+                  Text("There is ${data.length} elements last update ${DateTime.now()}"),
+                  Expanded(
+                    child: ListView(
+                      children: data.map((e) => func(e)).toList(),
                     ),
                   )
                 ],

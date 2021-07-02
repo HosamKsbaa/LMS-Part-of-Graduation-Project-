@@ -91,4 +91,5 @@ const _$ActivitySignetreTypsEnumMap = {
   ActivitySignetreTyps.ClassRoom: 'ClassRoom',
   ActivitySignetreTyps.LmsEvent: 'LmsEvent',
   ActivitySignetreTyps.CourseMaterialBlock: 'CourseMaterialBlock',
+  ActivitySignetreTyps.OrgUser: 'OrgUser',
 };

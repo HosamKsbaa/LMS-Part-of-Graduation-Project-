@@ -41,7 +41,7 @@ abstract class Entity {
 
   final EntityTyps entityTyps;
   DateTime lastTimeEdited;
-  Entity? _parent;
+  Entity? theParent;
   late String collectionPath;
   @required
   final String entityId;
@@ -50,19 +50,19 @@ abstract class Entity {
   late DocumentReference _entityDocRef;
 
   void setPath(Entity? parent, collection) {
-    _parent = parent;
+    theParent = parent;
 
     if (this is RootEntity) {
       //print(this.runtimeType);
       collectionPath = "/";
-    } else if (this._parent is RootEntity) {
+    } else if (this.theParent is RootEntity) {
       //  print(this.runtimeType);
 
       collectionPath = "/" + collection;
-    } else if (_parent == null) {
+    } else if (theParent == null) {
       throw {"Has No paretn ${this.runtimeType}"};
     } else {
-      collectionPath = _parent!.collectionPath + "/" + _parent!.entityId + "/" + collection;
+      collectionPath = theParent!.collectionPath + "/" + theParent!.entityId + "/" + collection;
     }
     try {
       _childCollections.forEach((e) => e._setIt());
@@ -75,7 +75,7 @@ abstract class Entity {
   }
 
   Future<void> _waitFor() async {
-    if (_parent != null) {
+    if (theParent != null) {
       //firestobj
       try {
         _entityDocRef = FirebaseFirestore.instance.doc(collectionPath + '/' + entityId);
