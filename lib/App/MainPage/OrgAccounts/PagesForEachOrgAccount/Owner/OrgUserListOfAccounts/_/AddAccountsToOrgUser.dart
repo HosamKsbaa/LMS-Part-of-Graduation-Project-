@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms/organization/orgAccount/OrgAccount.dart';
 import 'package:lms/organization/orgAccount/OrgUser.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
@@ -11,10 +12,11 @@ class AddAccountsToOrgUserController {
 
 //endregion
 
-  AddAccountsToOrgUserController({required this.orgUser}) {
+  AddAccountsToOrgUserController(this.ownerAccount, {required this.orgUser}) {
     _start();
   }
   final OrgUser orgUser;
+  final OrgAccount ownerAccount;
 
   void popOff(BuildContext context) {
     Navigator.of(context).pop();

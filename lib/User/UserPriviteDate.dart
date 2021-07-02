@@ -26,8 +26,8 @@ class UserPriviteDate extends Entity {
   @JsonKey(ignore: true)
   late HDMCollection<OrgnizationPointer> orgPointer;
 
-  Future<OrgnizationPointer> addAnOrganizationPinter(Organization orgAccount) async {
-    var x = OrgnizationPointer(orgAccount.entityId, pointerPath: orgAccount.collectionPath, pointerId: orgAccount.entityId, lastTimeEdited: DateTime.now(), entityTyps: orgAccount.entityTyps, pointerTypes: HDMPointerTypes.OrgnizationPointer, orgid: orgAccount.entityId);
+  Future<OrgnizationPointer> addAnOrganizationPinter({required Organization org, required String orgUserCode}) async {
+    var x = OrgnizationPointer(org.entityId, orgUserCode: orgUserCode, pointerPath: org.collectionPath, pointerId: org.entityId, lastTimeEdited: DateTime.now(), entityTyps: org.entityTyps, pointerTypes: HDMPointerTypes.OrgnizationPointer, orgid: org.entityId);
     await orgPointer.add(x);
     return x;
   }

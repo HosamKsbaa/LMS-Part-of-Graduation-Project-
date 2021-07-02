@@ -30,8 +30,16 @@ class Organization extends Entity {
   @JsonKey(ignore: true)
   late HDMCollection<OrgUser> orgUser;
 
-  Future<OrgUser> addAOrgUser(String uid) async {
-    var x = OrgUser(uid, lastTimeEdited: DateTime.now(), entityTyps: EntityTyps.ActivitySignetre, activitySignetreTyps: ActivitySignetreTyps.OrgUser);
+  Future<OrgUser> addAOrgUser(String id) async {
+    var x = OrgUser(id, lastTimeEdited: DateTime.now(), entityTyps: EntityTyps.ActivitySignetre, activitySignetreTyps: ActivitySignetreTyps.OrgUser);
+    x.org = this;
+    await orgUser.add(x);
+
+    return x;
+  }
+
+  Future<OrgUser> connectTo(String id) async {
+    var x = OrgUser(OrgUser.idGenerator(this), lastTimeEdited: DateTime.now(), entityTyps: EntityTyps.ActivitySignetre, activitySignetreTyps: ActivitySignetreTyps.OrgUser);
     x.org = this;
     await orgUser.add(x);
     return x;

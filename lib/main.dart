@@ -26,19 +26,44 @@ class MyApp extends StatelessWidget {
   //   return _user;
   // }
   // This widget is the root of your application.
-
   @override
   Widget build(BuildContext context) {
     return OverlaySupport.global(
       child: MaterialApp(
-          title: 'Git Hub Test',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: MainControlerController().data.play()
-          //home: ,
-          ),
+        title: 'Git Hub Test',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: FutureBuilder(
+          future: TheApp.appcntroler.setPath1(),
+          builder: (ctx, snapshot) {
+            print("3");
+            if (snapshot.hasError) {
+              // final data = snapshot.data as String;
+              throw {snapshot.error};
+            }
+            if (snapshot.hasData) {
+              // final data = snapshot.data as String;
+              return MainControlerController().data.play();
+            }
+            // if (snapshot.connectionState == ConnectionState.done) {
+            //   if (snapshot.hasError) {
+            //     throw {snapshot.error};
+            //   } else
+            // }
+
+            return Center(
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  return CircularProgressIndicator();
+                },
+              ),
+            );
+          },
+        ),
+      ),
     );
+    //home: ,
   }
 }
 

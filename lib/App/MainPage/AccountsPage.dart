@@ -9,7 +9,7 @@ import 'package:x_bloc2/x_bloc2.dart';
 import '../../main.dart';
 import '../../organization/orgAccount/OrgAccount.dart';
 import 'OrgAccounts/OrgAccounts.dart';
-import '_/AddAnOrg.dart';
+import '_/AddAnPrgOrConnect.dart';
 
 class AccountsPageController {
 //region  Keys
@@ -47,13 +47,11 @@ class _WidgetAccountsPage extends HDMStatelessWidget<AccountsPageController> {
 //body: StreamBuilder<List<UserPriviteDate>>(stream: TheApp.appcntroler.userPriviteDateColl.get(), builder: (context, obj) {}),
       body: HDMStreamBuilderForPointers<OrgnizationPointer, Organization>(
         stream: TheApp.appcntroler.usedrPriviteDate!.orgPointer.get(),
-        err: () => ListTile(
-          title: Text("err"),
-        ),
+        err: () => ListTile(title: Text("err")),
         func: (Org, orgPointer) => Card(
           child: ListTile(
             onTap: () {
-              hDMNavigatorPush(context, OrgAccountsController(hdmPointer: orgPointer, org: Org).data.play);
+              hDMNavigatorPush(context, OrgAccountsController(orgnizationPointer: orgPointer, org: Org).data.play);
             },
             trailing: Icon(Icons.arrow_forward_ios_rounded),
             leading: Icon(Icons.school),
@@ -134,9 +132,7 @@ class HDMStreamBuilderForPointers<x extends HDMPointer, y extends Entity> extend
           }
         }
 
-        return Container(
-          child: Center(child: LinearProgressIndicator()),
-        );
+        return CirclerWaiting();
       },
     );
   }
@@ -187,10 +183,19 @@ class HDMStreamBuilder<x extends Entity> extends StatelessWidget {
           }
         }
 
-        return Container(
-          child: Center(child: LinearProgressIndicator()),
-        );
+        return CirclerWaiting();
       },
+    );
+  }
+}
+
+class CirclerWaiting extends StatelessWidget {
+  const CirclerWaiting({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(child: LinearProgressIndicator()),
     );
   }
 }

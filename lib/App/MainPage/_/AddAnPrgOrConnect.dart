@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
-import 'AddAnOrgPage/AddOrgInffo.dart';
+import '_/AddAnAccount.dart';
+import '_/AddOrgInffo.dart';
 
 class AddAnOrgController {
 //region  Keys
@@ -26,6 +27,10 @@ class AddAnOrgController {
   Future<void> addAmOrgnization(BuildContext context) async {
     hDMNavigatorPush(context, AddOrgInffoController().data.play);
   }
+
+  Future<void> ConnectToOrg(BuildContext context) async {
+    hDMNavigatorPush(context, AddAnAccountController().data.play);
+  }
 }
 
 class _WidgetAddAnOrg extends HDMStatelessWidget<AddAnOrgController> {
@@ -48,28 +53,28 @@ class _WidgetAddAnOrg extends HDMStatelessWidget<AddAnOrgController> {
           ),
           Card(
             child: ListTile(
-              enabled: false,
+              onTap: () => app.ConnectToOrg(context),
               trailing: Icon(Icons.business_outlined),
               title: Text("Join An existing organization"),
               subtitle: Text("Look Up By code"),
               leading: Icon(Icons.search_off),
             ),
           ),
-          Card(
-            child: ListTile(
-              trailing: Icon(Icons.pending_actions),
-              title: Text("Create A new classroom"),
-              leading: Icon(Icons.add),
-            ),
-          ),
-          Card(
-            child: ListTile(
-              trailing: Icon(Icons.pending_actions),
-              title: Text("Join An existing classroom"),
-              subtitle: Text("Look Up By code"),
-              leading: Icon(Icons.search_off),
-            ),
-          )
+          // Card(
+          //   child: ListTile(
+          //     trailing: Icon(Icons.pending_actions),
+          //     title: Text("Create A new classroom"),
+          //     leading: Icon(Icons.add),
+          //   ),
+          // ),
+          // Card(
+          //   child: ListTile(
+          //     trailing: Icon(Icons.pending_actions),
+          //     title: Text("Join An existing classroom"),
+          //     subtitle: Text("Look Up By code"),
+          //     leading: Icon(Icons.search_off),
+          //   ),
+          // )
         ],
       ),
     );

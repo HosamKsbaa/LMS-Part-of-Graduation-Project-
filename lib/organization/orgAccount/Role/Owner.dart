@@ -36,6 +36,6 @@ class Owner extends OrgAccount {
   }
   @override
   void widget({required OrgAccount orgAccount, required Organization org, required BuildContext context}) {
-    hDMNavigatorPush(context, OwnerController(orgAccount: orgAccount, org: org).data.play);
+    hDMNavigatorPush(context, OwnerController(ownerAccount: orgAccount, org: org).data.play);
   }
 }
