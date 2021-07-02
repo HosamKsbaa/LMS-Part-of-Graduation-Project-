@@ -1,7 +1,7 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
-import 'package:lms/App/MainPage/OrgAccounts/PagesForEachOrgAccount/Administrator.dart';
+import 'package:lms/App/MainPage/OrgAccounts/PagesForEachOrgAccount/adminstratir/Administrator.dart';
 import 'package:lms/organization/GeneralModels/Entity/Activity/ActivitySignetre.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 import 'package:lms/organization/Organization.dart';

@@ -12,8 +12,9 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
+    return
+      Expanded(child:
+      Padding(
         padding: const EdgeInsets.only(top: 150),
         child: _isSigningIn
             ? CircularProgressIndicator(
