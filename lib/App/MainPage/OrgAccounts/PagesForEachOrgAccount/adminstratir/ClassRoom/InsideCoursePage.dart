@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lms/App/Drawer/Drawer.dart';
+import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
 import 'package:lms/App/MainPage/AccountsPage.dart';
 import 'package:lms/App/MainPage/OrgAccounts/PagesForEachOrgAccount/Owner/Owner.dart';
+import 'package:lms/App/MainPage/OrgAccounts/PagesForEachOrgAccount/adminstratir/ClassRoom/ListOfAccounts/ListOfAccounts.dart';
 import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
 import 'package:lms/organization/Organization.dart';
 import 'package:lms/organization/orgAccount/OrgAccount.dart';
@@ -23,7 +25,6 @@ class InsideCoursePageController {
   InsideCoursePageController(this.classroom, this.org, this.orgAccount) {
     _start();
   }
-  void addStuff() {}
 }
 
 class _WidgetInsideCoursePage extends HDMStatelessWidget<InsideCoursePageController> {
@@ -40,17 +41,16 @@ class _WidgetInsideCoursePage extends HDMStatelessWidget<InsideCoursePageControl
         stream: app.org.orgUser.get(),
         func: (eS) => Card(
           child: ListTile(
-            onTap: () {},
+            onTap: () async{
+              hDMNavigatorPush(context, ListOfAccountsController(orguser: eS).data.play);
+            },
             trailing: Icon(Icons.arrow_forward_ios_rounded),
             leading: Icon(Icons.folder_shared_rounded),
             title: Text(show(eS, app.orgAccount)),
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => app.addStuff(),
-        child: Icon(Icons.add),
-      ),
+
     );
   }
 }
