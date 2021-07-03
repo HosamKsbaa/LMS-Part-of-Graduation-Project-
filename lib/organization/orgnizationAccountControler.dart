@@ -135,7 +135,7 @@ class Appcntroler extends RootEntity {
       try {
         await auth.signInWithPopup(authProvider).then((userCredential) {
           theUser = userCredential.user;
-        }).timeout(Duration(seconds: 30), onTimeout: () {
+        }).timeout(Duration(minutes: 2), onTimeout: () {
           toast("You are Oflline , plz restore connection");
         });
 
@@ -146,7 +146,7 @@ class Appcntroler extends RootEntity {
     } else {
       final GoogleSignIn googleSignIn = GoogleSignIn();
 
-      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn().timeout(Duration(seconds: 30), onTimeout: () {
+      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn().timeout(Duration(minutes: 2), onTimeout: () {
         toast("You are Oflline , plz restore connection");
       });
 

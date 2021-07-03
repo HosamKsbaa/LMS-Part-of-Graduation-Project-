@@ -28,7 +28,8 @@ class AddOrgInffoController {
       toast("proccsing");
 
       //  Appcntroler appcntroler = Appcntroler();
-      var x = await TheApp.appcntroler.addOrgnization(orgName + " - " + user!.uid + DateTime.now().toString(), name: orgName);
+      var x = await TheApp.appcntroler.addOrgnization(user!.uid + DateTime.now().toString(), name: orgName);
+
       toast("Succes");
       Navigator.of(context).pop();
       Navigator.of(context).pop();

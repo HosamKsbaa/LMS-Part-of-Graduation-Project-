@@ -4,6 +4,7 @@ import 'package:lms/main.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 import 'package:lms/organization/Organization.dart';
 import 'package:lms/organization/OrgnizationPointer.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 part 'UserPriviteDate.g.dart';
 
@@ -28,7 +29,9 @@ class UserPriviteDate extends Entity {
 
   Future<OrgnizationPointer> addAnOrganizationPinter({required Organization org, required String orgUserCode}) async {
     var x = OrgnizationPointer(org.entityId, orgUserCode: orgUserCode, pointerPath: org.collectionPath, pointerId: org.entityId, lastTimeEdited: DateTime.now(), entityTyps: org.entityTyps, pointerTypes: HDMPointerTypes.OrgnizationPointer, orgid: org.entityId);
-    await orgPointer.add(x);
+    await orgPointer.add(x, ifRebeted: () {
+      toast("you are alredy enroled in this org");
+    });
     return x;
   }
   //appsettings

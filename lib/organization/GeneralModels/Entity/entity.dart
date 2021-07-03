@@ -72,6 +72,7 @@ abstract class Entity {
 
         // _childCollections.forEach((e) => e._setIt());
       } catch (e) {
+        // print();
         //todo delete all data if opration fail
         toast("there is an error on collection $Entity $e");
       }
@@ -104,6 +105,7 @@ abstract class Entity {
     try {
       await Future.forEach<HDMCollection>(_childCollections, (e) async => await e._refresh());
     } catch (e) {
+      throw {"there is an error on collection $Entity $e"};
       //todo delete all data if opration fail
       toast("there is an error on collection $Entity $e");
     }
@@ -158,7 +160,7 @@ class HDMCollection<CollectionItem extends Entity> {
   List<CollectionItem>? list;
   // bool isSet=false;
 
-  late CollectionReference _collectionDocRef;
+  late CollectionReference<Map<String, dynamic>> _collectionDocRef;
   Box<String>? _objBox;
 
   HDMCollection(this._parent, this.collectionName) {
@@ -169,17 +171,25 @@ class HDMCollection<CollectionItem extends Entity> {
     _objBox!.deleteFromDisk();
   }
 
+  CollectionItem _tra(String e) {
+    return Entity.fromJson(jsonDecode(e)) as CollectionItem;
+  }
+
   Future<CollectionItem?> getValOnline(String entityId) async {
     //print("????????????????? " + _collectionPath + '/' + entityId);
     var x = FirebaseFirestore.instance.doc(_collectionPath + '/' + entityId);
-    await x.get().then<CollectionItem?>((x1D) async {
+    return await x.get().then<CollectionItem?>((x1D) async {
       var x2 = x1D.data();
       if (x2 == null) {
         print("didn't find ${_collectionPath + '/' + entityId}");
         return null;
       }
-      CollectionItem? x3 = Entity.fromJson(x2) as CollectionItem?;
-      await x3!.setPath(this._parent, collectionName);
+
+      //print("didn't find ${_collectionPath + '/' + entityId}");
+
+      CollectionItem x3 = Entity.fromJson(x2) as CollectionItem;
+      await x3.setPath(this._parent, collectionName);
+      //  print(x3..toJson().toString());
 
       return x3;
     }).timeout(Duration(seconds: 1), onTimeout: () {
@@ -190,6 +200,7 @@ class HDMCollection<CollectionItem extends Entity> {
   void updateValue() {}
 
   Future<CollectionItem?> getValLocaly(String entityId) async {
+    await _refresh();
     await _waitFor();
 
     //print(TheApp.appcntroler.userUid);
@@ -234,6 +245,7 @@ class HDMCollection<CollectionItem extends Entity> {
       _collectionPath = _parent.collectionPath + '/' + _parent.entityId + '/' + collectionName;
     }
     await _waitFor();
+    //_refresh();
     // list = await _objBox!.values.map<CollectionItem>(_tra).toList();
 
     // print("Path of $CollectionItem is $_collectionPath");
@@ -253,19 +265,65 @@ class HDMCollection<CollectionItem extends Entity> {
   }
 
   Future<void> _refresh() async {
+    await _waitFor();
+
+    list = _objBox!.values.map<CollectionItem>(_tra).toList();
+    DateTime lastTimeUpdated = DateTime(1970);
+    list!.forEach((element) {
+      if (element.lastTimeEdited.isAfter(lastTimeUpdated)) {
+        lastTimeUpdated = element.lastTimeEdited;
+      }
+    });
+    _collectionDocRef = FirebaseFirestore.instance.collection(_collectionPath);
+
+    await _collectionDocRef.where('lastTimeEdited', isGreaterThan: lastTimeUpdated.toString()).get().then((value) async {
+      await _waitFor();
+      int i = 0;
+      await Future.forEach<QueryDocumentSnapshot<Map<String, dynamic>>>(value.docs, (e) async {
+        CollectionItem obj = Entity.fromJson(e.data()) as CollectionItem;
+        print("9999999999999999999999999999999999999999999999999999" + obj.entityId);
+        await _objBox!.put(
+          obj.entityId,
+          jsonEncode(obj.toJson()),
+        );
+
+        i++;
+      });
+
+      print("9999999999999999999999999999999999999999999999999999 >>>>>>>>>>>>>>>>>> $lastTimeUpdated");
+      print("9999999999999999999999999999999999999999999999999999 >>>>>>>>>>>>>>>>>> $i,${this.runtimeType} ");
+      toast("Sucessfuly Loaded $i");
+    }).timeout(Duration(seconds: 1), onTimeout: () {
+      toast("You are Oflline , plz restore connection");
+    });
+
+    // var x = FirebaseFirestore.instance.doc(_collectionPath + '/' + entityId);
+    // return await x.get().then<CollectionItem?>((x1D) async {
+    //   var x2 = x1D.data();
+    //   if (x2 == null) {
+    //     print("didn't find ${_collectionPath + '/' + entityId}");
+    //     return null;
+    //   }
+    //
+    //   //print("didn't find ${_collectionPath + '/' + entityId}");
+    //
+    //   CollectionItem x3 = Entity.fromJson(x2) as CollectionItem;
+    //   await x3.setPath(this._parent, collectionName);
+    //   //  print(x3..toJson().toString());
+    //
+    //   return x3;
+    // }).timeout(Duration(seconds: 1), onTimeout: () {
+    //   toast("You are Oflline , plz restore connection");
+    // });
     //todo check the last log and get all things from it to now
   }
 
-  Future<void> add(CollectionItem obj) async {
+  Future<void> add(CollectionItem obj, {Function? ifRebeted}) async {
     //if (_parent._waitForDone == false) throw {"not initilized ${this.runtimeType}"};
     // bool succes = false;
     //print(">>>>>>>>>$this is set ");
 
     ///remove
-    CollectionItem tra(String e) {
-      //  print(">>><<<" + e);
-      return Entity.fromJson(jsonDecode(e)) as CollectionItem;
-    }
 
     await _trigerSetChild(obj);
 
@@ -276,7 +334,7 @@ class HDMCollection<CollectionItem extends Entity> {
       await _waitFor();
 
       bool checkMethou() {
-        var x = _objBox!.values.map<CollectionItem>(tra).toList();
+        var x = _objBox!.values.map<CollectionItem>(_tra).toList();
 
         var x2 = x.any((element) {
           return element.entityId == obj.entityId;
@@ -284,7 +342,11 @@ class HDMCollection<CollectionItem extends Entity> {
         return x2;
       }
 
-      assert(!checkMethou(), "2 elements with the same id ix it ${this.runtimeType} ");
+      if (checkMethou()) {
+        ifRebeted == null ? throw {"2 elements with the same id ix it ${this.runtimeType} "} : ifRebeted();
+        return null;
+      }
+
       await _objBox!.put(
         obj.entityId,
         jsonEncode(obj.toJson()),
@@ -296,12 +358,14 @@ class HDMCollection<CollectionItem extends Entity> {
     });
   }
 
-  CollectionItem _tra(String e) {
-    return Entity.fromJson(jsonDecode(e)) as CollectionItem;
-  }
-
   Stream<List<CollectionItem>> get() {
+    _collectionDocRef = FirebaseFirestore.instance.collection(_collectionPath);
+    _collectionDocRef.snapshots().listen((event) {
+      _refresh();
+    });
     // print(this.runtimeType);
+    _refresh();
+
     assert(_collectionPath != null, "${this.runtimeType}");
     StreamController<List<CollectionItem>> controller = StreamController<List<CollectionItem>>();
 

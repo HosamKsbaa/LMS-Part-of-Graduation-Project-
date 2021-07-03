@@ -30,11 +30,14 @@ class AddAnAccountController {
       //  Appcntroler appcntroler = Appcntroler();
 
       var org = await TheApp.appcntroler.org.getValOnline(OrgUser.getOrgId(Code));
+      print("???????" + org.toString());
+
       if (org != null) {
         var v = await org.orgUser.getValOnline(OrgUser.getOrgUserId(Code));
-        TheApp.appcntroler.usedrPriviteDate!.addAnOrganizationPinter(org: org, orgUserCode: Code);
 
         if (v != null) {
+          TheApp.appcntroler.usedrPriviteDate!.addAnOrganizationPinter(org: org, orgUserCode: Code);
+
           toast("Succes");
           Navigator.of(context).pop();
           Navigator.of(context).pop();

@@ -6,6 +6,7 @@ import 'package:lms/App/Login/Widgets/screens/user_info_screen.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 import '../../main.dart';
+import 'ShowAllOrgnization.dart';
 
 class HDmDrawerController {
 //region  Keys
@@ -33,6 +34,12 @@ class _WidgetDrawer extends HDMStatelessWidget<HDmDrawerController> {
 
   List<Widget> _buildDrawerList() {
     return <Widget>[
+      ListTile(
+        title: Text('all oeg in the app '),
+        onTap: () {
+          hDMNavigatorPush(box.context, ShowAllOrgnizationController().data.play);
+        },
+      ),
       ListTile(
         title: Text('Item 1'),
         onTap: () {
