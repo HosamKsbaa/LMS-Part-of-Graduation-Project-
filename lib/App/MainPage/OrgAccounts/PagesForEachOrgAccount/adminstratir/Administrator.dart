@@ -7,6 +7,7 @@ import 'package:lms/App/MainPage/OrgAccounts/PagesForEachOrgAccount/adminstratir
 import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
 import 'package:lms/organization/Organization.dart';
 import 'package:lms/organization/orgAccount/OrgAccount.dart';
+import 'package:lms/organization/orgnizationAccountControler.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 class AdministratorController {
@@ -80,6 +81,7 @@ class _WidgetAdministrator extends HDMStatelessWidget<AdministratorController> {
         stream: app.org.classroom.get(),
         func: (eS) => Card(
           child: ListTile(
+            subtitle: Appcntroler.timeAgo(eS),
             onTap: () {
               hDMNavigatorPush(context, InsideCoursePageController(eS, app.org, app.orgAccount).data.play);
             },

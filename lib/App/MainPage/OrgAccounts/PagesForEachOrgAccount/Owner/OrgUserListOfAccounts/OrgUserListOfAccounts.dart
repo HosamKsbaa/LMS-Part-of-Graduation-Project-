@@ -3,6 +3,7 @@ import 'package:lms/App/Drawer/Drawer.dart';
 import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
 import 'package:lms/organization/orgAccount/OrgAccount.dart';
 import 'package:lms/organization/orgAccount/OrgUser.dart';
+import 'package:lms/organization/orgnizationAccountControler.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 import '../../../../AccountsPage.dart';
@@ -43,6 +44,7 @@ class _WidgetOrgUserListOfAccounts extends HDMStatelessWidget<OrgUserListOfAccou
         stream: app.orgUser.personal.get(),
         func: (eS) => Card(
           child: ListTile(
+            subtitle: Appcntroler.timeAgo(eS),
             // onTap: () {
             //   hDMNavigatorPush(context, OrgAccountsController(hdmPointer: orgPointer, org: Org).data.play);
             // },

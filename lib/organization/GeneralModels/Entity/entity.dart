@@ -163,20 +163,43 @@ class HDMCollection<CollectionItem extends Entity> {
   // bool isSet=false;
 
   late CollectionReference<Map<String, dynamic>> _collectionDocRef;
-  Box<String>? _objBox;
+  // Box<String>? _objBox;
 
   HDMCollection(this._parent, this.collectionName) {
     _parent._childCollections.add(this);
   }
 
-  void cleanBox() {
+  Future<void> cleanBox() async {
+    Box<String>? _objBox = await _waitFor();
     _objBox!.deleteFromDisk();
   }
 
+  //region tra abd push
   CollectionItem _tra(String e) {
-    return Entity.fromJson(jsonDecode(e)) as CollectionItem;
+    var z = Entity.fromJson(jsonDecode(e)) as CollectionItem;
+    z.lastTimeEdited = z.lastTimeEdited.toLocal();
+    return z;
   }
 
+  CollectionItem _traattatch(CollectionItem e) {
+    e.lastTimeEdited = e.lastTimeEdited.toLocal();
+    return e;
+  }
+
+  CollectionItem _traMap(Map<String, dynamic>? x2) {
+    CollectionItem z = Entity.fromJson(x2!) as CollectionItem;
+    return _traattatch(z);
+  }
+
+  Map<String, dynamic> push(CollectionItem e) {
+    e.lastTimeEdited = DateTime.now();
+    Map<String, dynamic> x = e.toJson();
+
+    return x;
+  }
+
+  ///end region
+  ///
   void UpdateValue() {}
 
   Future<CollectionItem?> getValOnline(String entityId) async {
@@ -184,6 +207,7 @@ class HDMCollection<CollectionItem extends Entity> {
     var x = FirebaseFirestore.instance.doc(_collectionPath + '/' + entityId);
     return await x.get().then<CollectionItem?>((x1D) async {
       var x2 = x1D.data();
+
       if (x2 == null) {
         print("didn't find ${_collectionPath + '/' + entityId}");
         return null;
@@ -191,12 +215,12 @@ class HDMCollection<CollectionItem extends Entity> {
 
       //print("didn't find ${_collectionPath + '/' + entityId}");
 
-      CollectionItem x3 = Entity.fromJson(x2) as CollectionItem;
+      CollectionItem x3 = _traMap(x2);
       await x3.setPath(this._parent, collectionName);
       //  print(x3..toJson().toString());
 
       return x3;
-    }).timeout(Duration(seconds: 1), onTimeout: () {
+    }).timeout(Duration(seconds: 4), onTimeout: () {
       toast("You are Oflline , plz restore connection");
     });
   }
@@ -204,28 +228,27 @@ class HDMCollection<CollectionItem extends Entity> {
   Future<void> updateValue(
     CollectionItem obj,
   ) async {
-    await _trigerSetChild(obj);
-
-    _collectionDocRef = FirebaseFirestore.instance.collection(_collectionPath);
-    obj.lastTimeEdited = DateTime.now();
-
-    await _collectionDocRef.doc(obj.entityId).update(obj.toJson()).then((value) async {
-      await _waitFor();
-
-      await _objBox!.put(
-        obj.entityId,
-        jsonEncode(obj.toJson()),
-      );
-
-      toast("Sucessfuly added To Local and global Database");
-    }).timeout(Duration(seconds: 1), onTimeout: () {
-      toast("You are Oflline , plz restore connection");
-    });
+    // await _trigerSetChild(obj);
+    //
+    // _collectionDocRef = FirebaseFirestore.instance.collection(_collectionPath);
+    //
+    // await _collectionDocRef.doc(obj.entityId).update(push(obj)).then((value) async {
+    //   await _waitFor();
+    //
+    //   await _objBox!.put(
+    //     obj.entityId,
+    //     jsonEncode(push(obj)),
+    //   );
+    //
+    //   toast("Sucessfuly added To Local and global Database");
+    // }).timeout(Duration(seconds: 4), onTimeout: () {
+    //   toast("You are Oflline , plz restore connection");
+    // });
   }
 
   Future<CollectionItem?> getValLocaly(String entityId) async {
     await _refresh();
-    await _waitFor();
+    Box<String>? _objBox = await _waitFor();
 
     //print(TheApp.appcntroler.userUid);
     // print(TheApp.appcntroler.user!.uid.toString());
@@ -246,8 +269,8 @@ class HDMCollection<CollectionItem extends Entity> {
       // });
       return null;
     } else {
-      var z = Entity.fromJson(jsonDecode(e)) as CollectionItem?;
-      await z!.setPath(this._parent, collectionName);
+      var z = _tra(e);
+      await z.setPath(this._parent, collectionName);
       return z;
     }
   }
@@ -275,55 +298,112 @@ class HDMCollection<CollectionItem extends Entity> {
     // print("Path of $CollectionItem is $_collectionPath");
   }
 
-  Future<void> _waitFor() async {
-    // print("check if box is open");
-
-    if (_objBox == null) {
-      //   print("no");
-      Directory appDocDir = await getApplicationDocumentsDirectory();
-      // String appDocPath = appDocDir.path;
-      print(appDocDir.path + _collectionPath);
-      _objBox = await Hive.openBox(_collectionPath.split("/").last, path: appDocDir.path + _collectionPath);
-
-      return;
-    }
-    // print("yes");
-    return;
+  Future<Box<String>> _waitFor() async {
+    // //print("check if box is open");
+    //
+    // if (1 == 1) {
+    //   // print("no");
+    //   // String appDocPath = appDocDir.path;
+    //   // print(appDocDir.path + _collectionPath);
+    //   _objBox =
+    //
+    //   return;
+    // }
+    // // print("yes");
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    // if (this is HDMCollection<OrgUser>) {
+    //   print("ddddddddddddddddddddddddddddddddd");
+    //
+    //   print("${appDocDir.path + _collectionPath}");
+    //   print("${_collectionPath.split("/").last}");
+    // }
+    return Hive.openBox(_collectionPath.split("/").last + _parent.entityId.toString(), path: appDocDir.path + _collectionPath);
   }
 
+  bool _isRefreshing = false;
   Future<void> _refresh() async {
-    await _waitFor();
+    if (!_isRefreshing) {
+      _isRefreshing = true;
 
-    list = _objBox!.values.map<CollectionItem>(_tra).toList();
-    DateTime lastTimeUpdated = DateTime(1970);
-    list!.forEach((element) {
-      if (element.lastTimeEdited.isAfter(lastTimeUpdated)) {
-        lastTimeUpdated = element.lastTimeEdited;
-      }
-    });
-    _collectionDocRef = FirebaseFirestore.instance.collection(_collectionPath);
+      Box<String>? _objBox = await _waitFor();
 
-    await _collectionDocRef.where('lastTimeEdited', isGreaterThan: lastTimeUpdated.toString()).get().then((value) async {
-      await _waitFor();
-      int i = 0;
-      await Future.forEach<QueryDocumentSnapshot<Map<String, dynamic>>>(value.docs, (e) async {
-        CollectionItem obj = Entity.fromJson(e.data()) as CollectionItem;
-        print("9999999999999999999999999999999999999999999999999999" + obj.entityId);
-        await _objBox!.put(
-          obj.entityId,
-          jsonEncode(obj.toJson()),
-        );
-
-        i++;
+      list = _objBox!.values.map<CollectionItem>(_tra).toList();
+      DateTime lastTimeUpdated = DateTime(1970);
+      list!.forEach((element) {
+        if (element.lastTimeEdited.isAfter(lastTimeUpdated)) {
+          lastTimeUpdated = element.lastTimeEdited;
+        }
       });
+      _collectionDocRef = FirebaseFirestore.instance.collection(_collectionPath);
+      print("restart");
+      //.where('lastTimeEdited', isGreaterThan: lastTimeUpdated.toString())
+      await _collectionDocRef.get().then((value) async {
+        await _waitFor();
+        int i = 0;
+        // print("====================================================================================");
+        // print("++++++++++++++++++++++++++++++++++++++++++++");
+        //
+        // print("++++++++++");
+        // print("+++");
+        // print("              ${CollectionItem}                   ");
+        // print(">>>>>>>>>>>>>> ${_collectionDocRef}");
+        //
+        // print(">>>>>>>>>>>>>> ${value.docs.length}");
 
-      print("9999999999999999999999999999999999999999999999999999 >>>>>>>>>>>>>>>>>> $lastTimeUpdated");
-      print("9999999999999999999999999999999999999999999999999999 >>>>>>>>>>>>>>>>>> $i,${this.runtimeType} ");
-      toast("Sucessfuly Loaded $i");
-    }).timeout(Duration(seconds: 1), onTimeout: () {
-      toast("You are Oflline , plz restore connection");
-    });
+        await Future.forEach<QueryDocumentSnapshot<Map<String, dynamic>>>(value.docs, (e) async {
+          CollectionItem obj = _traMap(e.data());
+          // print( >>obj.entityId);
 
+          // print("id =" + obj.entityId);
+          // print("                                            -");
+          // print("                                            --");
+          // var x = _objBox!.values.map<CollectionItem>(_tra).toList();
+          // x!.forEach((element) {
+          //   print("       ${element.entityId}");
+          // });
+          //
+          // print(value.docs.length.toString());
+          // print(obj.runtimeType);
+          //
+          // print(list!.length.toString());
+          // print("${obj.entityId}");
+          // print("${_collectionPath.split("/")[_collectionPath.split("/").length - 2]}");
+          // print(_objBox.hashCode);
+          await _objBox!.put(
+            obj.entityId,
+            jsonEncode(push(obj)),
+          );
+          // print(list!.length.toString());
+          // var x2 = _objBox!.values.map<CollectionItem>(_tra).toList();
+          // x2!.forEach((element) {
+          //   print("       ${element.entityId}");
+          // });
+          //
+          // print("                                            -");
+          // print("                                            --");
+          i++;
+        });
+        print("Sucessfuly Loaded $i} ");
+
+        print("lastTimeUpdated$lastTimeUpdated");
+
+        //print("$i,${this.runtimeType} ");
+        toast("Sucessfuly Loaded $i");
+        print("+++");
+        await _waitFor();
+
+        // print("++++++++++");
+        // print("++++++++++++++++++++++++++++++++++++++++++++");
+        //
+        // print("====================================================================================");
+      }).timeout(Duration(seconds: 4), onTimeout: () {
+        toast("You are Oflline , plz restore connection");
+        print("You are Oflline , plz restore connection");
+      });
+      _isRefreshing = false;
+    } else {
+      print("Allready refreshing ");
+    }
     // var x = FirebaseFirestore.instance.doc(_collectionPath + '/' + entityId);
     // return await x.get().then<CollectionItem?>((x1D) async {
     //   var x2 = x1D.data();
@@ -339,7 +419,7 @@ class HDMCollection<CollectionItem extends Entity> {
     //   //  print(x3..toJson().toString());
     //
     //   return x3;
-    // }).timeout(Duration(seconds: 1), onTimeout: () {
+    // }).timeout(Duration(seconds: 4), onTimeout: () {
     //   toast("You are Oflline , plz restore connection");
     // });
     //todo check the last log and get all things from it to now
@@ -355,10 +435,10 @@ class HDMCollection<CollectionItem extends Entity> {
     await _trigerSetChild(obj);
 
     _collectionDocRef = FirebaseFirestore.instance.collection(_collectionPath);
-    obj.lastTimeEdited = DateTime.now();
+    obj.lastTimeEdited = DateTime.now().toUtc();
 
-    await _collectionDocRef.doc(obj.entityId).set(obj.toJson()).then((value) async {
-      await _waitFor();
+    await _collectionDocRef.doc(obj.entityId).set(push(obj)).then((value) async {
+      Box<String>? _objBox = await _waitFor();
 
       bool checkMethou() {
         var x = _objBox!.values.map<CollectionItem>(_tra).toList();
@@ -376,11 +456,11 @@ class HDMCollection<CollectionItem extends Entity> {
 
       await _objBox!.put(
         obj.entityId,
-        jsonEncode(obj.toJson()),
+        jsonEncode(push(obj)),
       );
 
       toast("Sucessfuly added To Local and global Database");
-    }).timeout(Duration(seconds: 1), onTimeout: () {
+    }).timeout(Duration(seconds: 4), onTimeout: () {
       toast("You are Oflline , plz restore connection");
     });
   }
@@ -397,9 +477,9 @@ class HDMCollection<CollectionItem extends Entity> {
     StreamController<List<CollectionItem>> controller = StreamController<List<CollectionItem>>();
 
     Future<List<CollectionItem>?> geter() async {
-      await _waitFor();
+      Box<String>? _objBox = await _waitFor();
       list = _objBox!.values.map<CollectionItem>(_tra).toList();
-      print("================" + list.toString());
+      // print("================" + list.toString());
       await Future.forEach<CollectionItem>(list!, _trigerSetChild);
       controller.add(list!);
       return list;
@@ -409,9 +489,23 @@ class HDMCollection<CollectionItem extends Entity> {
       geter().then((value) => controller.add(value!));
     };
 
-    _waitFor().then((value) => _objBox!.watch().listen((event) async {
-          geter().then((value) => controller.add(value!));
-        }));
+    _waitFor().then((value) async {
+      Box<String>? _objBox = await _waitFor();
+
+      _objBox!.watch().listen((event) async {
+        // print("---------------------------------------------------------------------");
+        // print("-");
+        //
+        // print(_collectionPath.split("/")[2]);
+        // //print(event.value["entityId"]);
+        //
+        // print(jsonDecode(event.value)["entityId"]);
+        // print("-");
+        //
+        // print("---------------------------------------------------------------------");
+        geter().then((value) => controller.add(value!));
+      });
+    });
 
     controller.onCancel = () {
       controller.close();

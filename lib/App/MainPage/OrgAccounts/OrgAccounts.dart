@@ -4,6 +4,7 @@ import 'package:lms/organization/Organization.dart';
 import 'package:lms/organization/OrgnizationPointer.dart';
 import 'package:lms/organization/orgAccount/OrgAccount.dart';
 import 'package:lms/organization/orgAccount/OrgUser.dart';
+import 'package:lms/organization/orgnizationAccountControler.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 import '../AccountsPage.dart';
@@ -32,7 +33,7 @@ class _WidgetOrgAccounts extends HDMStatelessWidget<OrgAccountsController> {
     return Scaffold(
       drawer: HDmDrawerController().data.play(),
       appBar: AppBar(
-        title: Text("Accounts"),
+        title: Text("Accounts "),
       ),
 //body: StreamBuilder<List<UserPriviteDate>>(stream: TheApp.appcntroler.userPriviteDateColl.get(), builder: (context, obj) {}),
 
@@ -52,11 +53,13 @@ class _WidgetOrgAccounts extends HDMStatelessWidget<OrgAccountsController> {
                   stream: orgUser.personal.get(),
                   func: (orgAccount) => Card(
                     child: ListTile(
+                      subtitle: Appcntroler.timeAgo(orgAccount),
                       onTap: () => orgAccount.widget(orgAccount: orgAccount, org: app.org, context: context),
 
                       trailing: Icon(Icons.arrow_forward_ios_rounded),
                       leading: Icon(Icons.supervised_user_circle),
-                      title: Text(orgAccount.orgAccountType.toString()),
+
+                      title: Text(orgAccount.orgAccountType.toString() + orgAccount.orgid),
                       //subtitle: Text(r!.),
                     ),
                   ),
