@@ -660,6 +660,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  slide_countdown_clock:
+    dependency: "direct main"
+    description:
+      path: "slide_countdown_clock-1.0.3"
+      relative: true
+    source: path
+    version: "1.0.3"
   source_gen:
     dependency: transitive
     description:

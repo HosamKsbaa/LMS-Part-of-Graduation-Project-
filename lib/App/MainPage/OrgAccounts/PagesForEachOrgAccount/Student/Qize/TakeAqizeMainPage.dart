@@ -126,31 +126,36 @@ class _WidgetNewQizePage extends HDMStatelessWidget<TakeAqizeMainPage> {
                         Text("20 Mark", style: TextStyle(fontSize: 20))
                       ],
                     ),
-                    Directionality(
-                      textDirection: TextDirection.ltr,
-                      child: SlideCountdownClock(
-                        tightLabel: true,
-                        shouldShowDays: true,
-                        duration: app.hdmgetTime(app.Date),
-                        slideDirection: SlideDirection.Up,
-                        separator: "  ",
-                        textStyle: TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: SlideCountdownClock(
+                            tightLabel: true,
+                            shouldShowDays: true,
+                            duration: app.hdmgetTime(app.Date),
+                            slideDirection: SlideDirection.Up,
+                            separator: "  ",
+                            textStyle: TextStyle(
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                            separatorTextStyle: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                            ),
+                            padding: EdgeInsets.all(0),
+                            decoration: BoxDecoration(color: Colors.grey, shape: BoxShape.rectangle),
+                            onDone: () {
+                              app.data.updateTheWholeApp();
+                              //print("done");
+                              //_scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Clock 1 finished')));
+                            },
+                          ),
                         ),
-                        separatorTextStyle: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey,
-                        ),
-                        padding: EdgeInsets.all(0),
-                        decoration: BoxDecoration(color: Colors.white, shape: BoxShape.rectangle),
-                        onDone: () {
-                          app.data.updateTheWholeApp();
-                          //print("done");
-                          //_scaffoldKey.currentState.showSnackBar(SnackBar(content: Text('Clock 1 finished')));
-                        },
                       ),
                     )
                   ],
