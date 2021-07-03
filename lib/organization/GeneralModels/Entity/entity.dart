@@ -10,6 +10,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:lms/User/UserPriviteDate.dart';
 import 'package:lms/User/UserPublicData.dart';
 import 'package:lms/main.dart';
+import 'package:lms/organization/ClassRoomPackage/ClassRoomPointer.dart';
 import 'package:lms/organization/GeneralModels/HiddenFile/Hidden.dart';
 import 'package:lms/organization/Organization.dart';
 import 'package:lms/organization/OrgnizationPointer.dart';
