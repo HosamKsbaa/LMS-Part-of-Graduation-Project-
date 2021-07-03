@@ -319,7 +319,7 @@ class HDMCollection<CollectionItem extends Entity> {
     }
     String? x = await secureStorage.read(key: 'key');
     var encryptionKey = base64Url.decode(x!);
-    print('Encryption key: $encryptionKey');
+    // print('Encryption key: $encryptionKey');
     Directory appDocDir = await getApplicationDocumentsDirectory();
     // if (this is HDMCollection<OrgUser>) {
     //   print("ddddddddddddddddddddddddddddddddd");
