@@ -56,12 +56,9 @@ class _WidgetAddAccountsToOrgUser extends HDMStatelessWidget<AddAccountsToOrgUse
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row (children: [
-          Padding( padding: EdgeInsets.only(right: 5),
-            child: Icon(Icons.info)
-          ),
-          Text("Add a User")
-        ],),
+        title: Row(
+          children: [Padding(padding: EdgeInsets.only(right: 5), child: Icon(Icons.info)), Text("Add a User")],
+        ),
       ),
       body: ListView(
         children: [
@@ -71,7 +68,7 @@ class _WidgetAddAccountsToOrgUser extends HDMStatelessWidget<AddAccountsToOrgUse
               //enabled: false,
               trailing: Icon(Icons.add),
               title: Text("Add Owner"),
-              leading:  Image(image: AssetImage("assets/owner.png")),
+              leading: Image(image: AssetImage("assets/owner.png")),
             ),
           ),
           Card(
@@ -81,7 +78,7 @@ class _WidgetAddAccountsToOrgUser extends HDMStatelessWidget<AddAccountsToOrgUse
               trailing: Icon(Icons.add),
               title: Text("Add Admin"),
               //   subtitle: Text("Look Up By code"),
-              leading: Image(image: AssetImage("assets/admin.png")) ,
+              leading: Image(image: AssetImage("assets/admin.png")),
             ),
           ),
           Card(
@@ -99,7 +96,9 @@ class _WidgetAddAccountsToOrgUser extends HDMStatelessWidget<AddAccountsToOrgUse
               trailing: Icon(Icons.add),
               title: Text("Add Student"),
               //   subtitle: Text("Look Up By code"),
-              leading:  Image(image: AssetImage("assets/student.png"),),
+              leading: Image(
+                image: AssetImage("assets/student.png"),
+              ),
             ),
           ),
           Card(
@@ -109,7 +108,7 @@ class _WidgetAddAccountsToOrgUser extends HDMStatelessWidget<AddAccountsToOrgUse
               trailing: Icon(Icons.add),
               title: Text("Add Parent"),
               //  subtitle: Text("Look Up By code"),
-              leading:  Image(image: AssetImage("assets/parent.png")),
+              leading: Image(image: AssetImage("assets/parent.png")),
             ),
           )
         ],

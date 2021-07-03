@@ -5,6 +5,7 @@ import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
 import 'package:lms/organization/Organization.dart';
 import 'package:lms/organization/orgAccount/OrgAccount.dart';
 import 'package:lms/organization/orgAccount/OrgUser.dart';
+import 'package:lms/organization/orgnizationAccountControler.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 import '../../../AccountsPage.dart';
@@ -85,6 +86,7 @@ class _WidgetOwner extends HDMStatelessWidget<OwnerController> {
         stream: app.org.orgUser.get(),
         func: (eS) => Card(
           child: ListTile(
+            subtitle: Appcntroler.timeAgo(eS),
             onTap: () {
               hDMNavigatorPush(context, OrgUserListOfAccountsController(app.ownerAccount, orgUser: eS).data.play);
             },

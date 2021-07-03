@@ -4,6 +4,7 @@ import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 import 'package:lms/organization/Organization.dart';
 import 'package:lms/organization/OrgnizationPointer.dart';
+import 'package:lms/organization/orgnizationAccountControler.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 import '../../main.dart';
@@ -56,6 +57,7 @@ class _WidgetAccountsPage extends HDMStatelessWidget<AccountsPageController> {
             trailing: Icon(Icons.arrow_forward_ios_rounded),
             leading: Icon(Icons.school),
             title: Text(Org.name),
+            subtitle: Appcntroler.timeAgo(Org),
             //subtitle: Text(r!.),
           ),
         ),
@@ -163,6 +165,11 @@ class HDMStreamBuilder<x extends Entity> extends StatelessWidget {
           );
         } else if (snapshot.hasData) {
           List<x> data = snapshot.data!;
+          // print("======================================== ${x.runtimeType}");
+          // data.forEach((element) {
+          //   print(element.toJson());
+          // });
+          // print("================================");
           if (data.length == 0) {
             return Container(
               child: Text("No elements"),

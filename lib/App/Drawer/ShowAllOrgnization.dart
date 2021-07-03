@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lms/App/MainPage/AccountsPage.dart';
 import 'package:lms/main.dart';
 import 'package:lms/organization/Organization.dart';
+import 'package:lms/organization/orgnizationAccountControler.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 import 'Drawer.dart';
@@ -33,6 +34,7 @@ class _WidgetShowAllOrgnization extends HDMStatelessWidget<ShowAllOrgnizationCon
         stream: TheApp.appcntroler.org.get(),
         func: (eS) => Card(
           child: ListTile(
+            subtitle: Appcntroler.timeAgo(eS),
             trailing: Icon(Icons.arrow_forward_ios_rounded),
             leading: Icon(Icons.verified_user),
             title: Text(eS.name),

@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:lms/App/Drawer/AboutUs.dart';
 import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
 import 'package:lms/App/Login/LogIn.dart';
 import 'package:lms/App/Login/Widgets/screens/user_info_screen.dart';
@@ -41,23 +40,20 @@ class _WidgetDrawer extends HDMStatelessWidget<HDmDrawerController> {
           hDMNavigatorPush(box.context, ShowAllOrgnizationController().data.play);
         },
       ),
-
-      // ListTile(
-      //   title: Text('Item 1'),
-      //   onTap: () {
-      //     // Update the state of the app.
-      //     // ...
-      //   },
-      // ),
-
-      // ListTile(
-      //   title: Text('Item 2'),
-      //   onTap: () {
-      //     // Update the state of the app.
-      //     // ...
-      //   },
-      // ),
-
+      ListTile(
+        title: Text('Item 1'),
+        onTap: () {
+          // Update the state of the app.
+          // ...
+        },
+      ),
+      ListTile(
+        title: Text('Item 2'),
+        onTap: () {
+          // Update the state of the app.
+          // ...
+        },
+      ),
     ];
   }
 
@@ -85,40 +81,25 @@ class _WidgetDrawer extends HDMStatelessWidget<HDmDrawerController> {
       // through the options in the drawer if there isn't enough vertical
       // space to fit everything.
 
-      child: Column(
-        children: [
-          Expanded(
-            child: ListView(
-              // Important: Remove any padding from the ListView.
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                    UserAccountsDrawerHeader(
-                      accountName: Text(TheApp.appcntroler.user.displayName!),
-                      accountEmail: Text(TheApp.appcntroler.user.email!),
-                      onDetailsPressed: () {
-                        app.showUserDetails = !app.showUserDetails;
-                        app.data.updateTheWholeApp();
-                      },
-                      currentAccountPicture: CachedNetworkImage(
-                        placeholder: (context, url) => CircularProgressIndicator(),
-                        imageUrl: TheApp.appcntroler.user.photoURL!,
-                      ),
-                    )
-                  ] +
-                  (app.showUserDetails ? _buildUserDetail() : _buildDrawerList())
-            ),
-          ),
-
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: ListTile(
-                onTap: (){
-                  hDMNavigatorPush(context, AboutUsController().data.play);
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+              UserAccountsDrawerHeader(
+                accountName: Text(TheApp.appcntroler.user.displayName!),
+                accountEmail: Text(TheApp.appcntroler.user.email!),
+                onDetailsPressed: () {
+                  app.showUserDetails = !app.showUserDetails;
+                  app.data.updateTheWholeApp();
                 },
-                title: Text("About us" ,textAlign: TextAlign.center,),
-          ),
-            ),
-        ]),
+                currentAccountPicture: CachedNetworkImage(
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  imageUrl: TheApp.appcntroler.user.photoURL!,
+                ),
+              )
+            ] +
+            (app.showUserDetails ? _buildUserDetail() : _buildDrawerList()),
+      ),
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
 import 'package:lms/organization/Organization.dart';
 import 'package:lms/organization/orgAccount/OrgAccount.dart';
 import 'package:lms/organization/orgAccount/OrgUser.dart';
+import 'package:lms/organization/orgnizationAccountControler.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 class InsideCoursePageController {
@@ -47,6 +48,7 @@ class _WidgetInsideCoursePage extends HDMStatelessWidget<InsideCoursePageControl
             trailing: Icon(Icons.arrow_forward_ios_rounded),
             leading: Icon(Icons.folder_shared_rounded),
             title: Text(show(eS, app.orgAccount)),
+            subtitle: Appcntroler.timeAgo(eS),
           ),
         ),
       ),

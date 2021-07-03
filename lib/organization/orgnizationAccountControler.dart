@@ -12,6 +12,7 @@ import 'package:lms/User/UserPublicData.dart';
 import 'package:lms/organization/GeneralModels/Entity/RootEntity/RootEntity.dart';
 import 'package:lms/organization/Organization.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../MainControler.dart';
 import '../main.dart';
@@ -61,6 +62,11 @@ class Appcntroler extends RootEntity {
     }
     //  print("xxxxxxxxxxxxxxxxxxxxxxx");
     _user = user;
+  }
+
+  static Widget timeAgo(Entity e) {
+    // var x =DateTime.now().subtract(DateTime.now().difference() );
+    return Text("Last Updadted :" + timeago.format(e.lastTimeEdited));
   }
 
   //late Function refrechTheapp;
