@@ -96,4 +96,5 @@ const _$ActivitySignetreTypsEnumMap = {
 
 const _$CourseMaterialTypeEnumMap = {
   CourseMaterialType.Event: 'Event',
+  CourseMaterialType.Announecmtextends: 'Announecmtextends',
 };
