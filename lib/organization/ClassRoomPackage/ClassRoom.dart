@@ -50,7 +50,13 @@ class ClassRoom extends ActivitySignetre {
     await courseMaterial.add(x);
     return x;
   }
-
+  //
+  // Future<Quiz> addQuiz({required String text, required String title}) async {
+  //   //todo notify users
+  //   var x = Quiz(DateTime.now().toString(), entityTyps: EntityTyps.ActivitySignetre, lastTimeEdited: DateTime.now(), activitySignetreTyps: ActivitySignetreTyps.ClassRoom, title: title, importance: [Importance.toAll], courseMaterialType: CourseMaterialType.Event);
+  //   await courseMaterial.add(x);
+  //   return x;
+  // }
   //region personalPointer
 
   // void addTeacher(Teacher teacher) {

@@ -9,7 +9,7 @@ enum LMSEventType {
 }
 
 abstract class LMSEvent extends CourseMaterialBlock {
-  LMSEvent(String entityId, {required String title, required DateTime lastTimeEdited, required this.eventType, required List<Importance> importance, required EntityTyps entityTyps, required ActivitySignetreTyps activitySignetreTyps})
+  LMSEvent(String entityId, {required CourseMaterialType courseMaterialType, required String title, required DateTime lastTimeEdited, required this.eventType, required List<Importance> importance, required EntityTyps entityTyps, required ActivitySignetreTyps activitySignetreTyps})
       : super(
           entityId,
           lastTimeEdited: lastTimeEdited,

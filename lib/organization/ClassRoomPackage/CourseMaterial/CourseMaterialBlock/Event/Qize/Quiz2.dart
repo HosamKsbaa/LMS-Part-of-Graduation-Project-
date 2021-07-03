@@ -14,16 +14,18 @@ part 'Quiz2.g.dart';
 //flutter packages pub run build_runner build
 //endregion
 class Quiz extends LMSEvent {
-  Quiz(String entityId, {required String title, required DateTime lastTimeEdited, required LMSEventType eventType, required this.quizQuestionFile, required this.studentAnswer, required List<Importance> importance, required EntityTyps entityTyps, required ActivitySignetreTyps activitySignetreTyps})
-      : super(
-          entityId,
-          lastTimeEdited: lastTimeEdited,
-          title: title,
-          importance: importance,
-          eventType: LMSEventType.Quiz,
-          entityTyps: entityTyps,
-          activitySignetreTyps: activitySignetreTyps,
-        );
+  Quiz(
+    String entityId, {
+    required String title,
+    required DateTime lastTimeEdited,
+    required LMSEventType eventType,
+    required this.quizQuestionFile,
+    required this.studentAnswer,
+    required List<Importance> importance,
+    required EntityTyps entityTyps,
+    required ActivitySignetreTyps activitySignetreTyps,
+    required CourseMaterialType courseMaterialType,
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, title: title, importance: importance, eventType: eventType, entityTyps: entityTyps, activitySignetreTyps: activitySignetreTyps, courseMaterialType: courseMaterialType);
 
   ///qestionsFilepointer
   final String quizQuestionFile;
