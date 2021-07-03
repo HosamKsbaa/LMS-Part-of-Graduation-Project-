@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lms/User/UserPriviteDate.dart';
@@ -310,6 +311,15 @@ class HDMCollection<CollectionItem extends Entity> {
     //   return;
     // }
     // // print("yes");
+    final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+    var containsEncryptionKey = await secureStorage.containsKey(key: 'key');
+    if (!containsEncryptionKey) {
+      var key = Hive.generateSecureKey();
+      await secureStorage.write(key: 'key', value: base64UrlEncode(key));
+    }
+    String? x = await secureStorage.read(key: 'key');
+    var encryptionKey = base64Url.decode(x!);
+    print('Encryption key: $encryptionKey');
     Directory appDocDir = await getApplicationDocumentsDirectory();
     // if (this is HDMCollection<OrgUser>) {
     //   print("ddddddddddddddddddddddddddddddddd");
@@ -317,7 +327,7 @@ class HDMCollection<CollectionItem extends Entity> {
     //   print("${appDocDir.path + _collectionPath}");
     //   print("${_collectionPath.split("/").last}");
     // }
-    return Hive.openBox(_collectionPath.split("/").last + _parent.entityId.toString(), path: appDocDir.path + _collectionPath);
+    return Hive.openBox(_collectionPath.split("/").last + _parent.entityId.toString(), path: appDocDir.path + _collectionPath, encryptionCipher: HiveAesCipher(encryptionKey));
   }
 
   bool _isRefreshing = false;
