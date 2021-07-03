@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
+        // home: TakeAqizeMainPage().data.play(),
         home: FutureBuilder(
           future: TheApp.appcntroler.setPath1(),
           builder: (ctx, snapshot) {
@@ -63,6 +64,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
+
     //home: ,
   }
 }

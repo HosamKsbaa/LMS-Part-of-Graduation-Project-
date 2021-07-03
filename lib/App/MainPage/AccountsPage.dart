@@ -102,9 +102,7 @@ class HDMStreamBuilderForPointers<x extends HDMPointer, y extends Entity> extend
         } else if (snapshot.hasData) {
           List<x> data = snapshot.data!;
           if (data.length == 0) {
-            return Container(
-              child: Text("No elements"),
-            );
+            return  NoContent();
           } else {
             return LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) => Column(
@@ -171,13 +169,12 @@ class HDMStreamBuilder<x extends Entity> extends StatelessWidget {
           // });
           // print("================================");
           if (data.length == 0) {
-            return Container(
-              child: Text("No elements"),
-            );
+            return NoContent();
           } else {
             return LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) => Column(
                 children: [
+
                   Text("There is ${data.length} elements last update ${DateTime.now()}"),
                   Expanded(
                     child: ListView(
@@ -204,5 +201,33 @@ class CirclerWaiting extends StatelessWidget {
     return Container(
       child: Center(child: LinearProgressIndicator()),
     );
+  }
+}
+
+class NoContent  extends StatelessWidget {
+  const NoContent ({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Click on the "),
+                Icon(Icons.add_circle_outline),
+                Text(" button below to add user in classroom"),
+              ],
+            ),
+          ),
+          Icon(Icons.arrow_downward_outlined ,size: 30,),
+        ],
+      ),
+    ) ;;
   }
 }

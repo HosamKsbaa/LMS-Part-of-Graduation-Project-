@@ -1,44 +1,34 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'Quiz2.dart';
+part of 'ClassRoomPointer.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Quiz _$QuizFromJson(Map<String, dynamic> json) {
-  return Quiz(
+ClassRoomPointer _$ClassRoomPointerFromJson(Map<String, dynamic> json) {
+  return ClassRoomPointer(
     json['entityId'] as String,
-    title: json['title'] as String,
-    lastTimeEdited: DateTime.parse(json['lastTimeEdited'] as String),
-    eventType: _$enumDecode(_$LMSEventTypeEnumMap, json['eventType']),
-    quizQuestionFile: json['quizQuestionFile'] as String,
-    studentAnswer: Map<String, String>.from(json['studentAnswer'] as Map),
-    importance: (json['importance'] as List<dynamic>)
-        .map((e) => _$enumDecode(_$ImportanceEnumMap, e))
-        .toList(),
+    pointerPath: json['pointerPath'] as String,
+    pointerId: json['pointerId'] as String,
     entityTyps: _$enumDecode(_$EntityTypsEnumMap, json['entityTyps']),
-    activitySignetreTyps: _$enumDecode(
-        _$ActivitySignetreTypsEnumMap, json['activitySignetreTyps']),
+    lastTimeEdited: DateTime.parse(json['lastTimeEdited'] as String),
+    pointerTypes: _$enumDecode(_$HDMPointerTypesEnumMap, json['pointerTypes']),
   )
     ..collectionPath = json['collectionPath'] as String
     ..doneSet = json['doneSet'] as bool;
 }
 
-Map<String, dynamic> _$QuizToJson(Quiz instance) => <String, dynamic>{
+Map<String, dynamic> _$ClassRoomPointerToJson(ClassRoomPointer instance) =>
+    <String, dynamic>{
       'entityTyps': _$EntityTypsEnumMap[instance.entityTyps],
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
       'doneSet': instance.doneSet,
-      'activitySignetreTyps':
-          _$ActivitySignetreTypsEnumMap[instance.activitySignetreTyps],
-      'title': instance.title,
-      'importance':
-          instance.importance.map((e) => _$ImportanceEnumMap[e]).toList(),
-      'eventType': _$LMSEventTypeEnumMap[instance.eventType],
-      'quizQuestionFile': instance.quizQuestionFile,
-      'studentAnswer': instance.studentAnswer,
+      'pointerPath': instance.pointerPath,
+      'pointerId': instance.pointerId,
+      'pointerTypes': _$HDMPointerTypesEnumMap[instance.pointerTypes],
     };
 
 K _$enumDecode<K, V>(
@@ -67,15 +57,6 @@ K _$enumDecode<K, V>(
   ).key;
 }
 
-const _$LMSEventTypeEnumMap = {
-  LMSEventType.Quiz: 'Quiz',
-};
-
-const _$ImportanceEnumMap = {
-  Importance.toAll: 'toAll',
-  Importance.allstudents: 'allstudents',
-};
-
 const _$EntityTypsEnumMap = {
   EntityTyps.Organization: 'Organization',
   EntityTyps.ActivitySignetre: 'ActivitySignetre',
@@ -88,11 +69,8 @@ const _$EntityTypsEnumMap = {
   EntityTyps.UserPublicData: 'UserPublicData',
 };
 
-const _$ActivitySignetreTypsEnumMap = {
-  ActivitySignetreTyps.OrgAccount: 'OrgAccount',
-  ActivitySignetreTyps.Quiz: 'Quiz',
-  ActivitySignetreTyps.ClassRoom: 'ClassRoom',
-  ActivitySignetreTyps.LmsEvent: 'LmsEvent',
-  ActivitySignetreTyps.CourseMaterialBlock: 'CourseMaterialBlock',
-  ActivitySignetreTyps.OrgUser: 'OrgUser',
+const _$HDMPointerTypesEnumMap = {
+  HDMPointerTypes.OrgAccountPointer: 'OrgAccountPointer',
+  HDMPointerTypes.OrgnizationPointer: 'OrgnizationPointer',
+  HDMPointerTypes.ClassRoomPointer: 'ClassRoomPointer',
 };

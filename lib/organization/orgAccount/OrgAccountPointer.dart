@@ -18,7 +18,7 @@ class OrgAccountPointer extends HDMPointer {
   final OrgAccountType orgAccountType;
   final String orgAccountid;
 
-  void getAccounts() {}
+  //void getAccounts() {}
   //region jsonApi
   factory OrgAccountPointer.fromJson(Map<String, dynamic> json) => _$OrgAccountPointerFromJson(json);
   Map<String, dynamic> toJson() => _$OrgAccountPointerToJson(this);

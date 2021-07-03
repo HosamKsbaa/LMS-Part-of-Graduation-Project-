@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
-import 'package:lms/App/MainPage/OrgAccounts/PagesForEachOrgAccount/Teacher.dart';
+import 'package:lms/App/MainPage/OrgAccounts/PagesForEachOrgAccount/Teacher/Teacher.dart';
 import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
 import 'package:lms/organization/GeneralModels/Entity/Activity/ActivitySignetre.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
