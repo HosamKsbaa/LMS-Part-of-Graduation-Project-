@@ -8,15 +8,15 @@ part of 'AnswerFile.dart';
 
 AnswerFile _$AnswerFileFromJson(Map<String, dynamic> json) {
   return AnswerFile(
-    json['entityId'] as String,
-    _$enumDecode(_$HiddenTypeEnumMap, json['hiddenType']),
-    DateTime.parse(json['lastTimeEdited'] as String),
-    json['answerFileID'] as String,
-    json['questionFileID'] as String,
-    Duration(microseconds: json['duration'] as int),
-    DateTime.parse(json['startedAt'] as String),
-    json['studentId'] as String,
-    (json['questionsMap'] as Map<String, dynamic>).map(
+    entityId: json['entityId'] as String,
+    hiddenType: _$enumDecode(_$HiddenTypeEnumMap, json['hiddenType']),
+    lastTimeEdited: DateTime.parse(json['lastTimeEdited'] as String),
+    answerFileID: json['answerFileID'] as String,
+    questionFileID: json['questionFileID'] as String,
+    duration: Duration(microseconds: json['duration'] as int),
+    startedAt: DateTime.parse(json['startedAt'] as String),
+    studentId: json['studentId'] as String,
+    questionsMap: (json['questionsMap'] as Map<String, dynamic>).map(
       (k, e) => MapEntry(k, StudentAnsers.fromJson(e as Map<String, dynamic>)),
     ),
   )

@@ -13,6 +13,7 @@ QestionsFile _$QestionsFileFromJson(Map<String, dynamic> json) {
     lastTimeEdited: DateTime.parse(json['lastTimeEdited'] as String),
   )
     ..collectionPath = json['collectionPath'] as String
+
     ..doneSet = json['doneSet'] as bool
     ..qestionMap = (json['qestionMap'] as Map<String, dynamic>).map(
       (k, e) => MapEntry(k, Qestion.fromJson(e as Map<String, dynamic>)),
