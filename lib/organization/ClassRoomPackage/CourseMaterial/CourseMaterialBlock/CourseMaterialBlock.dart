@@ -1,10 +1,12 @@
 import 'package:lms/organization/GeneralModels/Entity/Activity/ActivitySignetre.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 
+import 'Announecmt2/Announecmt.dart';
 import 'Event/Event.dart';
 
 enum CourseMaterialType {
   Event,
+  Announecmtextends,
 }
 
 abstract class CourseMaterialBlock extends ActivitySignetre {
@@ -23,6 +25,8 @@ abstract class CourseMaterialBlock extends ActivitySignetre {
     assert(x != null, "there is no courseMaterialType parameter in  ");
     if (x == CourseMaterialType.Event)
       return LMSEvent.fromJson(json);
+    else if (x == CourseMaterialType.Announecmtextends)
+      return Announecmtextends.fromJson(json);
     else
       return throw {"Error undefined ${json["courseMaterialType"]}"};
   }
