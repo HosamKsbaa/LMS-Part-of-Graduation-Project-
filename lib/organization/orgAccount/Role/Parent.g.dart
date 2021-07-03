@@ -17,7 +17,9 @@ Parent _$ParentFromJson(Map<String, dynamic> json) {
     entityTyps: _$enumDecode(_$EntityTypsEnumMap, json['entityTyps']),
     activitySignetreTyps: _$enumDecode(
         _$ActivitySignetreTypsEnumMap, json['activitySignetreTyps']),
-  )..collectionPath = json['collectionPath'] as String;
+  )
+    ..collectionPath = json['collectionPath'] as String
+    ..doneSet = json['doneSet'] as bool;
 }
 
 Map<String, dynamic> _$ParentToJson(Parent instance) => <String, dynamic>{
@@ -25,6 +27,7 @@ Map<String, dynamic> _$ParentToJson(Parent instance) => <String, dynamic>{
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
+      'doneSet': instance.doneSet,
       'activitySignetreTyps':
           _$ActivitySignetreTypsEnumMap[instance.activitySignetreTyps],
       'orgid': instance.orgid,

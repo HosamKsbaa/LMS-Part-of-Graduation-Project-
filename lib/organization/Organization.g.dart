@@ -12,7 +12,9 @@ Organization _$OrganizationFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     lastTimeEdited: DateTime.parse(json['lastTimeEdited'] as String),
     entityTyps: json['entityTyps'],
-  )..collectionPath = json['collectionPath'] as String;
+  )
+    ..collectionPath = json['collectionPath'] as String
+    ..doneSet = json['doneSet'] as bool;
 }
 
 Map<String, dynamic> _$OrganizationToJson(Organization instance) =>
@@ -21,6 +23,7 @@ Map<String, dynamic> _$OrganizationToJson(Organization instance) =>
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
+      'doneSet': instance.doneSet,
       'name': instance.name,
     };
 

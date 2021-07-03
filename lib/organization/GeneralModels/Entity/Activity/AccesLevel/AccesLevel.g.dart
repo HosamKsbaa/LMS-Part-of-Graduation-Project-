@@ -14,7 +14,9 @@ AccesLevel _$AccesLevelFromJson(Map<String, dynamic> json) {
         .map((e) => AccesLevel.fromJson(e as Map<String, dynamic>))
         .toList(),
     DateTime.parse(json['lastTimeEdited'] as String),
-  )..collectionPath = json['collectionPath'] as String;
+  )
+    ..collectionPath = json['collectionPath'] as String
+    ..doneSet = json['doneSet'] as bool;
 }
 
 Map<String, dynamic> _$AccesLevelToJson(AccesLevel instance) =>
@@ -22,6 +24,7 @@ Map<String, dynamic> _$AccesLevelToJson(AccesLevel instance) =>
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
+      'doneSet': instance.doneSet,
       'OrgAccountUid': instance.OrgAccountUid,
       'accesLevel': instance.accesLevel,
     };

@@ -13,6 +13,7 @@ import 'package:overlay_support/overlay_support.dart';
 
 import '../../CourseMaterialBlock.dart';
 import '../Event.dart';
+import 'StudentAnsersFile/AnswerFile.dart';
 
 part 'Quiz2.g.dart';
 
@@ -30,36 +31,37 @@ class Quiz extends LMSEvent {
           eventType: LMSEventType.Quiz,
           entityTyps: entityTyps,
           activitySignetreTyps: activitySignetreTyps,
-        ){
-    questioncol =HDMCollection<QestionsFile>(this, "QestionFile");
-    answercol =HDMCollection<AnswerFile>(this, "AnswerFile");
+        ) {
+    questioncol = HDMCollection<QestionsFile>(this, "QestionFile");
+    answercol = HDMCollection<AnswerFile>(this, "AnswerFile");
   }
+  @JsonKey(ignore: true)
   late HDMCollection<QestionsFile> questioncol;
+  @JsonKey(ignore: true)
   late HDMCollection<AnswerFile> answercol;
+
   ///qestionsFilepointer
   final String quizQuestionFile;
 
   ///Map<StudentUId,StudentAnsersFile>
   final Map<String, String> studentAnswer;
 
-
-  Future<QestionsFile> addAnQestionFile({required Organization org, required String quizmainpage ,required Map<String, Qestion> qestionMap}) async {
-    var x = QestionsFile(org.entityId ,quizMainPage: quizmainpage , qestionMap: qestionMap,lastTimeEdited: DateTime.now());
+  Future<QestionsFile> addAnQestionFile({required Organization org, required String quizmainpage, required Map<String, Qestion> qestionMap}) async {
+    var x = QestionsFile(org.entityId, quizMainPage: quizmainpage, qestionMap: qestionMap, lastTimeEdited: DateTime.now());
     await questioncol.add(x, ifRebeted: () {
       toast("you are alredy enroled in this org");
     });
     return x;
   }
 
-
-  Future<QestionsFile> addAnAnswerFile({required Organization org, required HiddenType hiddenType,required String answerFileID, required String questionFileID, required Duration duration, required DateTime startedAt , required String studentId, required  Map<String, StudentAnsers> questionsMap}) async {
-    var x = AnswerFile(entityId: org.entityId ,hiddenType:  hiddenType, lastTimeEdited: DateTime.now() , answerFileID: answerFileID  ,questionFileID:  questionFileID ,startedAt:   startedAt ,questionsMap:questionsMap ,studentId: studentId ,duration: duration);
-    await answercol.add(x, ifRebeted: (){
+  Future<AnswerFile> addAnAnswerFile(
+      {required Organization org, required HiddenType hiddenType, required String answerFileID, required String questionFileID, required Duration duration, required DateTime startedAt, required String studentId, required Map<String, StudentAnsers> questionsMap}) async {
+    var x = AnswerFile(entityId: org.entityId, hiddenType: hiddenType, lastTimeEdited: DateTime.now(), answerFileID: answerFileID, questionFileID: questionFileID, startedAt: startedAt, questionsMap: questionsMap, studentId: studentId, duration: duration);
+    await answercol.add(x, ifRebeted: () {
       toast("you are alredy enroled in this org");
     });
     return x;
   }
-
 
   //region jsonApi
   factory Quiz.fromJson(Map<String, dynamic> json) => _$QuizFromJson(json);

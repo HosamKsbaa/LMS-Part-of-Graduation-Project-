@@ -11,9 +11,9 @@ part 'AnswerFile.g.dart';
 //flutter packages pub run build_runner build
 //endregion
 class AnswerFile extends Hidden {
-  AnswerFile(
-  {
-  required String entityId, required HiddenType hiddenType,required DateTime lastTimeEdited,required this.answerFileID,required this.questionFileID,required this.duration,required this.startedAt,required this.studentId,required this.questionsMap}) : super(entityId, hiddenType: HiddenType.AnserFile, lastTimeEdited: lastTimeEdited});
+  AnswerFile({required String entityId, required HiddenType hiddenType, required DateTime lastTimeEdited, required this.answerFileID, required this.questionFileID, required this.duration, required this.startedAt, required this.studentId, required this.questionsMap})
+      : super(entityId, hiddenType: HiddenType.AnserFile, lastTimeEdited: lastTimeEdited);
+
   final String answerFileID;
   final String questionFileID;
   final Duration duration;
@@ -26,15 +26,4 @@ class AnswerFile extends Hidden {
   //region jsonApi
   factory AnswerFile.fromJson(Map<String, dynamic> json) => _$AnswerFileFromJson(json);
   Map<String, dynamic> toJson() => _$AnswerFileToJson(this);
-
-  @override
-  void firstTimeInit() {
-    // TODO: implement firstTimeInit
-  }
-
-  @override
-  void subWaitFor() {
-    // TODO: implement subWaitFor
-  }
-  //endregion
 }

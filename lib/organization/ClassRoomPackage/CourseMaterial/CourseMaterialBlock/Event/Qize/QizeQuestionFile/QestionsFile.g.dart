@@ -14,7 +14,9 @@ QestionsFile _$QestionsFileFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, Qestion.fromJson(e as Map<String, dynamic>)),
     ),
     lastTimeEdited: DateTime.parse(json['lastTimeEdited'] as String),
-  )..collectionPath = json['collectionPath'] as String;
+  )
+    ..collectionPath = json['collectionPath'] as String
+    ..doneSet = json['doneSet'] as bool;
 }
 
 Map<String, dynamic> _$QestionsFileToJson(QestionsFile instance) =>
@@ -22,6 +24,7 @@ Map<String, dynamic> _$QestionsFileToJson(QestionsFile instance) =>
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
+      'doneSet': instance.doneSet,
       'quizMainPage': instance.quizMainPage,
       'qestionMap': instance.qestionMap.map((k, e) => MapEntry(k, e.toJson())),
     };
