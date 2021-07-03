@@ -49,9 +49,8 @@ class _WidgetOrgUserListOfAccounts extends HDMStatelessWidget<OrgUserListOfAccou
             //   hDMNavigatorPush(context, OrgAccountsController(hdmPointer: orgPointer, org: Org).data.play);
             // },
             trailing: Icon(Icons.arrow_forward_ios_rounded),
-            leading: Icon(Icons.verified_user),
+            leading: Icon(Icons.agriculture_outlined),
             title: Text(eS.orgAccountType.toString()),
-            //subtitle: Text(r!.),
           ),
         ),
       ),
