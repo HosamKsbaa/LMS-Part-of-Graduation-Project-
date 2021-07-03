@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 import 'App/Login/LogIn.dart';
-import 'App/MainPage/AccountsPage.dart';
+import 'App/MainPage/OrgAccounts/PagesForEachOrgAccount/Student/Qize/TakeAqizeMainPage.dart';
 import 'main.dart';
 
 class MainControlerController {
@@ -52,7 +52,7 @@ class _WidgetMainControler extends HDMStatelessWidget<MainControlerController> {
                   }
                   if (snapshot.hasData) {
                     // final data = snapshot.data as String;
-                    return AccountsPageController().data.play();
+                    return TakeAqizeMainPage().data.play();
                   }
                   // if (snapshot.connectionState == ConnectionState.done) {
                   //   if (snapshot.hasError) {

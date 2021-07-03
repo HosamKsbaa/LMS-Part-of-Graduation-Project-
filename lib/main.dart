@@ -2,9 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:lms/App/MainPage/OrgAccounts/PagesForEachOrgAccount/Teacher/Qize/NewQizePage.dart';
 import 'package:overlay_support/overlay_support.dart';
 
+import 'App/MainPage/OrgAccounts/PagesForEachOrgAccount/Student/Qize/TakeAqizeMainPage.dart';
 import 'organization/orgnizationAccountControler.dart';
 
 //flutter packages pub run build_runner build --delete-conflicting-outputs
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: NewQizePageController().data.play(),
+        home: TakeAqizeMainPage().data.play(),
       ),
     );
     //home: ,
