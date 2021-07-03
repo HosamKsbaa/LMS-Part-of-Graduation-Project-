@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
+import 'package:lms/organization/ClassRoomPackage/ClassRoomPointer.dart';
 import 'package:lms/organization/GeneralModels/Entity/Activity/ActivitySignetre.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
+import 'package:lms/organization/Organization.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 import '../Organization.dart';
 import '../orgAccount/Role/Administrator.dart';
@@ -32,9 +37,28 @@ abstract class OrgAccount extends ActivitySignetre {
     required DateTime lastTimeEdited,
     required EntityTyps entityTyps,
     required ActivitySignetreTyps activitySignetreTyps,
-  }) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: entityTyps, activitySignetreTyps: activitySignetreTyps);
+  }) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: entityTyps, activitySignetreTyps: activitySignetreTyps) {
+    classRoomPointer = HDMCollection<ClassRoomPointer>(this, "classRoomPointer");
+  }
+  @JsonKey(ignore: true)
+  late HDMCollection<ClassRoomPointer> classRoomPointer;
+  Future<ClassRoomPointer> addAnClassRoomPointer({required ClassRoom classRoom}) async {
+    var x = ClassRoomPointer(
+      classRoom.entityId,
+      pointerPath: classRoom.collectionPath,
+      pointerId: classRoom.entityId,
+      lastTimeEdited: DateTime.now(),
+      entityTyps: EntityTyps.Pointer,
+      pointerTypes: HDMPointerTypes.ClassRoomPointer,
+    );
+    await classRoomPointer.add(x, ifRebeted: () {
+      toast("you are alredy enroled in this org");
+    });
+    return x;
+  }
 
   void widget({required OrgAccount orgAccount, required Organization org, required BuildContext context});
+
   factory OrgAccount.fromJson(Map<String, dynamic> json) {
     var x = OrgAccountType.values.firstWhere((element) => element.toString().split(".").last == json["orgAccountType"]);
     assert(x != null, "there is no orgAccountType parameter in ");

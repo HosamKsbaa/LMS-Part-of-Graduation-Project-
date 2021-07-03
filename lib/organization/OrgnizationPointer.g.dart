@@ -76,4 +76,5 @@ const _$EntityTypsEnumMap = {
 const _$HDMPointerTypesEnumMap = {
   HDMPointerTypes.OrgAccountPointer: 'OrgAccountPointer',
   HDMPointerTypes.OrgnizationPointer: 'OrgnizationPointer',
+  HDMPointerTypes.ClassRoomPointer: 'ClassRoomPointer',
 };

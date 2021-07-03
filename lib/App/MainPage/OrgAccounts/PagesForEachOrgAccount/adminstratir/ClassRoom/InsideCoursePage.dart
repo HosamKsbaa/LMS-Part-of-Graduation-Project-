@@ -42,8 +42,8 @@ class _WidgetInsideCoursePage extends HDMStatelessWidget<InsideCoursePageControl
         stream: app.org.orgUser.get(),
         func: (eS) => Card(
           child: ListTile(
-            onTap: () async{
-              hDMNavigatorPush(context, ListOfAccountsController(orguser: eS).data.play);
+            onTap: () async {
+              hDMNavigatorPush(context, ListOfAccountsController(orguser: eS, orgAccount: app.orgAccount, org: app.org, classroom: app.classroom).data.play);
             },
             trailing: Icon(Icons.arrow_forward_ios_rounded),
             leading: Icon(Icons.folder_shared_rounded),
@@ -52,7 +52,6 @@ class _WidgetInsideCoursePage extends HDMStatelessWidget<InsideCoursePageControl
           ),
         ),
       ),
-
     );
   }
 }
