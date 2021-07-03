@@ -49,8 +49,10 @@ class OwnerController {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Center(
-                        child: Text("Click On this text to add to you clip board ",
-                        style: TextStyle(fontSize: 18),),
+                        child: Text(
+                          "Click On this text to add to you clip board ",
+                          style: TextStyle(fontSize: 18),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),

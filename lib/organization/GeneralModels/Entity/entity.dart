@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,6 +14,7 @@ import 'package:lms/organization/Organization.dart';
 import 'package:lms/organization/OrgnizationPointer.dart';
 import 'package:lms/organization/orgAccount/OrgAccountPointer.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../Organization.dart';
 import '../../orgnizationAccountControler.dart';
@@ -175,6 +177,8 @@ class HDMCollection<CollectionItem extends Entity> {
     return Entity.fromJson(jsonDecode(e)) as CollectionItem;
   }
 
+  void UpdateValue() {}
+
   Future<CollectionItem?> getValOnline(String entityId) async {
     //print("????????????????? " + _collectionPath + '/' + entityId);
     var x = FirebaseFirestore.instance.doc(_collectionPath + '/' + entityId);
@@ -197,7 +201,27 @@ class HDMCollection<CollectionItem extends Entity> {
     });
   }
 
-  void updateValue() {}
+  Future<void> updateValue(
+    CollectionItem obj,
+  ) async {
+    await _trigerSetChild(obj);
+
+    _collectionDocRef = FirebaseFirestore.instance.collection(_collectionPath);
+    obj.lastTimeEdited = DateTime.now();
+
+    await _collectionDocRef.doc(obj.entityId).update(obj.toJson()).then((value) async {
+      await _waitFor();
+
+      await _objBox!.put(
+        obj.entityId,
+        jsonEncode(obj.toJson()),
+      );
+
+      toast("Sucessfuly added To Local and global Database");
+    }).timeout(Duration(seconds: 1), onTimeout: () {
+      toast("You are Oflline , plz restore connection");
+    });
+  }
 
   Future<CollectionItem?> getValLocaly(String entityId) async {
     await _refresh();
@@ -256,7 +280,10 @@ class HDMCollection<CollectionItem extends Entity> {
 
     if (_objBox == null) {
       //   print("no");
-      _objBox = await Hive.openBox(_collectionPath.replaceAll('/', "%%"));
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      // String appDocPath = appDocDir.path;
+      print(appDocDir.path + _collectionPath);
+      _objBox = await Hive.openBox(_collectionPath.split("/").last, path: appDocDir.path + _collectionPath);
 
       return;
     }

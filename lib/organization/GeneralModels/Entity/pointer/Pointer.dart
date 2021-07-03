@@ -41,7 +41,7 @@ abstract class HDMPointer extends Entity {
 
     var v = TheApp.appcntroler;
     var v2 = await getColection(v);
-    return await v2.getValLocaly(pointerId);
+    return v2.getValLocaly(pointerId);
   }
 
   Map<String, dynamic> toJson();
