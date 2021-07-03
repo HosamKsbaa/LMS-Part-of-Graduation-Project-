@@ -30,10 +30,9 @@ class AdministratorController {
   AdministratorController({required this.orgAccount, required this.org}) {
     _start();
   }
-
+   ClassRoom? classroom;
   void addNewCourse(BuildContext context) {
     String id = orgAccount.uid + DateTime.now().toString();
-
     final _key = GlobalKey<FormState>();
     showDialog(
         context: context,
@@ -41,6 +40,7 @@ class AdministratorController {
           return SimpleDialog(
             children: [
               Form(
+                  key: _key,
                   child: Column(
                 children: [
                   TextFormField(validator: (value) {
@@ -49,13 +49,14 @@ class AdministratorController {
                     }
                     return null;
                   },
-                  onSaved: (value){org.addClassroom(id, classRoomName:value!);},),
+                  onSaved: (value) async {classroom =await org.addClassroom(id, classRoomName:value!);},),
+
                   ElevatedButton(
-                      onPressed: _key.currentState!.validate()
-                          ? () {
-                              Navigator.pop(context);
-                            }
-                          : () {},
+                      onPressed: (){if(_key.currentState!.validate()) {
+                        _key.currentState!.save();
+                        Navigator.pop(context);
+                      }},
+                      // key: _key,
                       child: Text("submit"))
                 ],
               ))
@@ -82,8 +83,8 @@ class _WidgetAdministrator extends HDMStatelessWidget<AdministratorController> {
         stream: app.org.classroom.get(),
         func: (eS) => Card(
           child: ListTile(
-            onTap: () {
-              hDMNavigatorPush(context, InsideCoursePageController().data.play);
+            onTap: (){
+              hDMNavigatorPush(context, InsideCoursePageController(app.classroom!,app.org).data.play);
             },
             trailing: Icon(Icons.arrow_forward_ios_rounded),
             leading: Icon(Icons.folder_shared_rounded),

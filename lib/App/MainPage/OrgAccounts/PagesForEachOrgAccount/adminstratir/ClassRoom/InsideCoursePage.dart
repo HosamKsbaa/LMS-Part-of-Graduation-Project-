@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:lms/App/Drawer/Drawer.dart';
+import 'package:lms/App/MainPage/AccountsPage.dart';
+import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
+import 'package:lms/organization/Organization.dart';
+import 'package:lms/organization/orgAccount/OrgUser.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 
 class InsideCoursePageController {
+
 //region  Keys
   static const List<HDMKey<InsideCoursePageController>> _keyList = [key1];
   late HDMMain<InsideCoursePageController> data;
@@ -15,9 +21,15 @@ class InsideCoursePageController {
       InsideCoursePageController>();
 
 //endregion
-  InsideCoursePageController() {
+  final ClassRoom classroom;
+  final Organization org;
+  InsideCoursePageController(this.classroom, this.org) {
     _start();
   }
+  void addStuff(){
+
+  }
+
 }
 
 
@@ -27,8 +39,28 @@ class _WidgetInsideCoursePage extends HDMStatelessWidget<InsideCoursePageControl
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("s"),
+    return Scaffold(
+      drawer: HDmDrawerController().data.play(),
+      appBar: AppBar(
+        title: Text("Administrator in ${app.org.name} org"),
+      ),
+      body: HDMStreamBuilder<OrgUser>(
+        stream: app.org.orgUser.get(),
+        func: (eS) => Card(
+          child: ListTile(
+            onTap: () {
+
+            },
+            trailing: Icon(Icons.arrow_forward_ios_rounded),
+            leading: Icon(Icons.folder_shared_rounded),
+            title: Text(eS.displayName!),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => app.addStuff(),
+        child: Icon(Icons.add),
+      ),
     );
   }
 }

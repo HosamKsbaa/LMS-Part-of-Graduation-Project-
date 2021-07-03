@@ -78,7 +78,6 @@ class _WidgetAddAccountsToOrgUser extends HDMStatelessWidget<AddAccountsToOrgUse
             child: ListTile(
               onTap: () => app.addAdministrator(context),
 
-              enabled: false,
               trailing: Icon(Icons.add),
               title: Text("Add Admin"),
               //   subtitle: Text("Look Up By code"),
