@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lms/App/Drawer/Drawer.dart';
 import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
 import 'package:lms/App/MainPage/AccountsPage.dart';
+import 'package:lms/App/MainPage/OrgAccounts/PagesForEachOrgAccount/adminstratir/ClassRoom/AddOrgUserToClassRoomPage.dart';
 import 'package:lms/App/MainPage/OrgAccounts/PagesForEachOrgAccount/adminstratir/ClassRoom/InsideCoursePage.dart';
 // import 'package:lms/App/MainPage/OrgAccounts/PagesForEachOrgAccount/adminstratir/ClassRoomList/ClassRoomList.dart';
 import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
@@ -83,7 +84,7 @@ class _WidgetAdministrator extends HDMStatelessWidget<AdministratorController> {
           child: ListTile(
             subtitle: Appcntroler.timeAgo(eS),
             onTap: () {
-              hDMNavigatorPush(context, InsideCoursePageController(eS, app.org, app.orgAccount).data.play);
+              hDMNavigatorPush(context, AddOrgUserToClassRoomPageController(eS, org: app.org, orgAccount: app.orgAccount).data.play);
             },
             trailing: Icon(Icons.arrow_forward_ios_rounded),
             leading: Icon(Icons.folder_shared_rounded),
