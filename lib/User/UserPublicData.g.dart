@@ -14,7 +14,8 @@ UserPublicData _$UserPublicDataFromJson(Map<String, dynamic> json) {
     FcmToken: json['FcmToken'] as String,
   )
     ..lastTimeEdited = DateTime.parse(json['lastTimeEdited'] as String)
-    ..collectionPath = json['collectionPath'] as String;
+    ..collectionPath = json['collectionPath'] as String
+    ..doneSet = json['doneSet'] as bool;
 }
 
 Map<String, dynamic> _$UserPublicDataToJson(UserPublicData instance) =>
@@ -22,6 +23,7 @@ Map<String, dynamic> _$UserPublicDataToJson(UserPublicData instance) =>
       'entityTyps': _$EntityTypsEnumMap[instance.entityTyps],
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
+      'doneSet': instance.doneSet,
       'displayName': instance.displayName,
       'userProfilePic': instance.userProfilePic,
       'FcmToken': instance.FcmToken,

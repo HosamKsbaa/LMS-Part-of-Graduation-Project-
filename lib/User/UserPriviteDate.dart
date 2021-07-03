@@ -28,7 +28,7 @@ class UserPriviteDate extends Entity {
   late HDMCollection<OrgnizationPointer> orgPointer;
 
   Future<OrgnizationPointer> addAnOrganizationPinter({required Organization org, required String orgUserCode}) async {
-    var x = OrgnizationPointer(org.entityId, orgUserCode: orgUserCode, pointerPath: org.collectionPath, pointerId: org.entityId, lastTimeEdited: DateTime.now(), entityTyps: org.entityTyps, pointerTypes: HDMPointerTypes.OrgnizationPointer, orgid: org.entityId);
+    var x = OrgnizationPointer(org.entityId, orgUserCode: orgUserCode, pointerPath: org.collectionPath, pointerId: org.entityId, lastTimeEdited: DateTime.now(), entityTyps: EntityTyps.Pointer, pointerTypes: HDMPointerTypes.OrgnizationPointer, orgid: org.entityId);
     await orgPointer.add(x, ifRebeted: () {
       toast("you are alredy enroled in this org");
     });

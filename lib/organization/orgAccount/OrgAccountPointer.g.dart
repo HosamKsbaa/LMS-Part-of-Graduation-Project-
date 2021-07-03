@@ -17,7 +17,9 @@ OrgAccountPointer _$OrgAccountPointerFromJson(Map<String, dynamic> json) {
     entityTyps: _$enumDecode(_$EntityTypsEnumMap, json['entityTyps']),
     lastTimeEdited: DateTime.parse(json['lastTimeEdited'] as String),
     pointerTypes: _$enumDecode(_$HDMPointerTypesEnumMap, json['pointerTypes']),
-  )..collectionPath = json['collectionPath'] as String;
+  )
+    ..collectionPath = json['collectionPath'] as String
+    ..doneSet = json['doneSet'] as bool;
 }
 
 Map<String, dynamic> _$OrgAccountPointerToJson(OrgAccountPointer instance) =>
@@ -26,6 +28,7 @@ Map<String, dynamic> _$OrgAccountPointerToJson(OrgAccountPointer instance) =>
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
+      'doneSet': instance.doneSet,
       'pointerPath': instance.pointerPath,
       'pointerId': instance.pointerId,
       'pointerTypes': _$HDMPointerTypesEnumMap[instance.pointerTypes],

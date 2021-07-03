@@ -19,7 +19,9 @@ AnswerFile _$AnswerFileFromJson(Map<String, dynamic> json) {
     (json['questionsMap'] as Map<String, dynamic>).map(
       (k, e) => MapEntry(k, StudentAnsers.fromJson(e as Map<String, dynamic>)),
     ),
-  )..collectionPath = json['collectionPath'] as String;
+  )
+    ..collectionPath = json['collectionPath'] as String
+    ..doneSet = json['doneSet'] as bool;
 }
 
 Map<String, dynamic> _$AnswerFileToJson(AnswerFile instance) =>
@@ -27,6 +29,7 @@ Map<String, dynamic> _$AnswerFileToJson(AnswerFile instance) =>
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
+      'doneSet': instance.doneSet,
       'hiddenType': _$HiddenTypeEnumMap[instance.hiddenType],
       'answerFileID': instance.answerFileID,
       'questionFileID': instance.questionFileID,

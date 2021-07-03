@@ -8,8 +8,8 @@ part 'StudentAnsers.g.dart';
 //flutter packages pub run build_runner build
 //endregion
 class StudentAnsers {
-  StudentAnsers(this.questionFileID, this.answer);
-  final String questionFileID;
+  StudentAnsers(this.Qesqtionid, this.answer);
+  final String Qesqtionid;
   final String answer;
 
   //region jsonApi

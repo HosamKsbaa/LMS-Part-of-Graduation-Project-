@@ -10,6 +10,7 @@ Appcntroler _$AppcntrolerFromJson(Map<String, dynamic> json) {
   return Appcntroler()
     ..lastTimeEdited = DateTime.parse(json['lastTimeEdited'] as String)
     ..collectionPath = json['collectionPath'] as String
+    ..doneSet = json['doneSet'] as bool
     ..usedrPriviteDate = json['usedrPriviteDate'] == null
         ? null
         : UserPriviteDate.fromJson(
@@ -24,6 +25,7 @@ Map<String, dynamic> _$AppcntrolerToJson(Appcntroler instance) =>
     <String, dynamic>{
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
+      'doneSet': instance.doneSet,
       'usedrPriviteDate': instance.usedrPriviteDate,
       'userPublicData': instance.userPublicData,
     };

@@ -171,7 +171,7 @@ class HDMCollection<CollectionItem extends Entity> {
 
   Future<void> cleanBox() async {
     Box<String>? _objBox = await _waitFor();
-    _objBox!.deleteFromDisk();
+    _objBox.deleteFromDisk();
   }
 
   //region tra abd push
@@ -228,22 +228,22 @@ class HDMCollection<CollectionItem extends Entity> {
   Future<void> updateValue(
     CollectionItem obj,
   ) async {
-    // await _trigerSetChild(obj);
-    //
-    // _collectionDocRef = FirebaseFirestore.instance.collection(_collectionPath);
-    //
-    // await _collectionDocRef.doc(obj.entityId).update(push(obj)).then((value) async {
-    //   await _waitFor();
-    //
-    //   await _objBox!.put(
-    //     obj.entityId,
-    //     jsonEncode(push(obj)),
-    //   );
-    //
-    //   toast("Sucessfuly added To Local and global Database");
-    // }).timeout(Duration(seconds: 4), onTimeout: () {
-    //   toast("You are Oflline , plz restore connection");
-    // });
+    await _trigerSetChild(obj);
+
+    _collectionDocRef = FirebaseFirestore.instance.collection(_collectionPath);
+
+    await _collectionDocRef.doc(obj.entityId).update(push(obj)).then((value) async {
+      Box<String>? _objBox = await _waitFor();
+
+      await _objBox.put(
+        obj.entityId,
+        jsonEncode(push(obj)),
+      );
+
+      toast("Sucessfuly added To Local and global Database");
+    }).timeout(Duration(seconds: 4), onTimeout: () {
+      toast("You are Oflline , plz restore connection");
+    });
   }
 
   Future<CollectionItem?> getValLocaly(String entityId) async {
@@ -254,9 +254,9 @@ class HDMCollection<CollectionItem extends Entity> {
     // print(TheApp.appcntroler.user!.uid.toString());
     // print(_objBox.keys);
     // print(_objBox.values);
-    var e = _objBox!.get(entityId);
+    var e = _objBox.get(entityId);
     if (e == null) {
-      List<String> values = _objBox!.keys.map((e) => e.toString() + "\n").toList();
+      List<String> values = _objBox.keys.map((e) => e.toString() + "\n").toList();
       print("""didn't find ${this.runtimeType} 
          $entityId
          =================
@@ -264,7 +264,7 @@ class HDMCollection<CollectionItem extends Entity> {
       """);
 
       // print("");
-      // _objBox!.values.forEach((element) {
+      // _objBox.values.forEach((element) {
       //   print(element);
       // });
       return null;
@@ -293,7 +293,7 @@ class HDMCollection<CollectionItem extends Entity> {
     }
     await _waitFor();
     //_refresh();
-    // list = await _objBox!.values.map<CollectionItem>(_tra).toList();
+    // list = await _objBox.values.map<CollectionItem>(_tra).toList();
 
     // print("Path of $CollectionItem is $_collectionPath");
   }
@@ -327,7 +327,7 @@ class HDMCollection<CollectionItem extends Entity> {
 
       Box<String>? _objBox = await _waitFor();
 
-      list = _objBox!.values.map<CollectionItem>(_tra).toList();
+      list = _objBox.values.map<CollectionItem>(_tra).toList();
       DateTime lastTimeUpdated = DateTime(1970);
       list!.forEach((element) {
         if (element.lastTimeEdited.isAfter(lastTimeUpdated)) {
@@ -357,7 +357,7 @@ class HDMCollection<CollectionItem extends Entity> {
           // print("id =" + obj.entityId);
           // print("                                            -");
           // print("                                            --");
-          // var x = _objBox!.values.map<CollectionItem>(_tra).toList();
+          // var x = _objBox.values.map<CollectionItem>(_tra).toList();
           // x!.forEach((element) {
           //   print("       ${element.entityId}");
           // });
@@ -369,12 +369,12 @@ class HDMCollection<CollectionItem extends Entity> {
           // print("${obj.entityId}");
           // print("${_collectionPath.split("/")[_collectionPath.split("/").length - 2]}");
           // print(_objBox.hashCode);
-          await _objBox!.put(
+          await _objBox.put(
             obj.entityId,
             jsonEncode(push(obj)),
           );
           // print(list!.length.toString());
-          // var x2 = _objBox!.values.map<CollectionItem>(_tra).toList();
+          // var x2 = _objBox.values.map<CollectionItem>(_tra).toList();
           // x2!.forEach((element) {
           //   print("       ${element.entityId}");
           // });
@@ -441,7 +441,7 @@ class HDMCollection<CollectionItem extends Entity> {
       Box<String>? _objBox = await _waitFor();
 
       bool checkMethou() {
-        var x = _objBox!.values.map<CollectionItem>(_tra).toList();
+        var x = _objBox.values.map<CollectionItem>(_tra).toList();
 
         var x2 = x.any((element) {
           return element.entityId == obj.entityId;
@@ -454,7 +454,7 @@ class HDMCollection<CollectionItem extends Entity> {
         return null;
       }
 
-      await _objBox!.put(
+      await _objBox.put(
         obj.entityId,
         jsonEncode(push(obj)),
       );
@@ -478,7 +478,7 @@ class HDMCollection<CollectionItem extends Entity> {
 
     Future<List<CollectionItem>?> geter() async {
       Box<String>? _objBox = await _waitFor();
-      list = _objBox!.values.map<CollectionItem>(_tra).toList();
+      list = _objBox.values.map<CollectionItem>(_tra).toList();
       // print("================" + list.toString());
       await Future.forEach<CollectionItem>(list!, _trigerSetChild);
       controller.add(list!);
@@ -492,7 +492,7 @@ class HDMCollection<CollectionItem extends Entity> {
     _waitFor().then((value) async {
       Box<String>? _objBox = await _waitFor();
 
-      _objBox!.watch().listen((event) async {
+      _objBox.watch().listen((event) async {
         // print("---------------------------------------------------------------------");
         // print("-");
         //

@@ -17,7 +17,8 @@ UserPriviteDate _$UserPriviteDateFromJson(Map<String, dynamic> json) {
     entityTyps: _$enumDecode(_$EntityTypsEnumMap, json['entityTyps']),
   )
     ..lastTimeEdited = DateTime.parse(json['lastTimeEdited'] as String)
-    ..collectionPath = json['collectionPath'] as String;
+    ..collectionPath = json['collectionPath'] as String
+    ..doneSet = json['doneSet'] as bool;
 }
 
 Map<String, dynamic> _$UserPriviteDateToJson(UserPriviteDate instance) =>
@@ -25,6 +26,7 @@ Map<String, dynamic> _$UserPriviteDateToJson(UserPriviteDate instance) =>
       'entityTyps': _$EntityTypsEnumMap[instance.entityTyps],
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
+      'doneSet': instance.doneSet,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'gender': instance.gender,
