@@ -74,9 +74,9 @@ class _WidgetAccountsPage extends HDMStatelessWidget<AccountsPageController> {
 }
 
 class HDMStreamBuilderForPointers<x extends HDMPointer, y extends Entity> extends StatelessWidget {
-  const HDMStreamBuilderForPointers({Key? key, required this.stream, required this.loading, required this.func, required this.err}) : super(key: key);
+  HDMStreamBuilderForPointers({Key? key, required this.stream, required this.loading, required this.func, required this.err}) : super(key: key);
   final Stream<List<x>>? stream;
-  final Widget Function() loading;
+  Widget Function() loading = () => ListTile(title: Text("lading"));
   final Widget Function(y, x) func;
 
   final Widget Function() err;
@@ -102,7 +102,7 @@ class HDMStreamBuilderForPointers<x extends HDMPointer, y extends Entity> extend
         } else if (snapshot.hasData) {
           List<x> data = snapshot.data!;
           if (data.length == 0) {
-            return  NoContent();
+            return NoContent();
           } else {
             return LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) => Column(
@@ -174,7 +174,6 @@ class HDMStreamBuilder<x extends Entity> extends StatelessWidget {
             return LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) => Column(
                 children: [
-
                   Text("There is ${data.length} elements last update ${DateTime.now()}"),
                   Expanded(
                     child: ListView(
@@ -204,15 +203,14 @@ class CirclerWaiting extends StatelessWidget {
   }
 }
 
-class NoContent  extends StatelessWidget {
-  const NoContent ({Key? key}) : super(key: key);
+class NoContent extends StatelessWidget {
+  const NoContent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
@@ -225,9 +223,13 @@ class NoContent  extends StatelessWidget {
               ],
             ),
           ),
-          Icon(Icons.arrow_downward_outlined ,size: 30,),
+          Icon(
+            Icons.arrow_downward_outlined,
+            size: 30,
+          ),
         ],
       ),
-    ) ;;
+    );
+    ;
   }
 }
