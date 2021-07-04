@@ -8,11 +8,9 @@ part of 'MCQ.dart';
 
 MCQ _$MCQFromJson(Map<String, dynamic> json) {
   return MCQ(
-    json['qestionHead'] as String,
-    json['qestionid'] as String,
-    json['qestionSection'] as String,
-    (json['marks'] as num).toDouble(),
-    Map<String, String>.from(json['ansers'] as Map),
+    qestionHead: json['qestionHead'] as String,
+    qestionid: json['qestionid'] as String,
+    ansers: Map<String, String>.from(json['ansers'] as Map),
     seen: json['seen'] as bool,
     qestionType: _$enumDecode(_$QestionTypeEnumMap, json['qestionType']),
   );
@@ -22,8 +20,6 @@ Map<String, dynamic> _$MCQToJson(MCQ instance) => <String, dynamic>{
       'qestionType': _$QestionTypeEnumMap[instance.qestionType],
       'qestionHead': instance.qestionHead,
       'qestionid': instance.qestionid,
-      'qestionSection': instance.qestionSection,
-      'marks': instance.marks,
       'seen': instance.seen,
       'ansers': instance.ansers,
     };

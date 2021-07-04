@@ -11,18 +11,16 @@ part 'QestionsFile.g.dart';
 //flutter packages pub run build_runner build
 //endregion
 class QestionsFile extends Hidden {
-  QestionsFile(String entityId, {required this.quizMainPage, required DateTime lastTimeEdited}) : super(entityId, lastTimeEdited: lastTimeEdited, hiddenType: HiddenType.qestionFile);
+  QestionsFile(String entityId, {required this.qestionMap, required this.startDate, required this.endDate, required this.allwedDuration, required this.marks, required this.posiibleAttimpts, required this.instructions, required DateTime lastTimeEdited, required HiddenType hiddenType})
+      : super(entityId, lastTimeEdited: lastTimeEdited, hiddenType: HiddenType.qestionFile);
 
-  final String quizMainPage;
-  Map<String, Qestion> qestionMap = {};
-
-  void addAnQestion(Qestion q) {
-    qestionMap.addAll({qestionMap.length.toString(): q});
-  }
-
-  void removeAq(String id) {
-    qestionMap.remove(id);
-  }
+  final DateTime startDate;
+  final DateTime endDate;
+  final Duration allwedDuration;
+  final String marks;
+  final String posiibleAttimpts;
+  final String instructions;
+  final Map<String, Qestion> qestionMap;
 
   //region jsonApi
   factory QestionsFile.fromJson(Map<String, dynamic> json) => _$QestionsFileFromJson(json);

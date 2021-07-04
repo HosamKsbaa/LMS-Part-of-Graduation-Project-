@@ -7,15 +7,16 @@ enum QestionType {
 }
 
 abstract class Qestion {
-  Qestion({required this.qestionHead, required this.qestionid, required this.qestionSection, required this.marks, required this.seen, required this.qestionType});
+  Qestion({required this.qestionHead, required this.qestionid, required this.seen, required this.qestionType});
 
   ///MCQ
   final QestionType qestionType;
   final String qestionHead;
   final String qestionid;
-  final String qestionSection;
-  final double marks;
+  //final String qestionSection;
+  //final double marks;
   final bool seen;
+
   //region jsonApi
   factory Qestion.fromJson(Map<String, dynamic> json) {
     var x = QestionType.values.firstWhere((e) {
