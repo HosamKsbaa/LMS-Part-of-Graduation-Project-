@@ -9,14 +9,20 @@ part of 'QestionsFile.dart';
 QestionsFile _$QestionsFileFromJson(Map<String, dynamic> json) {
   return QestionsFile(
     json['entityId'] as String,
-    quizMainPage: json['quizMainPage'] as String,
+    qestionMap: (json['qestionMap'] as Map<String, dynamic>).map(
+      (k, e) => MapEntry(k, Qestion.fromJson(e as Map<String, dynamic>)),
+    ),
+    startDate: DateTime.parse(json['startDate'] as String),
+    endDate: DateTime.parse(json['endDate'] as String),
+    allwedDuration: DateTime.parse(json['allwedDuration'] as String),
+    marks: json['marks'] as int,
+    posiibleAttimpts: json['posiibleAttimpts'] as int,
+    instructions: json['instructions'] as String,
     lastTimeEdited: DateTime.parse(json['lastTimeEdited'] as String),
+    hiddenType: _$enumDecode(_$HiddenTypeEnumMap, json['hiddenType']),
   )
     ..collectionPath = json['collectionPath'] as String
-    ..doneSet = json['doneSet'] as bool
-    ..qestionMap = (json['qestionMap'] as Map<String, dynamic>).map(
-      (k, e) => MapEntry(k, Qestion.fromJson(e as Map<String, dynamic>)),
-    );
+    ..doneSet = json['doneSet'] as bool;
 }
 
 Map<String, dynamic> _$QestionsFileToJson(QestionsFile instance) =>
@@ -25,6 +31,43 @@ Map<String, dynamic> _$QestionsFileToJson(QestionsFile instance) =>
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
       'doneSet': instance.doneSet,
-      'quizMainPage': instance.quizMainPage,
+      'hiddenType': _$HiddenTypeEnumMap[instance.hiddenType],
+      'startDate': instance.startDate.toIso8601String(),
+      'endDate': instance.endDate.toIso8601String(),
+      'allwedDuration': instance.allwedDuration.toIso8601String(),
+      'marks': instance.marks,
+      'posiibleAttimpts': instance.posiibleAttimpts,
+      'instructions': instance.instructions,
       'qestionMap': instance.qestionMap.map((k, e) => MapEntry(k, e.toJson())),
     };
+
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
+  }
+
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
+}
+
+const _$HiddenTypeEnumMap = {
+  HiddenType.AnserFile: 'AnserFile',
+  HiddenType.qestionFile: 'qestionFile',
+};

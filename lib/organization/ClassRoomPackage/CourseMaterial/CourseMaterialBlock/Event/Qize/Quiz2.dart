@@ -8,7 +8,7 @@ import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialB
 import 'package:lms/organization/GeneralModels/Entity/Activity/ActivitySignetre.dart';
 import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 import 'package:lms/organization/GeneralModels/HiddenFile/Hidden.dart';
-import 'package:lms/organization/Organization.dart';
+import 'package:lms/organization/orgAccount/OrgAccount.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import '../../CourseMaterialBlock.dart';
@@ -46,17 +46,16 @@ class Quiz extends LMSEvent {
   ///Map<StudentUId,StudentAnsersFile>
   final Map<String, String> studentAnswer;
 
-  Future<QestionsFile> addAnQestionFile({required Organization org, required String quizmainpage, required Map<String, Qestion> qestionMap}) async {
-    var x = QestionsFile(org.entityId, quizMainPage: quizmainpage, lastTimeEdited: DateTime.now());
+  Future<QestionsFile> addAnQestionFile({required Map<String, Qestion> qestionMap, required DateTime startDate, required DateTime endDate, required DateTime allwedDuration, required int marks, required int posiibleAttimpts, required String quizMainPage, required String instructions}) async {
+    var x = QestionsFile(DateTime.now().toString(), lastTimeEdited: DateTime.now(), startDate: startDate, posiibleAttimpts: posiibleAttimpts, marks: marks, allwedDuration: allwedDuration, instructions: instructions, endDate: endDate, qestionMap: qestionMap, hiddenType: HiddenType.qestionFile);
     await questioncol.add(x, ifRebeted: () {
       toast("you are alredy enroled in this org");
     });
     return x;
   }
 
-  Future<AnswerFile> addAnAnswerFile(
-      {required Organization org, required HiddenType hiddenType, required String answerFileID, required String questionFileID, required Duration duration, required DateTime startedAt, required String studentId, required Map<String, StudentAnsers> questionsMap}) async {
-    var x = AnswerFile(entityId: org.entityId, hiddenType: hiddenType, lastTimeEdited: DateTime.now(), answerFileID: answerFileID, questionFileID: questionFileID, startedAt: startedAt, questionsMap: questionsMap, studentId: studentId, duration: duration);
+  Future<AnswerFile> addAnAnswerFile({required OrgAccount org, required String answerFileID, required String questionFileID, required Duration duration, required DateTime startedAt, required String studentId, required Map<String, StudentAnsers> questionsMap}) async {
+    var x = AnswerFile(entityId: org.orgid, lastTimeEdited: DateTime.now(), answerFileID: answerFileID, questionFileID: questionFileID, startedAt: startedAt, questionsMap: questionsMap, studentId: studentId, duration: duration, hiddenType: HiddenType.AnserFile);
     await answercol.add(x, ifRebeted: () {
       toast("you are alredy enroled in this org");
     });
