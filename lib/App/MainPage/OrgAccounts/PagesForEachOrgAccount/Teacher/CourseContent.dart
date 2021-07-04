@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:lms/App/Drawer/Drawer.dart';
 import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
+import 'package:lms/App/MainPage/OrgAccounts/PagesForEachOrgAccount/Student/Qize/TakeAqizeMainPage.dart';
 import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
+import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialBlock/Announecmt2/Announecmt.dart';
 import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialBlock/CourseMaterialBlock.dart';
-import 'package:lms/organization/orgnizationAccountControler.dart';
+import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialBlock/Event/Qize/Quiz2.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 import '../../../AccountsPage.dart';
@@ -20,10 +22,10 @@ class CourseContentController {
 
 //endregion
   ClassRoom classroom;
-  CourseContentController(this.classroom) {
+  CourseContentController(this.classroom, this.isaTeacher) {
     _start();
   }
-
+  final bool isaTeacher;
   void addNewAnnoncement(BuildContext context) {
     final _key = GlobalKey<FormState>();
     String? text, title;
@@ -89,33 +91,55 @@ class _WidgetCourseContent extends HDMStatelessWidget<CourseContentController> {
       ),
       body: HDMStreamBuilder<CourseMaterialBlock>(
         stream: app.classroom.courseMaterialBlock.get(),
-        func: (block) => Card(
-          child: ListTile(
-            subtitle: Appcntroler.timeAgo(block),
-            //    onTap: () => orgAccount.widget(orgAccount: orgAccount, org: app.org, context: context),
+        func: (block) {
+          if (block.courseMaterialType == CourseMaterialType.Announecmtextends) {
+            var block2 = block as Announecmtextends;
+            return Card(
+              child: ListTile(
+                subtitle: Text(block.text),
+                isThreeLine: true,
+                //    onTap: () => orgAccount.widget(orgAccount: orgAccount, org: app.org, context: context),
 
-            trailing: Icon(Icons.arrow_forward_ios_rounded),
-            leading: Icon(Icons.supervised_user_circle),
+                trailing: Icon(Icons.arrow_forward_ios_rounded),
+                leading: Icon(Icons.announcement_outlined),
 
-            title: Text(block.title),
-            //subtitle: Text(r!.),
-          ),
-        ),
+                title: Text(block.title),
+                //subtitle: Text(r!.),
+              ),
+            );
+          } else {
+            var block2 = block as Quiz;
+
+            return Card(
+              child: ListTile(
+                onTap: () => hDMNavigatorPush(context, TakeAqizeMainPage(block2).data.play),
+
+                trailing: Icon(Icons.arrow_forward_ios_rounded),
+                leading: Icon(Icons.supervised_user_circle),
+
+                title: Text(block.title),
+                //subtitle: Text(r!.),
+              ),
+            );
+          }
+        },
       ),
-      floatingActionButton: SpeedDial(icon: Icons.add, children: [
-        SpeedDialChild(
-          child: Icon(Icons.announcement_outlined),
-          label: 'An Announcment ',
-          onTap: () => app.addNewAnnoncement(context),
-        ),
-        SpeedDialChild(
-          child: Icon(Icons.text_snippet),
-          label: 'An Qize',
-          onTap: () {
-            hDMNavigatorPush(context, CreatAQizeController(classRoom: app.classroom).data.play);
-          },
-        ),
-      ]),
+      floatingActionButton: app.isaTeacher == true
+          ? SpeedDial(icon: Icons.add, children: [
+              SpeedDialChild(
+                child: Icon(Icons.announcement_outlined),
+                label: 'An Announcment ',
+                onTap: () => app.addNewAnnoncement(context),
+              ),
+              SpeedDialChild(
+                child: Icon(Icons.text_snippet),
+                label: 'An Qize',
+                onTap: () {
+                  hDMNavigatorPush(context, CreatAQizeController(classRoom: app.classroom).data.play);
+                },
+              ),
+            ])
+          : null,
     );
   }
 }

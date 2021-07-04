@@ -43,7 +43,7 @@ class _WidgetTeacher extends HDMStatelessWidget<TeacherController> {
         func: (classRoom, classRoomPointer) => Card(
           child: ListTile(
             onTap: () {
-              hDMNavigatorPush(context, CourseContentController(classRoom).data.play);
+              hDMNavigatorPush(context, CourseContentController(classRoom, true).data.play);
             },
             trailing: Icon(Icons.arrow_forward_ios_rounded),
             leading: Icon(Icons.school),

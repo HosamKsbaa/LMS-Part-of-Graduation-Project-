@@ -1,5 +1,6 @@
 //region header
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lms/organization/GeneralModels/Entity/entity.dart';
 import 'package:lms/organization/GeneralModels/HiddenFile/Hidden.dart';
 
 import 'Qestion.dart';
@@ -11,8 +12,9 @@ part 'QestionsFile.g.dart';
 //flutter packages pub run build_runner build
 //endregion
 class QestionsFile extends Hidden {
-  QestionsFile(String entityId, {required this.qestionMap, required this.startDate, required this.endDate, required this.allwedDuration, required this.marks, required this.posiibleAttimpts, required this.instructions, required DateTime lastTimeEdited, required HiddenType hiddenType})
-      : super(entityId, lastTimeEdited: lastTimeEdited, hiddenType: HiddenType.qestionFile);
+  QestionsFile(String entityId,
+      {required this.qestionMap, required this.startDate, required this.endDate, required this.allwedDuration, required this.marks, required this.posiibleAttimpts, required this.instructions, required DateTime lastTimeEdited, required HiddenType hiddenType, required EntityTyps entityTyps})
+      : super(entityId, lastTimeEdited: lastTimeEdited, hiddenType: hiddenType, entityTyps: entityTyps);
 
   final DateTime startDate;
   final DateTime endDate;

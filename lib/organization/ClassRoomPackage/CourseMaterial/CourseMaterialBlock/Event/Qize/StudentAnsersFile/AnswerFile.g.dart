@@ -19,6 +19,7 @@ AnswerFile _$AnswerFileFromJson(Map<String, dynamic> json) {
     questionsMap: (json['questionsMap'] as Map<String, dynamic>).map(
       (k, e) => MapEntry(k, StudentAnsers.fromJson(e as Map<String, dynamic>)),
     ),
+    entityTyps: _$enumDecode(_$EntityTypsEnumMap, json['entityTyps']),
   )
     ..collectionPath = json['collectionPath'] as String
     ..doneSet = json['doneSet'] as bool;
@@ -26,6 +27,7 @@ AnswerFile _$AnswerFileFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$AnswerFileToJson(AnswerFile instance) =>
     <String, dynamic>{
+      'entityTyps': _$EntityTypsEnumMap[instance.entityTyps],
       'lastTimeEdited': instance.lastTimeEdited.toIso8601String(),
       'collectionPath': instance.collectionPath,
       'entityId': instance.entityId,
@@ -68,4 +70,16 @@ K _$enumDecode<K, V>(
 const _$HiddenTypeEnumMap = {
   HiddenType.AnserFile: 'AnserFile',
   HiddenType.qestionFile: 'qestionFile',
+};
+
+const _$EntityTypsEnumMap = {
+  EntityTyps.Organization: 'Organization',
+  EntityTyps.ActivitySignetre: 'ActivitySignetre',
+  EntityTyps.AccesLevel: 'AccesLevel',
+  EntityTyps.Log: 'Log',
+  EntityTyps.Hidden: 'Hidden',
+  EntityTyps.Pointer: 'Pointer',
+  EntityTyps.RootEntity: 'RootEntity',
+  EntityTyps.UserPriviteDate: 'UserPriviteDate',
+  EntityTyps.UserPublicData: 'UserPublicData',
 };

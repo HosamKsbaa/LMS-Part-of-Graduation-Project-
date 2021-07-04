@@ -9,7 +9,7 @@ enum HiddenType {
 
 abstract class Hidden extends Entity {
   final HiddenType hiddenType;
-  Hidden(String entityId, {required this.hiddenType, required DateTime lastTimeEdited}) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: EntityTyps.Hidden);
+  Hidden(String entityId, {required this.hiddenType, required DateTime lastTimeEdited, required EntityTyps entityTyps}) : super(entityId, lastTimeEdited: lastTimeEdited, entityTyps: EntityTyps.Hidden);
 
   //region jsonApi
   factory Hidden.fromJson(Map<String, dynamic> json) {
@@ -17,7 +17,7 @@ abstract class Hidden extends Entity {
       return e.toString().split(".").last == json["hiddenType"];
     });
     assert(x != null, "there is no hiddentType parameter in  ");
-    switch(x){
+    switch (x) {
       case HiddenType.AnserFile:
         return AnswerFile.fromJson(json);
       case HiddenType.qestionFile:

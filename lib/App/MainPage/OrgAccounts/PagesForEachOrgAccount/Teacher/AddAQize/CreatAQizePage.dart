@@ -44,16 +44,16 @@ class CreatAQizeController {
   }
 
   Future<void> PuplishTheqize(BuildContext context) async {
-    print(qestionMap);
-    print(startdate);
-
-    print(enddate);
-
-    print(enddate.difference(enddate));
-
-    print(mark);
-
-    print(instructions);
+    // print(qestionMap);
+    // print(startdate);
+    //
+    // print(enddate);
+    //
+    // print(enddate.difference(enddate));
+    //
+    // print(mark);
+    //
+    // print(instructions);
 
     var x = await classRoom.addaQize(title: name);
     x.addAnQestionFile(
@@ -137,7 +137,7 @@ class _WidgetCreatAQize extends HDMStatelessWidget<CreatAQizeController> {
                                       child: DateTimeField(
                                         format: DateFormat("yyyy-MM-dd HH:mm"),
                                         onShowPicker: (BuildContext context, DateTime? currentValue) async {
-                                          final date = await showDatePicker(context: context, firstDate: DateTime(1900), initialDate: currentValue ?? DateTime.now(), lastDate: DateTime.now());
+                                          final date = await showDatePicker(context: context, firstDate: DateTime(1900), initialDate: currentValue ?? DateTime.now(), lastDate: DateTime(3000));
                                           if (date != null) {
                                             final time = await showTimePicker(
                                               context: context,
@@ -167,7 +167,7 @@ class _WidgetCreatAQize extends HDMStatelessWidget<CreatAQizeController> {
                                       child: DateTimeField(
                                         format: DateFormat("yyyy-MM-dd HH:mm"),
                                         onShowPicker: (BuildContext context, DateTime? currentValue) async {
-                                          final date = await showDatePicker(context: context, firstDate: DateTime(1900), initialDate: currentValue ?? DateTime.now(), lastDate: DateTime.now());
+                                          final date = await showDatePicker(context: context, firstDate: DateTime(1900), initialDate: currentValue ?? DateTime.now(), lastDate: DateTime(3000));
                                           if (date != null) {
                                             final time = await showTimePicker(
                                               context: context,

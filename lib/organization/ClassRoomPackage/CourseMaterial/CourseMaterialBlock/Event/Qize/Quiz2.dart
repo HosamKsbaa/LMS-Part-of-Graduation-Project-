@@ -31,7 +31,6 @@ class Quiz extends LMSEvent {
           eventType: eventType,
           entityTyps: entityTyps,
           activitySignetreTyps: activitySignetreTyps,
-
           courseMaterialType: courseMaterialType,
         ) {
     questioncol = HDMCollection<QestionsFile>(this, "QestionFile");
@@ -48,9 +47,9 @@ class Quiz extends LMSEvent {
   // ///Map<StudentUId,StudentAnsersFile>
   // final Map<String, String> studentAnswer;
 
-
   Future<QestionsFile> addAnQestionFile({required Map<String, Qestion> qestionMap, required DateTime startDate, required DateTime endDate, required Duration allwedDuration, required String marks, required String posiibleAttimpts, required String quizMainPage, required String instructions}) async {
-    var x = QestionsFile(DateTime.now().toString(), lastTimeEdited: DateTime.now(), startDate: startDate, posiibleAttimpts: posiibleAttimpts, marks: marks, allwedDuration: allwedDuration, instructions: instructions, endDate: endDate, qestionMap: qestionMap, hiddenType: HiddenType.qestionFile);
+    var x = QestionsFile(DateTime.now().toString(),
+        lastTimeEdited: DateTime.now(), startDate: startDate, posiibleAttimpts: posiibleAttimpts, marks: marks, allwedDuration: allwedDuration, instructions: instructions, endDate: endDate, qestionMap: qestionMap, hiddenType: HiddenType.qestionFile, entityTyps: EntityTyps.Hidden);
     await questioncol.add(x, ifRebeted: () {
       toast("you are alredy enroled in this org");
     });
@@ -58,7 +57,7 @@ class Quiz extends LMSEvent {
   }
 
   Future<AnswerFile> addAnAnswerFile({required OrgAccount org, required String answerFileID, required String questionFileID, required Duration duration, required DateTime startedAt, required String studentId, required Map<String, StudentAnsers> questionsMap}) async {
-    var x = AnswerFile(entityId: org.orgid, lastTimeEdited: DateTime.now(), answerFileID: answerFileID, questionFileID: questionFileID, startedAt: startedAt, questionsMap: questionsMap, studentId: studentId, duration: duration, hiddenType: HiddenType.AnserFile);
+    var x = AnswerFile(entityId: org.orgid, lastTimeEdited: DateTime.now(), answerFileID: answerFileID, questionFileID: questionFileID, startedAt: startedAt, questionsMap: questionsMap, studentId: studentId, duration: duration, hiddenType: HiddenType.AnserFile, entityTyps: EntityTyps.Hidden);
     await answercol.add(x, ifRebeted: () {
       toast("you are alredy enroled in this org");
     });
