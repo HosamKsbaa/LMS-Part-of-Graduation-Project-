@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lms/App/Drawer/Drawer.dart';
+import 'package:lms/App/General/_GeneralMethouds/Navigation.dart';
+import 'package:lms/App/MainPage/OrgAccounts/PagesForEachOrgAccount/Teacher/CourseContent.dart';
 import 'package:lms/organization/ClassRoomPackage/ClassRoom.dart';
 import 'package:lms/organization/ClassRoomPackage/ClassRoomPointer.dart';
 import 'package:lms/organization/Organization.dart';
@@ -40,9 +42,9 @@ class _WidgetTeacher extends HDMStatelessWidget<TeacherController> {
         err: () => ListTile(title: Text("err")),
         func: (classRoom, classRoomPointer) => Card(
           child: ListTile(
-            // onTap: () {
-            //   hDMNavigatorPush(context, OrgAccountsController(orgnizationPointer: orgPointer, org: Org).data.play);
-            // },
+            onTap: () {
+              hDMNavigatorPush(context, CourseContentController(classRoom).data.play);
+            },
             trailing: Icon(Icons.arrow_forward_ios_rounded),
             leading: Icon(Icons.school),
             title: Text(classRoom.classRoomName),
