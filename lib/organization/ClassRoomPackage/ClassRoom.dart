@@ -6,6 +6,8 @@ import 'package:lms/organization/orgAccount/OrgAccountPointer.dart';
 
 import 'CourseMaterial/CourseMaterialBlock/Announecmt2/Announecmt.dart';
 import 'CourseMaterial/CourseMaterialBlock/CourseMaterialBlock.dart';
+import 'CourseMaterial/CourseMaterialBlock/Event/Event.dart';
+import 'CourseMaterial/CourseMaterialBlock/Event/Qize/Quiz2.dart';
 
 part 'ClassRoom.g.dart';
 
@@ -47,6 +49,13 @@ class ClassRoom extends ActivitySignetre {
   Future<Announecmtextends> addAnAnnouncment({required String text, required String title}) async {
     //todo notify users
     var x = Announecmtextends(DateTime.now().toString(), entityTyps: EntityTyps.ActivitySignetre, lastTimeEdited: DateTime.now(), activitySignetreTyps: ActivitySignetreTyps.ClassRoom, title: title, importance: [Importance.toAll], courseMaterialType: CourseMaterialType.Event, text: text);
+    await courseMaterial.add(x);
+    return x;
+  }
+
+  Future<Quiz> addaQize({required String title}) async {
+    //todo notify users
+    var x = Quiz(DateTime.now().toString(), entityTyps: EntityTyps.ActivitySignetre, lastTimeEdited: DateTime.now(), activitySignetreTyps: ActivitySignetreTyps.Quiz, importance: [Importance.toAll], courseMaterialType: CourseMaterialType.Event, title: title, eventType: LMSEventType.Quiz);
     await courseMaterial.add(x);
     return x;
   }

@@ -16,9 +16,9 @@ class QestionsFile extends Hidden {
 
   final DateTime startDate;
   final DateTime endDate;
-  final DateTime allwedDuration;
-  final int marks;
-  final int posiibleAttimpts;
+  final Duration allwedDuration;
+  final String marks;
+  final String posiibleAttimpts;
   final String instructions;
   final Map<String, Qestion> qestionMap;
 
