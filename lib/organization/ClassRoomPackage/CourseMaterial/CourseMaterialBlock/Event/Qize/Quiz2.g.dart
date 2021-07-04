@@ -20,8 +20,6 @@ Quiz _$QuizFromJson(Map<String, dynamic> json) {
     entityTyps: _$enumDecode(_$EntityTypsEnumMap, json['entityTyps']),
     activitySignetreTyps: _$enumDecode(
         _$ActivitySignetreTypsEnumMap, json['activitySignetreTyps']),
-    courseMaterialType:
-        _$enumDecode(_$CourseMaterialTypeEnumMap, json['courseMaterialType']),
   )
     ..collectionPath = json['collectionPath'] as String
     ..doneSet = json['doneSet'] as bool;
@@ -35,8 +33,6 @@ Map<String, dynamic> _$QuizToJson(Quiz instance) => <String, dynamic>{
       'doneSet': instance.doneSet,
       'activitySignetreTyps':
           _$ActivitySignetreTypsEnumMap[instance.activitySignetreTyps],
-      'courseMaterialType':
-          _$CourseMaterialTypeEnumMap[instance.courseMaterialType],
       'title': instance.title,
       'importance':
           instance.importance.map((e) => _$ImportanceEnumMap[e]).toList(),
@@ -99,9 +95,4 @@ const _$ActivitySignetreTypsEnumMap = {
   ActivitySignetreTyps.LmsEvent: 'LmsEvent',
   ActivitySignetreTyps.CourseMaterialBlock: 'CourseMaterialBlock',
   ActivitySignetreTyps.OrgUser: 'OrgUser',
-};
-
-const _$CourseMaterialTypeEnumMap = {
-  CourseMaterialType.Event: 'Event',
-  CourseMaterialType.Announecmtextends: 'Announecmtextends',
 };
