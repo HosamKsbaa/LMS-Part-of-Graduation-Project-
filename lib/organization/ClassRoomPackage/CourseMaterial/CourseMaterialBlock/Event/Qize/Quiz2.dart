@@ -13,10 +13,12 @@ import 'package:overlay_support/overlay_support.dart';
 
 import '../../CourseMaterialBlock.dart';
 import '../Event.dart';
+import 'StudentAnsersFile/AnswerFile.dart';
 
 part 'Quiz2.g.dart';
 
 @JsonSerializable()
+
 //flutter packages pub run build_runner build
 //endregion
 class Quiz extends LMSEvent {
@@ -29,12 +31,10 @@ class Quiz extends LMSEvent {
           eventType: LMSEventType.Quiz,
           entityTyps: entityTyps,
           activitySignetreTyps: activitySignetreTyps,
-          courseMaterialType: CourseMaterialType.Event,
         ) {
     questioncol = HDMCollection<QestionsFile>(this, "QestionFile");
     answercol = HDMCollection<AnswerFile>(this, "AnswerFile");
   }
-
   @JsonKey(ignore: true)
   late HDMCollection<QestionsFile> questioncol;
   @JsonKey(ignore: true)
@@ -46,8 +46,8 @@ class Quiz extends LMSEvent {
   ///Map<StudentUId,StudentAnsersFile>
   final Map<String, String> studentAnswer;
 
-  Future<QestionsFile> addAnQestionFile({required Organization org, required String quizmainpage, required Map<String, Qestion> qestionMap}) async {
-    var x = QestionsFile(org.entityId, quizMainPage: quizmainpage, lastTimeEdited: DateTime.now());
+  Future<QestionsFile> addAnQestionFile({required Organization org, required String quizmainpage}) async {
+    var x = QestionsFile(org.entityId, quizMainPage: quizmainpage,  lastTimeEdited: DateTime.now());
     await questioncol.add(x, ifRebeted: () {
       toast("you are alredy enroled in this org");
     });
@@ -67,5 +67,14 @@ class Quiz extends LMSEvent {
   factory Quiz.fromJson(Map<String, dynamic> json) => _$QuizFromJson(json);
   Map<String, dynamic> toJson() => _$QuizToJson(this);
 
+  @override
+  void firstTimeInit() {
+    // TODO: implement firstTimeInit
+  }
+
+  @override
+  void subWaitFor() {
+    // TODO: implement subWaitFor
+  }
 //endregion
 }
