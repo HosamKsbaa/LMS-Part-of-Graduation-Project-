@@ -460,10 +460,10 @@ class HDMCollection<CollectionItem extends Entity> {
         return x2;
       }
 
-      if (checkMethou()) {
-        ifRebeted == null ? throw {"2 elements with the same id ix it ${this.runtimeType} "} : ifRebeted();
-        return null;
-      }
+      // if (checkMethou()) {
+      //   ifRebeted == null ? throw {"2 elements with the same id ix it ${this.runtimeType} "} : ifRebeted();
+      //   return null;
+      // }
 
       await _objBox.put(
         obj.entityId,

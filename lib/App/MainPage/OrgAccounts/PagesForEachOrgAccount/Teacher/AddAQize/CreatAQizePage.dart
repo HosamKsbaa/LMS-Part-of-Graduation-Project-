@@ -20,29 +20,47 @@ class CreatAQizeController {
   late String mark;
   late DateTime startdate;
   late DateTime enddate;
-  late ClassRoom classRoom;
+  final ClassRoom classRoom;
   late String instructions;
 
   final Map<String, Qestion> qestionMap = {};
   List<int> x = [1];
 
   //late Duration duration;
-  late String instrectuions;
+  //late String instrectuions;
+  void nextPage() {
+    x.add(x.length + 1);
+    data.updateTheWholeApp();
+    pageController.nextPage(duration: Duration(milliseconds: 400), curve: Curves.easeIn);
+  }
+
   Future<void> SignUpAnewUser(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      nextPage();
       toast("done , swipe >> to add more qestions");
       //TheApp.appcntroler.SignUp(context: context, displayName: displayName, PhoneNumber: PhoneNumber, lastName: lastName, firstName: firstName, email: email, Birthday: Birthday, gender: gender);
     }
   }
 
   Future<void> PuplishTheqize(BuildContext context) async {
+    print(qestionMap);
+    print(startdate);
+
+    print(enddate);
+
+    print(enddate.difference(enddate));
+
+    print(mark);
+
+    print(instructions);
+
     var x = await classRoom.addaQize(title: name);
     x.addAnQestionFile(
       qestionMap: qestionMap,
       startDate: startdate,
       endDate: enddate,
-      allwedDuration: enddate.difference(enddate),
+      allwedDuration: enddate.difference(startdate),
       marks: mark,
       posiibleAttimpts: "1",
       quizMainPage: "",
@@ -53,7 +71,7 @@ class CreatAQizeController {
   PageController pageController = PageController();
 
   final _formKey = GlobalKey<FormState>();
-  CreatAQizeController() {
+  CreatAQizeController({required this.classRoom}) {
     _start();
   }
 }
@@ -65,7 +83,9 @@ class _WidgetCreatAQize extends HDMStatelessWidget<CreatAQizeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          app.PuplishTheqize(context);
+        },
         child: Icon(Icons.done, color: Colors.white),
       ),
       appBar: AppBar(
@@ -83,12 +103,7 @@ class _WidgetCreatAQize extends HDMStatelessWidget<CreatAQizeController> {
         child: SizedBox(
           height: MediaQuery.of(context).size.height * .9,
           child: PageView(
-            onPageChanged: (o) {
-              if (o > app.x.length - 2) {
-                app.x.add(app.x.length + 1);
-                app.data.updateTheWholeApp();
-              }
-            },
+            physics: new NeverScrollableScrollPhysics(),
             controller: app.pageController,
             children: <Widget>[
                   Center(
@@ -102,7 +117,7 @@ class _WidgetCreatAQize extends HDMStatelessWidget<CreatAQizeController> {
                                 child: Column(
                                   children: <Widget>[
                                     CustomText(
-                                      onSaved: (v) => app.name = v!,
+                                      onSaved: (v) => v != null ? app.name = v : app.name = app.name,
                                       labelText: "Name ",
                                       icon: Icon(
                                         Icons.title,
@@ -110,7 +125,7 @@ class _WidgetCreatAQize extends HDMStatelessWidget<CreatAQizeController> {
                                       ),
                                     ),
                                     CustomText(
-                                        onSaved: (v) => app.mark = v!,
+                                        onSaved: (v) => v != null ? app.mark = v : app.mark = app.mark,
                                         labelText: "Marks",
                                         icon: Icon(
                                           Icons.grading_sharp,
@@ -144,7 +159,7 @@ class _WidgetCreatAQize extends HDMStatelessWidget<CreatAQizeController> {
                                             color: Colors.blueAccent,
                                           ),
                                         ),
-                                        onSaved: (v) => app.startdate = v!,
+                                        onSaved: (v) => v != null ? app.startdate = v : null,
                                       ),
                                     ),
                                     Padding(
@@ -174,13 +189,13 @@ class _WidgetCreatAQize extends HDMStatelessWidget<CreatAQizeController> {
                                             color: Colors.blueAccent,
                                           ),
                                         ),
-                                        onSaved: (v) => app.startdate = v!,
+                                        onSaved: (v) => v != null ? app.enddate = v : null,
                                       ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(10),
                                       child: TextFormField(
-                                        onSaved: (v) => app.instrectuions = v!,
+                                        onSaved: (v) => v != null ? app.instructions = v : null,
                                         decoration: InputDecoration(
                                           filled: true,
                                           fillColor: Colors.white,

@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
 
-import 'App/MainPage/OrgAccounts/PagesForEachOrgAccount/__commenModels/ClassRoom/MainPageOfclassRoom/Qize/CreatAQizePage.dart';
+import 'MainControler.dart';
 import 'organization/orgnizationAccountControler.dart';
 
 //flutter packages pub run build_runner build --delete-conflicting-outputs
@@ -34,34 +34,34 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: CreatAQizeController().data.play(),
-        // home: FutureBuilder(
-        //   future: TheApp.appcntroler.setPath1(),
-        //   builder: (ctx, snapshot) {
-        //     print("3");
-        //     if (snapshot.hasError) {
-        //       // final data = snapshot.data as String;
-        //       throw {snapshot.error};
-        //     }
-        //     if (snapshot.hasData) {
-        //       // final data = snapshot.data as String;
-        //       return MainControlerController().data.play();
-        //     }
-        //     // if (snapshot.connectionState == ConnectionState.done) {
-        //     //   if (snapshot.hasError) {
-        //     //     throw {snapshot.error};
-        //     //   } else
-        //     // }
-        //
-        //     return Center(
-        //       child: LayoutBuilder(
-        //         builder: (BuildContext context, BoxConstraints constraints) {
-        //           return CircularProgressIndicator();
-        //         },
-        //       ),
-        //     );
-        //   },
-        // ),
+        //home: CreatAQizeController().data.play(),
+        home: FutureBuilder(
+          future: TheApp.appcntroler.setPath1(),
+          builder: (ctx, snapshot) {
+            print("3");
+            if (snapshot.hasError) {
+              // final data = snapshot.data as String;
+              throw {snapshot.error};
+            }
+            if (snapshot.hasData) {
+              // final data = snapshot.data as String;
+              return MainControlerController().data.play();
+            }
+            // if (snapshot.connectionState == ConnectionState.done) {
+            //   if (snapshot.hasError) {
+            //     throw {snapshot.error};
+            //   } else
+            // }
+
+            return Center(
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  return CircularProgressIndicator();
+                },
+              ),
+            );
+          },
+        ),
       ),
     );
 

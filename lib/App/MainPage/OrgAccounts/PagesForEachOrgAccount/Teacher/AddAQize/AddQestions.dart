@@ -33,11 +33,13 @@ class AddQestionsController {
 
       _formKey.currentState!.save();
       app.qestionMap[tkey] = MCQ(qestionType: QestionType.MCQ, seen: false, qestionid: tkey, qestionHead: qestionHead, ansers: {"C1": qestion1Correct, "W1": qestion1, "W2": qestion2, "W3": qestion3});
+
       toast("done");
 
       submitted = true;
+      app.nextPage();
       print(app.qestionMap);
-      data.updateTheWholeApp();
+      print(app.name);
       //TheApp.appcntroler.SignUp(context: context, displayName: displayName, PhoneNumber: PhoneNumber, lastName: lastName, firstName: firstName, email: email, Birthday: Birthday, gender: gender);
     }
   }
