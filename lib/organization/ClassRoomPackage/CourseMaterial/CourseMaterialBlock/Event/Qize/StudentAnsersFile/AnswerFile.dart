@@ -22,7 +22,7 @@ class AnswerFile extends Hidden {
 
   ///Map<questionId,Answer >
   final Map<String, StudentAnsers> questionsMap;
-  void addAnAnser() {}
+  // void addAnAnser() {}
 
   //region jsonApi
   factory AnswerFile.fromJson(Map<String, dynamic> json) => _$AnswerFileFromJson(json);
