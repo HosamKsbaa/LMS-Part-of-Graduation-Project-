@@ -20,7 +20,7 @@ class CreatAQizeController {
   late String mark;
   late DateTime startdate;
   late DateTime enddate;
-  late ClassRoom classRoom;
+  final ClassRoom classRoom;
   late String instructions;
 
   final Map<String, Qestion> qestionMap = {};
@@ -53,7 +53,7 @@ class CreatAQizeController {
   PageController pageController = PageController();
 
   final _formKey = GlobalKey<FormState>();
-  CreatAQizeController() {
+  CreatAQizeController({required this.classRoom}) {
     _start();
   }
 }
@@ -65,7 +65,9 @@ class _WidgetCreatAQize extends HDMStatelessWidget<CreatAQizeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          app.PuplishTheqize(context);
+        },
         child: Icon(Icons.done, color: Colors.white),
       ),
       appBar: AppBar(

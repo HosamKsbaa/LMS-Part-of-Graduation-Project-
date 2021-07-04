@@ -17,7 +17,7 @@ class Announecmtextends extends CourseMaterialBlock {
       : super(
           entityId,
           lastTimeEdited: lastTimeEdited,
-          courseMaterialType: CourseMaterialType.Event,
+          courseMaterialType: courseMaterialType,
           importance: importance,
           title: title,
           entityTyps: entityTyps,

@@ -59,7 +59,7 @@ class _WidgetOrgAccounts extends HDMStatelessWidget<OrgAccountsController> {
                       trailing: Icon(Icons.arrow_forward_ios_rounded),
                       leading: Icon(Icons.supervised_user_circle),
 
-                      title: Text(orgAccount.orgAccountType.toString() + orgAccount.orgid),
+                      title: Text(orgAccount.orgAccountType.toString().split(".").last),
                       //subtitle: Text(r!.),
                     ),
                   ),

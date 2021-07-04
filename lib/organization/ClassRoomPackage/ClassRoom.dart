@@ -18,14 +18,14 @@ class ClassRoom extends ActivitySignetre {
   // @JsonKey(ignore: true)
   // late HDMCollection<Hidden> hiddenDocs;
   @JsonKey(ignore: true)
-  late HDMCollection<CourseMaterialBlock> courseMaterial;
+  late HDMCollection<CourseMaterialBlock> courseMaterialBlock;
   @JsonKey(ignore: true)
   late HDMCollection<OrgAccountPointer> personalPointer;
 
   ClassRoom(String entityId, {required this.classRoomName, required DateTime lastTimeEdited, required ActivitySignetreTyps activitySignetreTyps, required EntityTyps entityTyps}) : super(entityId, lastTimeEdited: lastTimeEdited, activitySignetreTyps: activitySignetreTyps, entityTyps: entityTyps) {
     personalPointer = HDMCollection<OrgAccountPointer>(this, "personalPointer");
     //  hiddenDocs = HDMCollection<Hidden>(this, "hiddenDocs");
-    courseMaterial = HDMCollection<CourseMaterialBlock>(this, "courseMaterial");
+    courseMaterialBlock = HDMCollection<CourseMaterialBlock>(this, "courseMaterial");
   }
 
   factory ClassRoom.fromJson(Map<String, dynamic> json) => _$ClassRoomFromJson(json);
@@ -48,15 +48,16 @@ class ClassRoom extends ActivitySignetre {
 
   Future<Announecmtextends> addAnAnnouncment({required String text, required String title}) async {
     //todo notify users
-    var x = Announecmtextends(DateTime.now().toString(), entityTyps: EntityTyps.ActivitySignetre, lastTimeEdited: DateTime.now(), activitySignetreTyps: ActivitySignetreTyps.ClassRoom, title: title, importance: [Importance.toAll], courseMaterialType: CourseMaterialType.Event, text: text);
-    await courseMaterial.add(x);
+    var x = Announecmtextends(DateTime.now().toString(),
+        entityTyps: EntityTyps.ActivitySignetre, lastTimeEdited: DateTime.now(), activitySignetreTyps: ActivitySignetreTyps.CourseMaterialBlock, title: title, importance: [Importance.toAll], courseMaterialType: CourseMaterialType.Announecmtextends, text: text);
+    await courseMaterialBlock.add(x);
     return x;
   }
 
   Future<Quiz> addaQize({required String title}) async {
     //todo notify users
     var x = Quiz(DateTime.now().toString(), entityTyps: EntityTyps.ActivitySignetre, lastTimeEdited: DateTime.now(), activitySignetreTyps: ActivitySignetreTyps.Quiz, importance: [Importance.toAll], courseMaterialType: CourseMaterialType.Event, title: title, eventType: LMSEventType.Quiz);
-    await courseMaterial.add(x);
+    await courseMaterialBlock.add(x);
     return x;
   }
   //
