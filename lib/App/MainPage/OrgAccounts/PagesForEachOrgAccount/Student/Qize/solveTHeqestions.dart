@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialBlock/Event/Qize/QizeQuestionFile/Qestion.dart';
 import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialBlock/Event/Qize/QizeQuestionFile/QestionsFile.dart';
 import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialBlock/Event/Qize/QizeQuestionFile/QestionsTypes/MCQ.dart';
 import 'package:x_bloc2/x_bloc2.dart';
@@ -14,15 +15,17 @@ class solveTHeqestionsController {
 
 //endregion
   final QestionsFile qf;
-  late List<MCQ> listOfQestions;
+  late List<Qestion> listOfQestions;
   PageController pageController = PageController();
 
   solveTHeqestionsController({required this.qf}) {
     _start();
-    listOfQestions = qf.qestionMap.values.toList() as List<MCQ>;
+    listOfQestions = qf.qestionMap.values.toList();
     listOfQestions.shuffle();
   }
+  int vv = 1;
   void nextPage() {
+    vv++;
     pageController.nextPage(duration: Duration(milliseconds: 400), curve: Curves.easeIn);
   }
 }
@@ -46,7 +49,7 @@ class _WidgetsolveTHeqestions extends HDMStatelessWidget<solveTHeqestionsControl
                   ),
                 ),
                 Padding(
-                    padding: EdgeInsets.only(right: 100),
+                    padding: EdgeInsets.only(right: 50),
                     child: Text(
                       'Operating Systems',
                       style: TextStyle(fontSize: 18),
@@ -68,7 +71,7 @@ class _WidgetsolveTHeqestions extends HDMStatelessWidget<solveTHeqestionsControl
             body: PageView(
               controller: app.pageController,
               physics: new NeverScrollableScrollPhysics(),
-              children: app.listOfQestions.map((e) => EachQestionController(e, app).data.play()).toList(),
+              children: app.listOfQestions.map((e) => EachQestionController(e as MCQ, app, app.qf).data.play()).toList(),
             )));
   }
 }

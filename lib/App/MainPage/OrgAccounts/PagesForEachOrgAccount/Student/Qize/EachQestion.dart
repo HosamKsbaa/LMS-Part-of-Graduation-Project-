@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:lms/App/MainPage/OrgAccounts/PagesForEachOrgAccount/Student/Qize/solveTHeqestions.dart';
+import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialBlock/Event/Qize/QizeQuestionFile/QestionsFile.dart';
 import 'package:lms/organization/ClassRoomPackage/CourseMaterial/CourseMaterialBlock/Event/Qize/QizeQuestionFile/QestionsTypes/MCQ.dart';
 import 'package:x_bloc2/x_bloc2.dart';
 
 class EachQestionController {
 //region  Keys
+  final QestionsFile qf;
+
   static const List<HDMKey<EachQestionController>> _keyList = [key1];
   late HDMMain<EachQestionController> data;
   void _start() => data = HDMMain<EachQestionController>(this, (HDMBox<EachQestionController> box) => _WidgetEachQestion(this, box), _keyList);
@@ -15,7 +18,7 @@ class EachQestionController {
   final solveTHeqestionsController app;
   late List<String> listOfQestions;
 
-  EachQestionController(this.e, this.app) {
+  EachQestionController(this.e, this.app, this.qf) {
     _start();
 
     listOfQestions = e.ansers.values.toList();
@@ -49,7 +52,7 @@ class _WidgetEachQestion extends HDMStatelessWidget<EachQestionController> {
                   Padding(
                     padding: EdgeInsets.only(left: 5),
                     child: Text(
-                      "1",
+                      app.app.vv.toString(),
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
@@ -63,7 +66,7 @@ class _WidgetEachQestion extends HDMStatelessWidget<EachQestionController> {
                   Padding(
                     padding: EdgeInsets.only(left: 5),
                     child: Text(
-                      "20",
+                      app.qf.qestionMap.length.toString(),
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
@@ -83,33 +86,32 @@ class _WidgetEachQestion extends HDMStatelessWidget<EachQestionController> {
               child: Container(
             child: Column(
               // ignore: unnecessary_cast
-              children: (app.listOfQestions
+              children: <Widget>[
+                    Text(
+                      " -- head --",
+                      style: TextStyle(fontSize: 18),
+                    )
+                  ] +
+                  app.listOfQestions
                       .map((e) => Column(
                             children: [
                               // ignore: unnecessary_cast, unnecessary_cast, unnecessary_cast
                               Padding(
-                                padding: EdgeInsets.only(top: 20),
-                                child: Text(
-                                  e,
-                                  style: TextStyle(fontSize: 18),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 15, left: 10),
-                                child: Row(children: [
-                                  //Radio(),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 2),
-                                    child: Text(
-                                      "Network Layer",
+                                padding: EdgeInsets.only(top: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      e,
                                       style: TextStyle(fontSize: 18),
                                     ),
-                                  )
-                                ]),
+                                    Radio(value: "ss", groupValue: "ss", onChanged: (d) {}),
+                                  ],
+                                ),
                               ),
                             ],
                           ))
-                      .toList() as List<Widget>) +
+                      .toList() +
                   <Widget>[
                     Padding(
                         padding: EdgeInsets.only(top: 55, left: 20),
@@ -118,12 +120,12 @@ class _WidgetEachQestion extends HDMStatelessWidget<EachQestionController> {
                           Padding(
                               padding: EdgeInsets.only(left: 40),
                               child: FlatButton(
-                                  onPressed: () => {},
+                                  onPressed: () => app.app.nextPage(),
                                   child: Container(
                                     child: Row(
                                       children: [
                                         Padding(
-                                            padding: EdgeInsets.only(left: 19),
+                                            padding: EdgeInsets.all(19),
                                             child: Text(
                                               "Submit",
                                               style: TextStyle(fontSize: 18),
@@ -141,8 +143,6 @@ class _WidgetEachQestion extends HDMStatelessWidget<EachQestionController> {
                         ]))
                   ],
             ),
-            width: 350,
-            height: 450,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(19.0),
               color: const Color(0xffffffff),
